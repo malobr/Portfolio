@@ -45,4 +45,4 @@ RUN chown -R www-data:www-data /var/www \
 EXPOSE 8000
 
 # 9. Comando de inicialização
-CMD ["sh", "-c", "php artisan storage:link --force && php artisan migrate --seed --force && php artisan serve --host=0.0.0.0 --port=${PORT}"]
+CMD ["sh", "-c", "php artisan storage:link --force && php artisan migrate --seed --force && php-fpm"]

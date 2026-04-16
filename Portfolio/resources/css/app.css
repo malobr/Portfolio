@@ -4,8 +4,95 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.jsx';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --color-primary: #f53003;
+  --color-secondary: #161615;
+  --color-background: #0a0a0a;
+  --color-foreground: #ededec;
+  --color-muted-foreground: #a1a09a;
+  --color-border: #3e3e3a;
+  --color-charcoal: #111111;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+
+  .container-luxury {
+    @apply container mx-auto px-6 md:px-12 max-w-7xl;
+  }
+
+  .btn-luxury {
+    @apply inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-mono text-sm uppercase tracking-widest transition-all duration-300 hover:bg-white hover:text-black hover:scale-105 active:scale-95;
+  }
+
+  .text-label {
+    @apply uppercase tracking-widest text-xs font-mono text-primary;
+  }
+
+  .text-display-xl {
+    @apply text-5xl md:text-8xl font-bold leading-[1.1] tracking-tighter;
+  }
+
+  .text-display-lg {
+    @apply text-4xl md:text-6xl font-bold leading-[1.2] tracking-tight;
+  }
+
+  .text-display-md {
+    @apply text-3xl md:text-5xl font-bold leading-tight;
+  }
+
+  .text-body-lg {
+    @apply text-lg md:text-xl leading-relaxed;
+  }
+
+  .text-body-sm {
+    @apply text-sm leading-relaxed;
+  }
+
+  /* Animations */
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 1.5s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(1.1); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
 }
