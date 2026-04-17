@@ -1,0 +1,121 @@
+import React from "react";
+import { ArrowUpRight, Mail, Github, Instagram, MapPin } from "lucide-react";
+
+const ContactSection = () => {
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "marcelo@malobr.dev",
+      href: "mailto:marcelo@malobr.dev",
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      value: "github.com/malobr",
+      href: "https://github.com/malobr",
+    },
+    {
+      icon: MapPin,
+      label: "Localização",
+      value: "Brasil 🇧🇷",
+      href: "#",
+    },
+  ];
+
+  const socialLinks = [
+    { name: "GitHub", href: "https://github.com/malobr", icon: Github },
+    { name: "Instagram", href: "https://www.instagram.com/malo_t_c/", icon: Instagram },
+  ];
+
+  return (
+    <section id="contact" className="section-padding bg-background">
+      <div className="container-luxury">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left Column */}
+          <div>
+            <p className="text-label mb-6 font-mono">// contato</p>
+            <h2 className="text-display-lg text-foreground mb-8">
+              Bora construir algo
+              <span className="text-primary italic"> juntos</span>?
+            </h2>
+            <p className="text-body-lg text-muted-foreground max-w-lg mb-12">
+              Aberto a colaborações, freelas e oportunidades fullstack.
+              Mande um <span className="font-mono text-foreground">git push</span> pro
+              meu inbox — respondo rápido.
+            </p>
+
+            {/* Contact Info */}
+            <div className="space-y-6">
+              {contactInfo.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 group"
+                >
+                  <div className="w-12 h-12 border border-border flex items-center justify-center
+                                  transition-all duration-300 group-hover:border-primary group-hover:bg-primary/5">
+                    <item.icon size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-label text-xs font-mono">{item.label}</p>
+                    <p className="text-body-lg text-foreground font-mono">{item.value}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col justify-between">
+            {/* CTA */}
+            <a
+              href="mailto:marcelo@malobr.dev"
+              className="block bg-secondary p-8 md:p-12 relative group cursor-pointer
+                         transition-all duration-500 hover:bg-primary/10 border border-border"
+            >
+              <div className="flex items-start justify-between mb-8">
+                <h3 className="text-display-md text-foreground font-mono">
+                  ./novo
+                  <br />
+                  -projeto.sh
+                </h3>
+                <div className="w-12 h-12 border border-foreground/30 flex items-center justify-center
+                                transition-all duration-300 group-hover:bg-foreground group-hover:text-background">
+                  <ArrowUpRight size={20} />
+                </div>
+              </div>
+              <p className="text-body-lg text-muted-foreground">
+                Tem uma ideia, MVP ou sistema pra construir?
+                Vamos arquitetar juntos — do schema ao deploy.
+              </p>
+            </a>
+
+            {/* Social Links */}
+            <div className="mt-12 lg:mt-0">
+              <p className="text-label mb-6 font-mono">// redes</p>
+              <div className="flex flex-wrap gap-4">
+                {socialLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-luxury text-xs px-6 py-3 inline-flex items-center gap-2"
+                  >
+                    <link.icon size={14} />
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactSection;

@@ -3,12 +3,12 @@ version: "3.8"
 services:
     app:
         build:
-            context: ./Portfolio
+            context: .
             dockerfile: .docker/php/Dockerfile
         image: laravel-app
         container_name: Portfolio-app
         volumes:
-            - ./Portfolio:/var/www
+            - .:/var/www
         networks:
             - laravel
 
@@ -18,8 +18,8 @@ services:
         ports:
             - "8001:80"
         volumes:
-            - ./Portfolio:/var/www
-            - ./Portfolio/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - .:/var/www
+            - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
         networks:
@@ -43,7 +43,7 @@ services:
         container_name: Portfolio-phpmyadmin
         restart: always
         ports:
-            - "8081:80"
+            - "8084:80"
         environment:
             PMA_HOST: db
             PMA_PORT: 3306

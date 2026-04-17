@@ -1,58 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# malobr — Premium React Portfolio & Terminal OS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![React 19](https://img.shields.io/badge/React-19.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind--CSS-4.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 
-## About Laravel
+Um portfólio de alta performance projetado com uma estética **Deep Purple Terminal**, unindo o minimalismo profissional da arquitetura moderna à interatividade crua de um console de desenvolvedor. Este não é apenas um site; é um sistema operacional de carreira.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Vision & Aesthetic
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O conceito visual baseia-se no **"Cyber-Luxury"**: uma paleta de roxos profundos (`#18141f`), contrastes vibrantes em ametista (`#a855f7`) e tipografia mono-espaçada de alta legibilidade. Cada interação foi pensada para "wower" o usuário, utilizando micro-animações, transições de estado suaves e uma interface que respira tecnologia.
 
-## Learning Laravel
+### Core Philosophy:
+- **Terminal-First**: Navegação via CLI como cidadã de primeira classe.
+- **Context Awareness**: O sistema sabe onde você está e adapta o console em tempo real.
+- **Luxury Performance**: Renderização instantânea via React 19 e Vite 8.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⌨️ The Functional Terminal (zsh-sim)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+O coração do projeto é o **Terminal Modal**, uma ferramenta de CLI móvel e totalmente funcional que permite explorar o portfólio sem o uso do mouse.
 
-## Agentic Development
+### Funcionalidades do Terminal:
+- **Navegação de Diretórios (`cd`)**: Suporte a caminhos reais e virtuais (`cd trabalhos/formly`, `cd repos/permission-laravel`, `cd ..`).
+- **Prompt Inteligente**: Reflete o "CWD" (Current Working Directory) em tempo real.
+- **FileSystem Virtual**: O comando `ls` lista seções, projetos ou repositórios dependendo do contexto da pasta.
+- **Comandos Utilitários**: `whoami`, `neofetch`, `skills`, `social`, `clear`, `reset` e `date`.
+- **Draggable UI**: A interface do terminal pode ser movida livremente pela tela, simulando um ambiente de desktop multi-janela.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
+
+## 🛠️ Key Features
+
+- **GitHub API Integration**: Sincronização em tempo real com repositórios fixos, trazendo linguagens, anos e estatísticas atualizadas.
+- **Live README Fetching**: Renderização dinâmica de arquivos `README.md` diretamente do GitHub com suporte a HTML bruto e GFM (GitHub Flavored Markdown).
+- **Deep Linking**: Sistema de roteamento inteligente que integra âncoras de página única com páginas de detalhes profundos.
+- **Responsive Terminal Chrome**: Janelas com estilo operacional (botões de controle, barra de título) e transparência adaptativa.
+- **Luxury Sitemap**: Rodapé expandido com guia de comandos rápidos para o terminal.
+
+---
+
+## 🏗️ Technical Stack
+
+- **Backend**: Laravel 12 (como API/Bridge e Orchestrator).
+- **Frontend**: React 19 + Vite 8.
+- **Styling**: Tailwind CSS 4 + Vanilla CSS (Custom Prose).
+- **Icons**: Lucide React.
+- **Markdown Logic**: React-Markdown + Rehype-Raw + Remark-GFM.
+- **Infrastructure**: Dockerized environment (PHP 8.4-FPM + Nginx + MySQL).
+
+---
+
+## 📁 Project Structure
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+resources/
+├── css/             # Custom "Luxury" Design System (app.css)
+├── js/
+│   ├── components/  # TerminalModal, Navigation, ProjectsSection...
+│   ├── pages/       # Next.js-style page structure (Index, Details)
+│   ├── data/        # Centralized Projects & Repos database
+│   └── app.jsx      # Router & Entry Point
+├── views/           # Blade Entry point (app.blade.php)
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 🛠️ Installation & Build
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Para rodar este ambiente em modo de desenvolvimento ou produção:
 
-## Code of Conduct
+```bash
+# Instalar dependências
+composer install
+npm install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Compilar assets (Produção)
+npm run build
 
-## Security Vulnerabilities
+# Abrir o ambiente (Sail/Docker)
+./vendor/bin/sail up
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## ✒️ Author
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Marcelo (malobr)**  
+*Fullstack Developer focused on Clean Architecture and Modern UI/UX.*
+
+> "Terminal is not a tool, it's a lifestyle."
+
+---
+© 2025 malobr. MIT Licensed.
