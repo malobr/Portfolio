@@ -90,7 +90,7 @@ const ProjectsSection = () => {
             {repos.map((project) => (
               <Link
                 key={project.slug}
-                to={`/projetos/${project.slug}`}
+                to={`/repos/${project.slug}`}
                 className="group border border-border bg-background/40 p-6 md:p-8 transition-all duration-500 hover:border-primary hover:bg-background/60 flex flex-col"
               >
                 <div className="flex items-start justify-between mb-4">

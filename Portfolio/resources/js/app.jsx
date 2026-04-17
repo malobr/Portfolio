@@ -14,7 +14,7 @@ if (container) {
             <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/trabalhos/:slug" element={<LiveProjectDetail />} />
-                <Route path="/projetos/:slug" element={<ProjectDetail />} />
+                <Route path="/repos/:slug" element={<ProjectDetail />} />
             </Routes>
         </BrowserRouter>
     );
