@@ -97,7 +97,7 @@ const LiveProjectsSection = () => {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2 bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                    className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2 bg-primary text-white border-primary hover:bg-black"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Globe size={14} />

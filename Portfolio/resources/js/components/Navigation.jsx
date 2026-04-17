@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Terminal as TerminalIcon } from "lucide-react";
+import TerminalModal from "./TerminalModal";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,23 +63,46 @@ const Navigation = () => {
                   e.preventDefault();
                   scrollToSection(link.href);
                 }}
-                className="link-underline font-mono text-sm cursor-pointer"
+                className="link-underline font-mono text-sm cursor-pointer text-foreground"
               >
                 {link.name}
               </a>
             ))}
+            
+            {/* Terminal Button */}
+            <button 
+              onClick={() => setIsTerminalOpen(true)}
+              className="p-2 text-primary hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-300"
+              title="Abrir terminal"
+            >
+              <TerminalIcon size={20} />
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-foreground"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Right Side */}
+          <div className="flex items-center gap-4 md:hidden">
+            <button 
+              onClick={() => setIsTerminalOpen(true)}
+              className="p-2 text-primary"
+            >
+              <TerminalIcon size={22} />
+            </button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-foreground"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </nav>
+
+      <TerminalModal 
+        isOpen={isTerminalOpen} 
+        onClose={() => setIsTerminalOpen(false)} 
+        navLinks={navLinks}
+      />
 
       {/* Mobile Menu */}
       <div

@@ -150,7 +150,7 @@ const ProjectsSection = () => {
             href="https://github.com/malobr"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-luxury inline-flex items-center gap-3"
+            className="btn-luxury inline-flex items-center gap-3 bg-primary text-white border-primary hover:bg-black"
           >
             <Github size={18} />
             Ver todos no GitHub

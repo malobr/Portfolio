@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, ExternalLink, Github, Calendar, User, Tag } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ExternalLink, Github, Calendar, User, Tag, FileText, Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { getProjectBySlug, getNextProject } from "@/data/projects";
@@ -8,10 +11,37 @@ import { getProjectBySlug, getNextProject } from "@/data/projects";
 const ProjectDetail = () => {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
+  const [readme, setReadme] = useState("");
+  const [isLoadingReadme, setIsLoadingReadme] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+    fetchReadme();
   }, [slug]);
+
+  const fetchReadme = async () => {
+    if (!project) return;
+    setIsLoadingReadme(true);
+    const repoName = project.name;
+    try {
+      const response = await fetch(`https://raw.githubusercontent.com/malobr/${repoName}/main/README.md`);
+      if (response.ok) {
+        setReadme(await response.text());
+      } else {
+        const responseMaster = await fetch(`https://raw.githubusercontent.com/malobr/${repoName}/master/README.md`);
+        if (responseMaster.ok) {
+          setReadme(await responseMaster.text());
+        } else {
+           setReadme("README não encontrado via API. Verifique se o arquivo README.md existe no repositório.");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching README:", error);
+      setReadme("Erro ao carregar README.");
+    } finally {
+      setIsLoadingReadme(false);
+    }
+  };
 
   if (!project) {
     return (
@@ -21,7 +51,7 @@ const ProjectDetail = () => {
           <h1 className="text-display-lg text-foreground mb-6">Projeto não encontrado</h1>
           <Link to="/" className="btn-luxury inline-flex items-center gap-2">
             <ArrowLeft size={16} />
-            Voltar aos projetos
+            cd ../repos
           </Link>
         </div>
       </div>
@@ -31,32 +61,30 @@ const ProjectDetail = () => {
   const nextProject = getNextProject(project.slug);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
       {/* Hero */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
         <div className="container-luxury">
           <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-12 font-mono text-sm"
+            to="/#projects"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-mono mb-12 group"
           >
-            <ArrowLeft size={16} />
-            cd ../projetos
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            <span>cd ../repos</span>
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-            {/* Left — Title */}
             <div className="lg:col-span-2">
               <p className="text-label mb-4 font-mono">// {project.category}</p>
-              <h1 className="text-display-xl text-foreground mb-6">
+              <h1 className="text-display-xl text-foreground mb-6 font-mono tracking-tighter">
                 {project.name}
               </h1>
-              <p className="text-body-lg text-muted-foreground max-w-2xl">
+              <p className="text-body-lg text-muted-foreground max-w-2xl leading-relaxed">
                 {project.description}
               </p>
 
-              {/* Action buttons */}
               <div className="flex flex-wrap gap-4 mt-10">
                 <a
                   href={project.repoUrl}
@@ -72,17 +100,16 @@ const ProjectDetail = () => {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-luxury inline-flex items-center gap-3 bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                    className="btn-luxury inline-flex items-center gap-3 bg-primary text-white border-primary hover:bg-black"
                   >
                     <ExternalLink size={18} />
-                    Ver projeto online
+                    Live Demo
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Right — Meta */}
-            <aside className="space-y-6 border-l border-border pl-8 lg:pl-10">
+            <aside className="space-y-6 border-l border-white/10 pl-8 lg:pl-10 h-fit">
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
                   <Calendar size={12} /> ano
@@ -106,135 +133,89 @@ const ProjectDetail = () => {
         </div>
       </section>
 
-      {/* Live preview iframe */}
-      {project.liveUrl && (
-        <section className="pb-16 md:pb-24">
-          <div className="container-luxury">
-            <div className="border border-border bg-charcoal overflow-hidden">
-              {/* Browser chrome */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-background/40">
-                <div className="w-3 h-3 rounded-full bg-destructive/70" />
-                <div className="w-3 h-3 rounded-full bg-primary/70" />
-                <div className="w-3 h-3 rounded-full bg-foreground/30" />
-                <div className="ml-4 flex-1 max-w-md">
-                  <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate">
-                    {project.liveUrl}
-                  </div>
+      {/* README Section */}
+      <section className="py-20 bg-[#1c1825]/40">
+        <div className="container-luxury">
+          <div className="flex items-center gap-4 mb-12 overflow-hidden">
+            <p className="text-label font-mono shrink-0 font-bold">// documentation</p>
+            <div className="h-px bg-white/5 flex-1" />
+          </div>
+
+          <div className="bg-[#1c1825] border border-white/5 rounded-xl overflow-hidden shadow-2xl">
+            {/* Terminal Header */}
+            <div className="px-6 py-4 bg-black/40 border-b border-white/5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <FileText size={16} className="text-primary" />
+                <span className="text-xs font-mono text-muted-foreground">README.md</span>
+              </div>
+              <div className="flex gap-2">
+                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+              </div>
+            </div>
+
+            <div className="p-8 md:p-12">
+              {isLoadingReadme ? (
+                <div className="py-20 flex flex-col items-center justify-center gap-4 text-muted-foreground">
+                  <Loader2 className="animate-spin text-primary" size={32} />
+                  <p className="font-mono text-xs uppercase tracking-widest">cat README.md...</p>
                 </div>
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-mono text-muted-foreground hover:text-primary inline-flex items-center gap-1"
-                >
-                  abrir <ExternalLink size={12} />
-                </a>
-              </div>
-              <div className="aspect-[16/10] bg-background">
-                <iframe
-                  src={project.liveUrl}
-                  title={`Preview de ${project.name}`}
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin"
-                />
-              </div>
+              ) : (
+                <div className="prose-custom max-w-none">
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                  >
+                    {readme}
+                  </ReactMarkdown>
+                </div>
+              )}
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Technologies */}
-      <section className="py-16 md:py-20 bg-charcoal">
-        <div className="container-luxury">
-          <p className="text-label mb-6 font-mono">// stack</p>
-          <h2 className="text-display-md text-foreground mb-10">
-            Tecnologias <span className="text-primary italic">utilizadas</span>
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {project.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 border border-border text-foreground font-mono text-sm hover:border-primary hover:text-primary transition-colors"
-              >
-                {tech}
-              </span>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* Problem & Solution */}
-      <section className="py-16 md:py-24">
+      {/* Details Grid */}
+      <section className="py-24">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
-              <p className="text-label mb-4 font-mono text-destructive">// problema</p>
-              <h3 className="text-display-md text-foreground mb-6">
-                O <span className="italic">desafio</span>
+              <p className="text-label mb-6 font-mono text-primary">// o desafio</p>
+              <h3 className="text-display-md text-foreground mb-8 leading-tight font-mono">
+                Overview & <span className="italic">Contexto</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground">{project.problem}</p>
+              <p className="text-body-lg text-muted-foreground leading-relaxed italic border-l-2 border-primary pl-6">
+                {project.problem}
+              </p>
             </div>
             <div>
-              <p className="text-label mb-4 font-mono text-primary">// solução</p>
-              <h3 className="text-display-md text-foreground mb-6">
-                A <span className="italic text-primary">resolução</span>
+              <p className="text-label mb-6 font-mono text-primary">// solução</p>
+              <h3 className="text-display-md text-foreground mb-8 leading-tight font-mono">
+                Engenharia de <span className="italic">Software</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground">{project.solution}</p>
+              <p className="text-body-lg text-muted-foreground leading-relaxed">
+                {project.solution}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 md:py-24 bg-charcoal">
+      {/* Footer Nav */}
+      <section className="py-24 bg-[#110e1a]">
         <div className="container-luxury">
-          <p className="text-label mb-6 font-mono">// features</p>
-          <h2 className="text-display-md text-foreground mb-12">
-            O que está <span className="text-primary italic">incluso</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
-            {project.features.map((feature, idx) => (
-              <div
-                key={feature}
-                className="bg-charcoal p-8 flex items-start gap-4 group hover:bg-background/40 transition-colors"
-              >
-                <span className="font-mono text-primary text-sm mt-1">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <p className="text-body-lg text-foreground">{feature}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Next Project */}
-      <section className="py-16 md:py-24">
-        <div className="container-luxury">
-          <p className="text-label mb-8 font-mono">// próximo</p>
-          <Link
-            to={`/projetos/${nextProject.slug}`}
-            className="group block"
-          >
-            <div className="flex items-end justify-between border-b border-border pb-8 transition-colors hover:border-primary">
-              <div>
-                <p className="font-mono text-sm text-muted-foreground mb-2">
-                  malobr/
-                </p>
-                <h2 className="text-display-lg text-foreground group-hover:text-primary transition-colors font-mono">
-                  {nextProject.name}
-                </h2>
-                <p className="text-body text-muted-foreground mt-3">
-                  {nextProject.tagline}
-                </p>
-              </div>
-              <div className="w-14 h-14 border border-foreground/30 flex items-center justify-center
-                              transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary">
-                <ArrowUpRight size={22} />
-              </div>
-            </div>
-          </Link>
+           <p className="text-label mb-8 font-mono">// next_project</p>
+           <Link to={`/repos/${nextProject.slug}`} className="group inline-block">
+             <div className="flex items-center gap-8">
+               <h2 className="text-display-lg group-hover:text-primary transition-colors font-mono">
+                 {nextProject.name}
+               </h2>
+               <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-primary transition-all">
+                  <ArrowUpRight size={24} className="group-hover:text-white" />
+               </div>
+             </div>
+           </Link>
         </div>
       </section>
 

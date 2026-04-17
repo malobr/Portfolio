@@ -38,11 +38,11 @@ const LiveProjectDetail = () => {
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
         <div className="container-luxury">
           <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-12 font-mono text-sm"
+            to="/#trabalhos"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-mono mb-12 group"
           >
-            <ArrowLeft size={16} />
-            cd ../trabalhos
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            <span>cd ../trabalhos</span>
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
