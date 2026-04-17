@@ -78,6 +78,32 @@ export const liveProjects = [
       { metric: "100%", label: "Processamento local de mídia" },
     ],
   },
+  {
+    slug: "caminho-da-vida",
+    name: "Caminho da Vida",
+    client: "Comunidade Cristã Caminho da Vida",
+    tagline: "Plataforma de gestão e comunicação para comunidade cristã",
+    description: "Sistema completo que integra divulgação de eventos, programas de batismo, gestão de dízimos e ofertas e agenda de cultos. Focado em acessibilidade e facilidade de manutenção pela equipe da igreja.",
+    year: "2024",
+    role: "Fullstack Developer",
+    category: "Site Institucional / Gestão",
+    liveUrl: "https://mediumaquamarine-gaur-323782.hostingersite.com/",
+    technologies: ["Laravel", "Blade", "TailwindCSS", "MySQL", "PHP"],
+    problem: "A igreja necessitava de um canal centralizado para divulgar sua programação e facilitar a contribuição financeira da comunidade de forma digital, segura e visualmente atraente.",
+    solution: "Desenvolvimento de uma plataforma robusta integrando seções dinâmicas de agenda, blog de notícias, formulários de contato e um módulo refinado de 'Dízimos & Ofertas' com design premium.",
+    features: [
+      "Agenda de cultos e eventos de fácil atualização",
+      "Módulo de Dízimos & Ofertas com estética gold/premium",
+      "Página dedicada para programas de Batismo",
+      "Seção de notícias e avisos da comunidade",
+      "Integração com mapas e canais de contato direto",
+    ],
+    results: [
+      { metric: "100%", label: "Digitalização da agenda" },
+      { metric: "Gold", label: "Estética refinada nas ofertas" },
+      { metric: "24/7", label: "Disponibilidade de avisos" },
+    ],
+  },
 ];
 
 export const getLiveProjectBySlug = (slug) =>
