@@ -70,3 +70,29 @@
 .prose-custom a:hover { color: white; }
 .prose-custom img { border-radius: 0.5rem; max-width: 100%; height: auto; margin: 2rem 0; border: 1px solid var(--color-border); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
 .prose-custom hr { border: 0; border-top: 1px solid var(--color-border); margin: 3rem 0; }
+.prose-custom table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; margin-bottom: 2rem; font-family: var(--font-mono); font-size: 0.875rem; border: 1px solid var(--color-border); -webkit-overflow-scrolling: touch; }
+.prose-custom th { text-align: left; padding: 0.75rem 1rem; background-color: rgba(255,255,255,0.05); border-bottom: 1px solid var(--color-border); color: var(--color-primary); min-width: 120px; }
+.prose-custom td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); color: var(--color-muted-foreground); min-width: 120px; }
+.prose-custom tr:last-child td { border-bottom: none; }
+
+/* Glitch effect for terminal/retro feel if needed */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); background: rgba(255,0,0,0.1); }
+    40% { transform: translate(5px, -5px); background: rgba(0,255,0,0.1); }
+    60% { transform: translate(-5px, -5px); background: rgba(0,0,255,0.1); }
+    80% { transform: translate(5px, 5px); }
+    100% { transform: translate(0); }
+}
+
+.glitch-overlay {
+    animation: glitch 0.1s infinite;
+}
+
+.scrollbar-luxury::-webkit-scrollbar { height: 4px; width: 4px; }
+.scrollbar-luxury::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+.scrollbar-luxury::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.4); border-radius: 2px; }
+.scrollbar-luxury::-webkit-scrollbar-thumb:hover { background: rgba(168, 85, 247, 0.6); }
+
+/* Ensure prose doesn't hide scrollbars */
+.prose-custom table { border-bottom: none; }

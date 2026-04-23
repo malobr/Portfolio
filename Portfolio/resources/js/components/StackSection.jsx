@@ -1,43 +1,52 @@
 import React from "react";
-import { Code2, Database, Cloud, Boxes, Terminal, GitBranch } from "lucide-react";
+import { Code2, Database, Cloud, Boxes, Terminal, GitBranch, GraduationCap } from "lucide-react";
+import { translations } from "../constants/translations";
 
-const StackSection = () => {
+const StackSection = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
   const pillars = [
     {
       icon: Code2,
       title: "Frontend",
-      desc: "Interfaces rápidas, acessíveis e responsivas com TypeScript no core.",
-      tech: ["React", "TypeScript", "Tailwind", "Vite", "Blade"],
+      desc: t.frontend_desc,
+      tech: ["React", "Vue", "JavaScript", "TypeScript", "Blade"],
     },
     {
       icon: Terminal,
       title: "Backend",
-      desc: "APIs RESTful, autenticação, permissões e regras de negócio bem testadas.",
-      tech: ["Laravel", "PHP", "Node.js", "REST", "MVC"],
+      desc: t.backend_desc,
+      tech: ["Laravel", "PHP", "REST", "MVC"],
     },
     {
       icon: Database,
       title: "Database",
-      desc: "Modelagem relacional, migrations versionadas e queries otimizadas.",
-      tech: ["PostgreSQL", "MySQL", "Eloquent", "SQL"],
+      desc: t.db_desc,
+      tech: ["MongoDB", "MySQL", "Eloquent", "SQL"],
     },
     {
       icon: Boxes,
       title: "DevOps",
-      desc: "Ambientes reproduzíveis, containers e orquestração para dev e prod.",
+      desc: t.devops_desc,
       tech: ["Docker", "Docker Compose", "Nginx", "Linux"],
     },
     {
       icon: Cloud,
       title: "Deploy & Cloud",
-      desc: "Pipelines de deploy contínuo e hospedagem em plataformas modernas.",
-      tech: ["Vercel", "GitHub Actions", "VPS", "CI/CD"],
+      desc: t.cloud_desc,
+      tech: ["Hostinger", "Vercel", "GitHub Actions", "VPS", "CI/CD"],
     },
     {
       icon: GitBranch,
       title: "Workflow",
-      desc: "Git flow, code review e arquitetura limpa em todo commit.",
-      tech: ["Git", "GitHub", "Trunk-based", "Clean Code"],
+      desc: t.workflow_desc,
+      tech: ["SOLID", "Git", "GitHub", "Trunk-based", "Clean Code"],
+    },
+    {
+      icon: GraduationCap,
+      title: lang === "pt" ? "Em Aprendizado" : "In Training",
+      desc: lang === "pt" ? "Novas fronteiras e conceitos em evolução." : "New frontiers and evolving concepts.",
+      tech: ["SOLID", "Java", "Kotlin", "Microservices", "Design Patterns"],
+      fullWidth: true,
     },
   ];
 
@@ -47,15 +56,14 @@ const StackSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24">
           <div>
-            <p className="text-label mb-6 font-mono">// stack</p>
+            <p className="text-label mb-6 font-mono">// {t.stack.toLowerCase()}</p>
             <h2 className="text-display-lg text-foreground">
-              Arquitetura
-              <span className="text-primary italic"> end-to-end</span>
+              {t.stack_title.split(' ')[0]}
+              <span className="text-primary italic"> {t.stack_title.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
           <p className="text-body-lg text-muted-foreground max-w-md mt-6 md:mt-0">
-            Do schema do banco ao pipeline de deploy — passando por cada camada
-            que faz uma aplicação rodar bem em produção.
+            {t.stack_desc}
           </p>
         </div>
 
@@ -64,7 +72,8 @@ const StackSection = () => {
           {pillars.map((p) => (
             <div
               key={p.title}
-              className="bg-charcoal p-8 md:p-10 group transition-colors duration-500 hover:bg-background/40"
+              className={`bg-charcoal p-8 md:p-10 group transition-colors duration-500 hover:bg-background/40
+                          ${p.fullWidth ? "md:col-span-2 lg:col-span-3" : ""}`}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 border border-border flex items-center justify-center

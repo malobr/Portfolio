@@ -1,10 +1,11 @@
-import React from 'react';
+import { translations } from '../constants/translations';
 
-const AboutSection = () => {
+const AboutSection = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
   const stats = [
-    { number: "5+", label: "Anos codando" },
-    { number: "20+", label: "Repositórios" },
-    { number: "∞", label: "Cafés tomados" },
+    { number: "3+", label: t.stat_years },
+    { number: "60+", label: t.stat_repos },
+    { number: "∞", label: t.stat_coffee },
   ];
 
   return (
@@ -13,26 +14,19 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left Column - Text */}
           <div>
-            <p className="text-label mb-6 font-mono">// sobre</p>
+            <p className="text-label mb-6 font-mono">// {t.about.toLowerCase()}</p>
             <h2 className="text-display-lg text-foreground mb-8">
-              Código é a arte de
-              <span className="text-primary italic"> resolver </span>
-              problemas
+              {t.about_title.split(' ').map((word, i) => 
+                word.toLowerCase() === 'resolver' || word.toLowerCase() === 'solving' || i === 4 ? 
+                <span key={i} className="text-primary italic"> {word} </span> : word + ' '
+              )}
             </h2>
             <div className="space-y-6">
               <p className="text-body-lg text-muted-foreground">
-                Sou Marcelo, dev fullstack do Brasil. Trabalho do banco de dados
-                ao pixel — passando por APIs, autenticação, containers e CI/CD.
-                Gosto de código limpo, testável e bem arquitetado.
+                {t.about_desc1}
               </p>
               <p className="text-body-lg text-muted-foreground">
-                Stack principal: <span className="font-mono text-foreground">PHP/Laravel</span>,{" "}
-                <span className="font-mono text-foreground">TypeScript/React</span>,{" "}
-                <span className="font-mono text-foreground">Node</span>,{" "}
-                <span className="font-mono text-foreground">Docker</span> e{" "}
-                <span className="font-mono text-foreground">PostgreSQL</span>.
-                Provavelmente tomando café ou fumando um charuto enquanto leio
-                um pull request.
+                {t.about_desc2}
               </p>
             </div>
 
@@ -73,12 +67,17 @@ const AboutSection = () => {
   "location": "Brazil 🇧🇷",
   "stack": [
     "Laravel",
+    "PHP",
     "TypeScript",
     "React",
+    "Blade",
+    "TailwindCSS",
     "Docker",
-    "PostgreSQL"
+    "MySQL",
+    "MongoDB",
+    "Hostinger"
   ],
-  "currently": "shipping code",
+  "currently": "mastering SOLID & Java",
   "open_to_work": true
 }`}
                 </pre>

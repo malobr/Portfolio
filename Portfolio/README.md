@@ -1,97 +1,159 @@
-# malobr — Premium React Portfolio & Terminal OS
+# 🚀 malobr — Premium React Portfolio & Terminal OS
 
-[![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-[![React 19](https://img.shields.io/badge/React-19.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind--CSS-4.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-
-Um portfólio de alta performance projetado com uma estética **Deep Purple Terminal**, unindo o minimalismo profissional da arquitetura moderna à interatividade crua de um console de desenvolvedor. Este não é apenas um site; é um sistema operacional de carreira.
-
----
-
-## 🚀 Vision & Aesthetic
-
-O conceito visual baseia-se no **"Cyber-Luxury"**: uma paleta de roxos profundos (`#18141f`), contrastes vibrantes em ametista (`#a855f7`) e tipografia mono-espaçada de alta legibilidade. Cada interação foi pensada para "wower" o usuário, utilizando micro-animações, transições de estado suaves e uma interface que respira tecnologia.
-
-### Core Philosophy:
-- **Terminal-First**: Navegação via CLI como cidadã de primeira classe.
-- **Context Awareness**: O sistema sabe onde você está e adapta o console em tempo real.
-- **Luxury Performance**: Renderização instantânea via React 19 e Vite 8.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Online-success?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/UI-Deep_Purple-a855f7?style=for-the-badge" alt="UI Theme">
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
+</p>
 
 ---
 
-## ⌨️ The Functional Terminal (zsh-sim)
+## 📌 Sumário
 
-O coração do projeto é o **Terminal Modal**, uma ferramenta de CLI móvel e totalmente funcional que permite explorar o portfólio sem o uso do mouse.
-
-### Funcionalidades do Terminal:
-- **Navegação de Diretórios (`cd`)**: Suporte a caminhos reais e virtuais (`cd trabalhos/formly`, `cd repos/permission-laravel`, `cd ..`).
-- **Prompt Inteligente**: Reflete o "CWD" (Current Working Directory) em tempo real.
-- **FileSystem Virtual**: O comando `ls` lista seções, projetos ou repositórios dependendo do contexto da pasta.
-- **Comandos Utilitários**: `whoami`, `neofetch`, `skills`, `social`, `clear`, `reset` e `date`.
-- **Draggable UI**: A interface do terminal pode ser movida livremente pela tela, simulando um ambiente de desktop multi-janela.
-
----
-
-## 🛠️ Key Features
-
-- **GitHub API Integration**: Sincronização em tempo real com repositórios fixos, trazendo linguagens, anos e estatísticas atualizadas.
-- **Live README Fetching**: Renderização dinâmica de arquivos `README.md` diretamente do GitHub com suporte a HTML bruto e GFM (GitHub Flavored Markdown).
-- **Deep Linking**: Sistema de roteamento inteligente que integra âncoras de página única com páginas de detalhes profundos.
-- **Responsive Terminal Chrome**: Janelas com estilo operacional (botões de controle, barra de título) e transparência adaptativa.
-- **Luxury Sitemap**: Rodapé expandido com guia de comandos rápidos para o terminal.
+- [📖 Sobre o Projeto](#-sobre-o-projeto)
+- [✨ Funcionalidades](#-funcionalidades)
+- [🖥️ Terminal Funcional](#-terminal-funcional)
+- [🛠️ Tecnologias](#-tecnologias)
+- [🎨 Estética de Design](#-estética-de-design)
+- [📂 Estrutura](#-estrutura)
+- [⚙️ Instalação](#️-instalação)
+- [🚀 Deployment (Hostinger)](#-deployment-hostinger)
 
 ---
 
-## 🏗️ Technical Stack
+## 📖 Sobre o Projeto
 
-- **Backend**: Laravel 12 (como API/Bridge e Orchestrator).
-- **Frontend**: React 19 + Vite 8.
-- **Styling**: Tailwind CSS 4 + Vanilla CSS (Custom Prose).
-- **Icons**: Lucide React.
-- **Markdown Logic**: React-Markdown + Rehype-Raw + Remark-GFM.
-- **Infrastructure**: Dockerized environment (PHP 8.4-FPM + Nginx + MySQL).
+Este projeto é um **portfólio de nova geração** focado em demonstrar competências Fullstack de forma interativa. Desenvolvido sobre o ecossistema **Laravel 12** e **React 19**, ele transcende o conceito de "página estática" ao oferecer uma interface que se comporta como um ambiente de terminal real.
+
+O objetivo principal é centralizar lançamentos (sites no ar) e repositórios técnicos em uma única experiência de luxo, unindo agilidade de comando com design visual de ponta.
 
 ---
 
-## 📁 Project Structure
+## ✨ Funcionalidades
+
+- **Navegação Híbrida**: Navegue pelo fluxo normal de cliques ou utilize o terminal para saltar entre seções e páginas.
+- **API GitHub Live Sync**: Repositórios são alimentados em tempo real pela API oficial do GitHub, garantindo estatísticas sempre precisas.
+- **Markdown Render Pro**: Leitura de arquivos `README.md` externos com suporte total a HTML, GFM e tabelas dentro do site.
+- **Sitemap Dinâmico**: Rodapé inteligente que atua como um hub de exploração e guia de atalhos.
+- **Detalhes Profundos**: Páginas dedicadas que explicam o _Desafio_ vs a _Solução_ de cada software desenvolvido.
+
+---
+
+## 🖥️ Terminal Funcional (`zsh-sim`)
+
+A peça central é um console **arrastável e móvel** que permite uma navegação imersiva:
+
+- **Path Awareness**: O prompt reflete sua posição real (ex: `~/trabalhos/lar-bom-caminho`).
+- **Comandos Reais**:
+    - `ls`: Lista conteúdos dinamicamente baseado na sua pasta atual.
+    - `cd [path]`: Navegação profunda (ex: `cd repos/catpaws`).
+    - `cd ..`: Sobe um nível de diretório virtual.
+    - `neofetch`: Estatísticas visuais da stack e do desenvolvedor.
+    - `whoami`, `skills`, `social`, `clear`, `reset`.
+
+---
+
+## 🛠️ Tecnologias
+
+### Core Engine
+
+| Tecnologia  | Versão | Função                            |
+| :---------- | :----- | :-------------------------------- |
+| **Laravel** | 12.x   | Backend, API Gateway & Routing    |
+| **React**   | 19.x   | State Management & UI Components  |
+| **Vite**    | 8.x    | Build Tooling & HMR               |
+| **PHP**     | 8.4    | Server-side Logic & Modern Syntax |
+
+### UI & UX
+
+- **Tailwind CSS 4**: Otimização de performance e estilos luxo.
+- **Lucide React**: Iconografia minimalista.
+- **React Markdown**: Parseador de documentação técnica.
+
+### Infraestrutura
+
+- **Docker**: Ambiente isolado e reproduzível.
+- **MySQL**: Persistência de dados estruturados.
+
+---
+
+## 🎨 Estética de Design
+
+O projeto utiliza o conceito **Deep Purple Terminal**:
+
+- **Background**: `#18141f` — Um preto arroxeado profundo e sofisticado.
+- **Accent**: `#a855f7` — Roxo elétrico para destaques de comandos e botões.
+- **Typography**: Mescla de `Instrument Sans` para leitura fluida e `JetBrains Mono` para comandos técnicos.
+
+---
+
+## 📂 Estrutura
 
 ```bash
-resources/
-├── css/             # Custom "Luxury" Design System (app.css)
-├── js/
-│   ├── components/  # TerminalModal, Navigation, ProjectsSection...
-│   ├── pages/       # Next.js-style page structure (Index, Details)
-│   ├── data/        # Centralized Projects & Repos database
-│   └── app.jsx      # Router & Entry Point
-├── views/           # Blade Entry point (app.blade.php)
+Portfolio/
+├── .docker/             # Configurações de container (PHP/Nginx)
+├── resources/
+│   ├── css/app.css      # Design System & Custom Prose
+│   ├── js/
+│   │   ├── components/  # Nav, Terminal, Section Hooks
+│   │   ├── pages/       # LiveProjectDetail, ProjectDetail
+│   │   └── data/        # "Source of Truth" de projetos
+└── README.md            # Você está aqui
 ```
 
 ---
 
-## 🛠️ Installation & Build
-
-Para rodar este ambiente em modo de desenvolvimento ou produção:
+## ⚙️ Instalação
 
 ```bash
-# Instalar dependências
-composer install
-npm install
+# Clone o repositório
+git clone https://github.com/malobr/Portfolio.git
 
-# Compilar assets (Produção)
-npm run build
+# No diretório do projeto, suba o Docker
+./vendor/bin/sail up -d
 
-# Abrir o ambiente (Sail/Docker)
-./vendor/bin/sail up
+# Instale as dependências e compile os assets
+docker exec Portfolio-app composer install
+docker exec Portfolio-app npm install
+docker exec Portfolio-app npm run build
 ```
 
 ---
 
-## ✒️ Author
+## 🚀 Deployment (Hostinger)
 
-**Marcelo (malobr)**  
-*Fullstack Developer focused on Clean Architecture and Modern UI/UX.*
+Este projeto está otimizado para deploy em ambientes **Hostinger**, seja via VPS ou Hospedagem Compartilhada (Shared Hosting).
 
-> "Terminal is not a tool, it's a lifestyle."
+### 🖥️ Opção 1: VPS (Recomendado)
+
+Ideal para manter a estrutura de **Docker** e isolamento:
+
+1. Clone o projeto e aponte seu domínio para o IP da VPS.
+2. Execute o setup inicial:
+    ```bash
+    docker compose up -d --build
+    docker exec Portfolio-app php artisan key:generate
+    ```
+
+### ☁️ Opção 2: Hospedagem Compartilhada
+
+Para planos sem suporte a Docker (Business/Premium):
+
+1. Faça o upload via **Git Deployment** no hPanel da Hostinger.
+2. Configure o seu domínio para apontar para a pasta `/public`.
+3. No terminal SSH da Hostinger:
+    ```bash
+    composer install --no-dev --optimize-autoloader
+    npm install && npm run build
+    php artisan storage:link
+    php artisan migrate --seed --force
+    ```
+4. Certifique-se de que a versão do PHP no hPanel esteja em **8.4**.
 
 ---
-© 2025 malobr. MIT Licensed.
+
+## ✒️ Autor
+
+**Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr)
+
+_"Transformando código complexo em interfaces de luxo."_
