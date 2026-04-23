@@ -1,10 +1,15 @@
+import React from "react";
 import { translations } from "../constants/translations";
-import heroImage from "../assets/hero-image.png";
-import cohibaImage from "../assets/cohiba-ashtray.png";
-import { motion } from "framer-motion";
+import heroImage from "../assets/hero-php-mug.png";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const HeroSection = ({ lang }) => {
   const t = translations[lang] || translations.pt;
+  const { scrollY } = useScroll();
+  
+  // Classic scroll parallax: background moves slower than scroll
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+
   const scrollToProjects = () => {
     const element = document.querySelector("#projects");
     if (element) {
@@ -15,40 +20,53 @@ const HeroSection = ({ lang }) => {
   return (
     <section
       id="hero"
-      className="relative h-screen w-full overflow-hidden"
+      className="relative h-screen w-full overflow-hidden bg-background"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0">
+      {/* Parallax Background Layer */}
+      <motion.div 
+        style={{ y }}
+        className="absolute inset-0 z-0 h-[120vh]" // Extra height for parallax movement
+      >
         <img
           src={heroImage}
-          alt="Developer workspace"
-          className="w-full h-full object-cover object-center animate-scale-in"
+          alt="Developer workspace with PHP mug"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-      </div>
-
-      {/* Cohiba Ashtray Background Asset */}
-      <motion.div 
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 0.8, x: 0 }}
-        transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
-        className="absolute bottom-0 right-0 w-[400px] md:w-[600px] pointer-events-none z-0"
-        style={{
-           maskImage: 'linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)',
-           WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%), linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)',
-           maskComposite: 'intersect',
-           WebkitMaskComposite: 'source-in'
-        }}
-      >
-        <img 
-          src={cohibaImage} 
-          alt="Luxury Cohiba Ashtray" 
-          className="w-full h-auto grayscale-[40%] contrast-125 brightness-75"
-        />
       </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 container-luxury h-full flex flex-col justify-end pb-20 md:pb-32">
+      {/* Animated Steam Overlay (Over the mug area in the background image) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+        <div className="absolute left-[45%] top-[40%] w-[150px] h-[300px]">
+           {[...Array(5)].map((_, i) => (
+             <motion.div
+               key={i}
+               initial={{ opacity: 0, y: 0, x: 0, scale: 0.5 }}
+               animate={{ 
+                 opacity: [0, 0.4, 0], 
+                 y: -200, 
+                 x: [0, (i % 2 === 0 ? 30 : -30), 0],
+                 scale: [0.5, 1.5, 2] 
+               }}
+               transition={{ 
+                 duration: 4 + i, 
+                 repeat: Infinity, 
+                 delay: i * 0.8,
+                 ease: "easeOut"
+               }}
+               className="absolute bg-white/20 blur-xl rounded-full"
+               style={{ 
+                 width: 40 + (i * 10), 
+                 height: 40 + (i * 10),
+                 filter: "blur(20px)" 
+               }}
+             />
+           ))}
+        </div>
+      </div>
+
+      {/* Content Layer */}
+      <div className="relative z-20 container-luxury h-full flex flex-col justify-end pb-20 md:pb-32">
         <div className="max-w-4xl">
           <p
             className="text-label mb-4 md:mb-6 opacity-0 animate-fade-up font-mono"
@@ -84,7 +102,7 @@ const HeroSection = ({ lang }) => {
 
       {/* Scroll Indicator */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-fade-in"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-fade-in z-30"
         style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
       >
         <span className="text-label text-xs font-mono">{t.scroll}</span>

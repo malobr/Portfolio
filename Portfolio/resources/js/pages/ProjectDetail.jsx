@@ -201,6 +201,22 @@ const ProjectDetail = () => {
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw]}
+                    components={{
+                      table: ({node, ...props}) => (
+                        <div className="w-full my-8 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                          <table {...props} className="w-full border-collapse" />
+                        </div>
+                      ),
+                      thead: ({node, ...props}) => <thead {...props} className="hidden md:table-header-group" />,
+                      tr: ({node, ...props}) => <tr {...props} className="flex flex-col md:table-row border-b border-white/5 last:border-0" />,
+                      th: ({node, ...props}) => <th {...props} className="px-4 py-3 md:px-6 md:py-4 text-left font-mono text-primary bg-white/5 text-xs md:text-sm uppercase tracking-wider border-b border-white/10 md:border-0" />,
+                      td: ({node, ...props}) => (
+                        <td {...props} className="px-4 py-3 md:px-6 md:py-4 text-muted-foreground text-[11px] md:text-sm font-mono flex flex-col md:table-cell">
+                          <span className="md:hidden text-[10px] text-primary/50 uppercase mb-1 font-bold">INFO:</span>
+                          {props.children}
+                        </td>
+                      ),
+                    }}
                   >
                     {readme}
                   </ReactMarkdown>

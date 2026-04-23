@@ -9,6 +9,7 @@
 ---
 
 ## 📌 Sumário
+
 - [📖 Sobre o Projeto](#-sobre-o-projeto)
 - [✨ Funcionalidades](#-funcionalidades)
 - [🖥️ Terminal Funcional](#-terminal-funcional)
@@ -34,7 +35,7 @@ O objetivo principal é centralizar lançamentos (sites no ar) e repositórios t
 - **API GitHub Live Sync**: Repositórios são alimentados em tempo real pela API oficial do GitHub, garantindo estatísticas sempre precisas.
 - **Markdown Render Pro**: Leitura de arquivos `README.md` externos com suporte total a HTML, GFM e tabelas dentro do site.
 - **Sitemap Dinâmico**: Rodapé inteligente que atua como um hub de exploração e guia de atalhos.
-- **Detalhes Profundos**: Páginas dedicadas que explicam o *Desafio* vs a *Solução* de cada software desenvolvido.
+- **Detalhes Profundos**: Páginas dedicadas que explicam o _Desafio_ vs a _Solução_ de cada software desenvolvido.
 
 ---
 
@@ -44,30 +45,33 @@ A peça central é um console **arrastável e móvel** que permite uma navegaç�
 
 - **Path Awareness**: O prompt reflete sua posição real (ex: `~/trabalhos/lar-bom-caminho`).
 - **Comandos Reais**:
-  - `ls`: Lista conteúdos dinamicamente baseado na sua pasta atual.
-  - `cd [path]`: Navegação profunda (ex: `cd repos/catpaws`).
-  - `cd ..`: Sobe um nível de diretório virtual.
-  - `neofetch`: Estatísticas visuais da stack e do desenvolvedor.
-  - `whoami`, `skills`, `social`, `clear`, `reset`.
+    - `ls`: Lista conteúdos dinamicamente baseado na sua pasta atual.
+    - `cd [path]`: Navegação profunda (ex: `cd repos/catpaws`).
+    - `cd ..`: Sobe um nível de diretório virtual.
+    - `neofetch`: Estatísticas visuais da stack e do desenvolvedor.
+    - `whoami`, `skills`, `social`, `clear`, `reset`.
 
 ---
 
 ## 🛠️ Tecnologias
 
 ### Core Engine
-| Tecnologia | Versão | Função |
-| :--- | :--- | :--- |
-| **Laravel** | 12.x | Backend, API Gateway & Routing |
-| **React** | 19.x | State Management & UI Components |
-| **Vite** | 8.x | Build Tooling & HMR |
-| **PHP** | 8.4 | Server-side Logic & Modern Syntax |
+
+| Tecnologia  | Versão | Função                            |
+| :---------- | :----- | :-------------------------------- |
+| **Laravel** | 12.x   | Backend, API Gateway & Routing    |
+| **React**   | 19.x   | State Management & UI Components  |
+| **Vite**    | 8.x    | Build Tooling & HMR               |
+| **PHP**     | 8.4    | Server-side Logic & Modern Syntax |
 
 ### UI & UX
+
 - **Tailwind CSS 4**: Otimização de performance e estilos luxo.
 - **Lucide React**: Iconografia minimalista.
 - **React Markdown**: Parseador de documentação técnica.
 
 ### Infraestrutura
+
 - **Docker**: Ambiente isolado e reproduzível.
 - **MySQL**: Persistência de dados estruturados.
 
@@ -76,6 +80,7 @@ A peça central é um console **arrastável e móvel** que permite uma navegaç�
 ## 🎨 Estética de Design
 
 O projeto utiliza o conceito **Deep Purple Terminal**:
+
 - **Background**: `#18141f` — Um preto arroxeado profundo e sofisticado.
 - **Accent**: `#a855f7` — Roxo elétrico para destaques de comandos e botões.
 - **Typography**: Mescla de `Instrument Sans` para leitura fluida e `JetBrains Mono` para comandos técnicos.
@@ -120,25 +125,29 @@ docker exec Portfolio-app npm run build
 Este projeto está otimizado para deploy em ambientes **Hostinger**, seja via VPS ou Hospedagem Compartilhada (Shared Hosting).
 
 ### 🖥️ Opção 1: VPS (Recomendado)
+
 Ideal para manter a estrutura de **Docker** e isolamento:
+
 1. Clone o projeto e aponte seu domínio para o IP da VPS.
 2. Execute o setup inicial:
-   ```bash
-   docker compose up -d --build
-   docker exec Portfolio-app php artisan key:generate
-   ```
+    ```bash
+    docker compose up -d --build
+    docker exec Portfolio-app php artisan key:generate
+    ```
 
 ### ☁️ Opção 2: Hospedagem Compartilhada
+
 Para planos sem suporte a Docker (Business/Premium):
+
 1. Faça o upload via **Git Deployment** no hPanel da Hostinger.
 2. Configure o seu domínio para apontar para a pasta `/public`.
 3. No terminal SSH da Hostinger:
-   ```bash
-   composer install --no-dev --optimize-autoloader
-   npm install && npm run build
-   php artisan storage:link
-   php artisan migrate --seed --force
-   ```
+    ```bash
+    composer install --no-dev --optimize-autoloader
+    npm install && npm run build
+    php artisan storage:link
+    php artisan migrate --seed --force
+    ```
 4. Certifique-se de que a versão do PHP no hPanel esteja em **8.4**.
 
 ---
@@ -147,4 +156,4 @@ Para planos sem suporte a Docker (Business/Premium):
 
 **Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr)
 
-*"Transformando código complexo em interfaces de luxo."*
+_"Transformando código complexo em interfaces de luxo."_

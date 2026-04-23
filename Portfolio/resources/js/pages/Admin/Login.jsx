@@ -8,6 +8,7 @@ const Login = () => {
     const [mfaCode, setMfaCode] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const [demoCode, setDemoCode] = useState("");
     const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const Login = () => {
                 if (res.ok && data.mfa_required) {
                     setStep("mfa");
                     setDemoCode(data.demo_code);
+                    setSuccessMessage(data.message);
                 } else {
                     setError(data.errors?.email || "Credenciais inválidas.");
                 }
@@ -114,9 +116,12 @@ const Login = () => {
                             </>
                         ) : (
                             <div className="space-y-6 animate-fade-in">
-                                <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl mb-6">
-                                    <p className="text-xs text-primary font-mono mb-2">Um código foi enviado (Demo):</p>
-                                    <p className="text-2xl font-bold font-mono tracking-[0.5em] text-center text-white">{demoCode}</p>
+                                <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl mb-6 text-center">
+                                    <p className="text-[10px] text-primary font-mono mb-3 uppercase tracking-widest">{successMessage}</p>
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-[9px] text-muted-foreground font-mono uppercase opacity-50 italic">Ambiente de Demonstração — Código Interceptado:</p>
+                                        <p className="text-3xl font-bold font-mono tracking-[0.5em] text-white py-2 bg-white/5 rounded-lg border border-white/5">{demoCode}</p>
+                                    </div>
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] text-primary uppercase tracking-widest block font-bold px-1 font-mono">Código MFA de 6 dígitos</label>

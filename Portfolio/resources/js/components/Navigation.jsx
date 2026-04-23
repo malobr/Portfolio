@@ -6,6 +6,7 @@ import { translations } from "../constants/translations";
 const Navigation = ({ 
     forceTerminalOpen, 
     onTerminalClose, 
+    initialCommand,
     forceCalendarOpen, 
     onCalendarClose, 
     lang,
@@ -20,6 +21,7 @@ const Navigation = ({
   useEffect(() => {
     if (forceTerminalOpen !== undefined) setIsTerminalOpen(forceTerminalOpen);
   }, [forceTerminalOpen]);
+
 
   const handleTerminalClose = () => {
     setIsTerminalOpen(false);
@@ -162,6 +164,7 @@ const Navigation = ({
         onClose={handleTerminalClose} 
         navLinks={navLinks}
         lang={lang}
+        initialCommand={initialCommand}
       />
 
       {/* Mobile Menu */}

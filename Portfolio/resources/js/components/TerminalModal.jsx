@@ -4,7 +4,7 @@ import { Terminal as TerminalIcon, X, ChevronRight, Maximize2, Minimize2 } from 
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { translations } from "../constants/translations";
 
-const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
+const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt', initialCommand = null }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const t = translations[lang] || translations.pt;
@@ -50,8 +50,14 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
         ...prev,
         "/projects": { type: "dir", children: projData.map(p => p.slug) },
         "/blog": { type: "dir", children: postData.map(p => p.slug) },
-        ...Object.fromEntries(projData.map(p => [`/projects/${p.slug}`, { type: "file", content: p.tagline }])),
-        ...Object.fromEntries(postData.map(p => [`/blog/${p.slug}`, { type: "file", content: p.excerpt[lang] || p.excerpt['en'] }]))
+        ...Object.fromEntries(projData.map(p => [`/projects/${p.slug}`, { 
+          type: "file", 
+          content: `NAME: ${p.name}\nTAGLINE: ${p.tagline}\n\n${p.description}\n\nSTACK: ${p.technologies?.join(", ")}` 
+        }])),
+        ...Object.fromEntries(postData.map(p => [`/blog/${p.slug}`, { 
+          type: "file", 
+          content: `${postData.find(post => post.slug === p.slug)?.title?.[lang] || ""}\n${'='.repeat(40)}\n\n${postData.find(post => post.slug === p.slug)?.content?.[lang] || postData.find(post => post.slug === p.slug)?.content?.['en'] || ""}`
+        }]))
       }));
     });
   }, [lang]);
@@ -59,8 +65,15 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
+      
+      if (initialCommand && fs["/"]) {
+        // Execute initial command after a short delay
+        setTimeout(() => {
+          handleCommand({ preventDefault: () => {}, target: { value: initialCommand } }, initialCommand);
+        }, 500);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, initialCommand, fs]);
 
   // Handle language change for initial history
   useEffect(() => {
@@ -74,7 +87,7 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
         }
         return prev;
      });
-  }, [lang]);
+  }, [lang, t.terminal_welcome, t.terminal_db_active]);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -82,41 +95,84 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
 
   const commands = {
     help: () => `${t.terminal_help_intro}
-  ls         - ${t.terminal_help_ls}
-  cd [dir]   - ${t.terminal_help_cd}
-  mkdir [dir]- ${t.terminal_help_mkdir}
-  rm [name]  - ${t.terminal_help_rm}
-  whoami     - ${t.terminal_help_whoami}
-  neofetch   - ${t.terminal_help_neofetch}
-  sudo       - ${t.terminal_help_sudo}
-  clear      - ${t.terminal_help_clear}
-  exit       - ${t.terminal_help_exit}`,
+  ls           - ${t.terminal_help_ls}
+  cd [dir]     - ${t.terminal_help_cd}
+  mkdir [dir]  - ${t.terminal_help_mkdir}
+  rm [name]    - ${t.terminal_help_rm}
+  cat [file]   - ${t.terminal_help_cat}
+  man [cmd]    - ${t.terminal_help_man}
+  echo [text]  - ${t.terminal_help_echo}
+  date         - ${t.terminal_help_date}
+  pwd          - Print working directory
+  whoami       - ${t.terminal_help_whoami}
+  neofetch     - ${t.terminal_help_neofetch}
+  sudo         - ${t.terminal_help_sudo}
+  clear        - ${t.terminal_help_clear}
+  exit         - ${t.terminal_help_exit}`,
     whoami: () => t.hero_desc,
-    neofetch: () => `OS: Malobr-OS v1.6\nShell: bash\nUptime: ${Math.floor(performance.now()/1000)}s\nResolution: ${window.innerWidth}x${window.innerHeight}\nPackages: react, laravel, vite, tailwind`,
+    neofetch: () => `            .-/+oossssoo+/-.
+        .:+ssssssssssssssssss+:.
+      -+ssssssssssssssssssyyssss+-
+    .ossssssssssssssssssdMMMNysssso.
+   /ssssssssssshdmmNNmmdMMMMMMhssssss/
+  +ssssssssshmydMMMMMMMMMMMMMMMs sssss+
+ /ssssssssdMMMMMMMMMMMMMMMMMMMMMM dssss/
+.ssssssssdMMMMMMMMMMMMMMMMMMMMMMMMdo sss.
+osssssssmMMMMMMMMMMMMMMMMMMMMMMMMMMm sssso
+ssssssssNMMMMMMMMMMMMMMMMMMMMMMMMMMN sssss
+osssssssmMMMMMMMMMMMMMMMMMMMMMMMMMMm sssso
+.ssssssssdMMMMMMMMMMMMMMMMMMMMMMMMdo sss.
+ /ssssssssdMMMMMMMMMMMMMMMMMMMMMM dssss/
+  +ssssssssshmydMMMMMMMMMMMMMMMs sssss+
+   /ssssssssssshdmmNNmmdMMMMMMhssssss/
+    .ossssssssssssssssssdMMMNysssso.
+      -+ssssssssssssssssssyyssss+-
+        .:+ssssssssssssssssss+:.
+            .-/+oossssoo+/-.
+
+OS: Malobr-OS v1.6.0
+Kernel: React 19.0.0
+Uptime: ${Math.floor(performance.now()/1000)}s
+Packages: laravel, vite, tailwind, framer-motion
+Shell: bash 5.2.15
+Resolution: ${window.innerWidth}x${window.innerHeight}
+WM: Portfolio-Canvas`,
     sudo: () => t.terminal_sudo_denied,
+    pwd: () => currentPath,
+    date: () => new Date().toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US'),
+    echo: (args) => args || "",
   };
 
-  const handleCommand = (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const handleCommand = (e, overrideInput = null) => {
+    if (e) e.preventDefault();
+    const cmdLine = (overrideInput || input).trim();
+    if (!cmdLine) return;
 
-    const cmdLine = input.trim();
     const args = cmdLine.split(" ");
     const mainCmd = args[0].toLowerCase();
     const target = args[1];
 
     let newHistory = [...history, { type: "input", content: cmdLine, path: currentPath }];
 
+    const resolvePath = (targetPath) => {
+      if (targetPath.startsWith("/")) return targetPath.replace(/\/+/g, "/");
+      const base = currentPath === "/" ? "" : currentPath;
+      return (base + "/" + targetPath).replace(/\/+/g, "/");
+    };
+
     if (commands[mainCmd]) {
-      const output = commands[mainCmd]();
+      const output = commands[mainCmd](args.slice(1).join(" "));
       output.split("\n").forEach(line => newHistory.push({ type: "output", content: line }));
     } else {
       switch (mainCmd) {
         case "ls":
-          const dir = fs[currentPath];
+          const lsTarget = target ? resolvePath(target) : currentPath;
+          const dir = fs[lsTarget];
           if (dir && dir.type === "dir") {
             const children = dir.children.join("  ");
             newHistory.push({ type: "output", content: children || t.terminal_empty });
+          } else {
+            newHistory.push({ type: "output", content: `ls: cannot access '${target}': No such directory` });
           }
           break;
         case "cd":
@@ -125,9 +181,10 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
           } else if (target === "..") {
             const parts = currentPath.split("/").filter(Boolean);
             parts.pop();
-            setCurrentPath("/" + parts.join("/"));
+            const newPath = "/" + parts.join("/");
+            setCurrentPath(newPath);
           } else {
-            const fullPath = (currentPath === "/" ? "" : currentPath) + "/" + target;
+            const fullPath = resolvePath(target);
             if (fs[fullPath] && fs[fullPath].type === "dir") {
               setCurrentPath(fullPath);
             } else {
@@ -135,40 +192,81 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
             }
           }
           break;
+        case "cat":
+          if (!target) {
+            newHistory.push({ type: "output", content: "usage: cat [file]" });
+          } else {
+            const filePath = resolvePath(target);
+            if (fs[filePath] && fs[filePath].type === "file") {
+              fs[filePath].content.split("\n").forEach(line => 
+                newHistory.push({ type: "output", content: line })
+              );
+            } else {
+              newHistory.push({ type: "output", content: t.terminal_error_cat.replace("{target}", target) });
+            }
+          }
+          break;
+        case "man":
+          if (!target) {
+            newHistory.push({ type: "output", content: "What manual page do you want?" });
+          } else {
+            const manKey = `man_${target}`;
+            if (t[manKey]) {
+              newHistory.push({ type: "output", content: t.terminal_man_title });
+              newHistory.push({ type: "output", content: t.terminal_man_usage.replace("{cmd}", target) });
+              newHistory.push({ type: "output", content: t.terminal_man_description.replace("{desc}", t[manKey]) });
+            } else {
+              newHistory.push({ type: "output", content: t.terminal_man_not_found.replace("{cmd}", target) });
+            }
+          }
+          break;
         case "mkdir":
           if (!target) {
             newHistory.push({ type: "output", content: "mkdir: missing operand" });
           } else {
-            const newDirPath = (currentPath === "/" ? "" : currentPath) + "/" + target;
-            setFs(prev => ({
-              ...prev,
-              [currentPath]: { ...prev[currentPath], children: [...prev[currentPath].children, target] },
-              [newDirPath]: { type: "dir", children: [] }
-            }));
-            newHistory.push({ type: "output", content: t.terminal_mkdir_success.replace("{name}", target) });
+            const newDirPath = resolvePath(target);
+            const parentPath = newDirPath.substring(0, newDirPath.lastIndexOf("/")) || "/";
+            const dirName = newDirPath.substring(newDirPath.lastIndexOf("/") + 1);
+            
+            if (fs[parentPath] && fs[parentPath].type === "dir") {
+              setFs(prev => ({
+                ...prev,
+                [parentPath]: { ...prev[parentPath], children: [...prev[parentPath].children, dirName] },
+                [newDirPath]: { type: "dir", children: [] }
+              }));
+              newHistory.push({ type: "output", content: t.terminal_mkdir_success.replace("{name}", dirName) });
+            } else {
+              newHistory.push({ type: "output", content: `mkdir: cannot create directory '${target}': No such file or directory` });
+            }
           }
           break;
         case "rm":
           if (!target) {
             newHistory.push({ type: "output", content: "rm: missing operand" });
           } else {
-            const targetPath = (currentPath === "/" ? "" : currentPath) + "/" + target;
+            const targetPath = resolvePath(target);
             if (fs[targetPath]) {
+                const parentPath = targetPath.substring(0, targetPath.lastIndexOf("/")) || "/";
+                const objName = targetPath.substring(targetPath.lastIndexOf("/") + 1);
+
               setFs(prev => {
                 const newFs = { ...prev };
                 delete newFs[targetPath];
-                newFs[currentPath] = { 
-                  ...newFs[currentPath], 
-                  children: newFs[currentPath].children.filter(c => c !== target) 
-                };
+                if (newFs[parentPath]) {
+                  newFs[parentPath] = { 
+                    ...newFs[parentPath], 
+                    children: newFs[parentPath].children.filter(c => c !== objName) 
+                  };
+                }
                 return newFs;
               });
-              newHistory.push({ type: "output", content: t.terminal_rm_success.replace("{name}", target) });
+              newHistory.push({ type: "output", content: t.terminal_rm_success.replace("{name}", objName) });
             } else {
               newHistory.push({ type: "output", content: t.terminal_error_rm.replace("{target}", target) });
             }
           }
           break;
+
         case "clear": setHistory([]); setInput(""); return;
         case "exit": onClose(); setInput(""); return;
         default: newHistory.push({ type: "output", content: t.terminal_error_cmd.replace("{cmd}", mainCmd) });
@@ -219,10 +317,6 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            drag
-            dragControls={dragControls}
-            dragListener={false}
-            dragMomentum={false}
             style={{ 
               width: windowSize.width, 
               height: windowSize.height,
@@ -233,8 +327,7 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
           >
             {/* Header */}
             <div 
-              onPointerDown={(e) => dragControls.start(e)}
-              className="flex items-center justify-between px-4 py-3 bg-[#1e1e2e] border-b border-white/5 cursor-move group"
+              className="flex items-center justify-between px-4 py-3 bg-[#1e1e2e] border-b border-white/5 group"
             >
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5 mr-4">
@@ -291,10 +384,6 @@ const TerminalModal = ({ isOpen, onClose, navLinks, lang = 'pt' }) => {
               </div>
             </div>
             
-            {/* Window Resize Handle */}
-            <div onMouseDown={handleResizeMouseDown} className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize bg-transparent z-10 flex items-center justify-center group">
-                <div className="w-1.5 h-1.5 border-r border-b border-white/20 group-hover:border-primary transition-colors pr-0.5 pb-0.5" />
-            </div>
 
             {/* Footer */}
             <div className="px-4 py-1.5 bg-[#14121a] border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-muted-foreground/60 uppercase tracking-widest">

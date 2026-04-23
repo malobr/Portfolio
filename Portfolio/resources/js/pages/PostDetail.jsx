@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, Calendar, Clock, Tag, Share2, Loader2, BookOpen } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Calendar, Clock, Tag, Share2, Loader2, BookOpen, Terminal as TerminalIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -14,10 +14,23 @@ const PostDetail = () => {
   const [nextPost, setNextPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [terminalCommand, setTerminalCommand] = useState(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
     fetchPost();
   }, [slug]);
+
+  const openInTerminal = () => {
+    setTerminalCommand(`cat /blog/${slug}`);
+    setIsTerminalOpen(true);
+  };
+
+  const handleTerminalClose = () => {
+    setIsTerminalOpen(false);
+    setTerminalCommand(null);
+  };
 
   const fetchPost = async () => {
     setIsLoading(true);
@@ -70,7 +83,13 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navigation lang={lang} setLang={setLang} />
+      <Navigation 
+        lang={lang} 
+        setLang={setLang} 
+        forceTerminalOpen={isTerminalOpen}
+        onTerminalClose={handleTerminalClose}
+        initialCommand={terminalCommand}
+      />
 
       {/* Hero */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
@@ -139,17 +158,61 @@ const PostDetail = () => {
             </div>
 
             <div className="p-8 md:p-16">
-              <article className="prose-custom max-w-none">
+              <div className="prose-custom max-w-none overflow-x-auto">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
+                  components={{
+                    table: ({node, ...props}) => (
+                      <div className="w-full my-8 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                        <table {...props} className="w-full border-collapse" />
+                      </div>
+                    ),
+                    thead: ({node, ...props}) => <thead {...props} className="hidden md:table-header-group" />,
+                    tr: ({node, ...props}) => <tr {...props} className="flex flex-col md:table-row border-b border-white/5 last:border-0" />,
+                    th: ({node, ...props}) => <th {...props} className="px-4 py-3 md:px-6 md:py-4 text-left font-mono text-primary bg-white/5 text-xs md:text-sm uppercase tracking-wider border-b border-white/10 md:border-0" />,
+                    td: ({node, ...props}) => (
+                      <td {...props} className="px-4 py-3 md:px-6 md:py-4 text-muted-foreground text-[11px] md:text-sm font-mono flex flex-col md:table-cell">
+                        <span className="md:hidden text-[10px] text-primary/50 uppercase mb-1 font-bold">INFO:</span>
+                        {props.children}
+                      </td>
+                    ),
+                  }}
                 >
                   {currentContent}
                 </ReactMarkdown>
-              </article>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Terminal Call to Action */}
+      <section className="pb-24">
+          <div className="container-luxury">
+              <div className="p-8 md:p-12 bg-charcoal border border-primary/20 rounded-xl flex flex-col md:flex-row items-center justify-between gap-8 group hover:border-primary/40 transition-all">
+                  <div className="max-w-xl text-center md:text-left">
+                      <p className="text-label mb-3 font-mono text-primary flex items-center gap-2 justify-center md:justify-start">
+                          <TerminalIcon size={14} /> terminal_integration_link
+                      </p>
+                      <h3 className="text-display-sm text-foreground mb-4">Experiência <span className="italic">Geek</span></h3>
+                      <p className="text-body text-muted-foreground">
+                          {lang === 'pt' 
+                            ? "Você sabia que pode ler todos os nossos artigos diretamente via terminal? Experimente uma navegação purista e sinta-se um verdadeiro sysadmin explorando nossa documentação."
+                            : "Did you know you can read all our articles directly via terminal? Experience purist navigation and feel like a true sysadmin exploring our documentation."}
+                      </p>
+                  </div>
+                  <button 
+                    onClick={openInTerminal}
+                    className="btn-luxury px-6 py-4 bg-primary/10 border-primary/30 text-primary hover:bg-primary hover:text-white flex flex-col items-center gap-3 w-full"
+                  >
+                      <span className="font-mono text-[9px] md:text-xs break-all text-center opacity-80 uppercase tracking-tighter">cat /blog/{slug}</span>
+                      <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest">
+                          Executar no Terminal <ArrowUpRight size={14} className="shrink-0" />
+                      </div>
+                  </button>
+              </div>
+          </div>
       </section>
 
       {/* Sharing and Support */}
@@ -159,7 +222,7 @@ const PostDetail = () => {
               <div className="flex justify-center gap-4">
                   <button className="btn-luxury px-8 py-3 flex items-center gap-3 group">
                       <Share2 size={18} className="group-hover:text-primary transition-colors" />
-                      Compartilhar este artigo
+                      {lang === 'pt' ? 'Compartilhar este artigo' : 'Share this article'}
                   </button>
               </div>
           </div>

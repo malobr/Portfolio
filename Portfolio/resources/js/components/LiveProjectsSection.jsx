@@ -66,13 +66,12 @@ const LiveProjectsSection = ({ lang }) => {
                     </div>
                   </div>
                 </div>
-                <Link to={`/trabalhos/${project.slug}`} className="block aspect-video bg-background overflow-hidden relative">
+                <Link to={`/trabalhos/${project.slug}`} className="block aspect-[3/4] md:aspect-video bg-background overflow-hidden relative">
                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none" />
                   <iframe
                     src={project.live_url}
                     title={`Preview de ${project.name}`}
-                    className="w-full h-full border-0 pointer-events-none scale-[0.6] origin-top-left"
-                    style={{ width: "166.67%", height: "166.67%" }}
+                    className="w-[125%] h-[125%] md:w-[166.67%] md:h-[166.67%] border-0 pointer-events-none scale-80 md:scale-[0.6] origin-top-left"
                     loading="lazy"
                     sandbox="allow-scripts allow-same-origin"
                   />

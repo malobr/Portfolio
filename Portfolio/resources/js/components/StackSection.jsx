@@ -1,5 +1,5 @@
 import React from "react";
-import { Code2, Database, Cloud, Boxes, Terminal, GitBranch } from "lucide-react";
+import { Code2, Database, Cloud, Boxes, Terminal, GitBranch, GraduationCap } from "lucide-react";
 import { translations } from "../constants/translations";
 
 const StackSection = ({ lang }) => {
@@ -9,19 +9,19 @@ const StackSection = ({ lang }) => {
       icon: Code2,
       title: "Frontend",
       desc: t.frontend_desc,
-      tech: ["React", "TypeScript", "Tailwind", "Vite", "Blade"],
+      tech: ["React", "Vue", "JavaScript", "TypeScript", "Blade"],
     },
     {
       icon: Terminal,
       title: "Backend",
       desc: t.backend_desc,
-      tech: ["Laravel", "PHP", "Node.js", "REST", "MVC"],
+      tech: ["Laravel", "PHP", "REST", "MVC"],
     },
     {
       icon: Database,
       title: "Database",
       desc: t.db_desc,
-      tech: ["PostgreSQL", "MySQL", "Eloquent", "SQL"],
+      tech: ["MongoDB", "MySQL", "Eloquent", "SQL"],
     },
     {
       icon: Boxes,
@@ -33,13 +33,20 @@ const StackSection = ({ lang }) => {
       icon: Cloud,
       title: "Deploy & Cloud",
       desc: t.cloud_desc,
-      tech: ["Vercel", "GitHub Actions", "VPS", "CI/CD"],
+      tech: ["Hostinger", "Vercel", "GitHub Actions", "VPS", "CI/CD"],
     },
     {
       icon: GitBranch,
       title: "Workflow",
       desc: t.workflow_desc,
-      tech: ["Git", "GitHub", "Trunk-based", "Clean Code"],
+      tech: ["SOLID", "Git", "GitHub", "Trunk-based", "Clean Code"],
+    },
+    {
+      icon: GraduationCap,
+      title: lang === "pt" ? "Em Aprendizado" : "In Training",
+      desc: lang === "pt" ? "Novas fronteiras e conceitos em evolução." : "New frontiers and evolving concepts.",
+      tech: ["SOLID", "Java", "Kotlin", "Microservices", "Design Patterns"],
+      fullWidth: true,
     },
   ];
 
@@ -65,7 +72,8 @@ const StackSection = ({ lang }) => {
           {pillars.map((p) => (
             <div
               key={p.title}
-              className="bg-charcoal p-8 md:p-10 group transition-colors duration-500 hover:bg-background/40"
+              className={`bg-charcoal p-8 md:p-10 group transition-colors duration-500 hover:bg-background/40
+                          ${p.fullWidth ? "md:col-span-2 lg:col-span-3" : ""}`}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 border border-border flex items-center justify-center

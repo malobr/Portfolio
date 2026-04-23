@@ -15,178 +15,324 @@ class PostSeeder extends Seeder
             [
                 'slug' => 'moriarty-offensive-intelligence-osint',
                 'title' => [
-                    'en' => 'Moriarty: Offensive Intelligence & Global IoT Surveillance',
-                    'pt' => 'Moriarty: Inteligência Ofensiva e Vigilância Global de IoT'
+                    'en' => 'Moriarty: The Silent Intelligence Network & Global IoT Surveillance',
+                    'pt' => 'Moriarty: A Rede Silenciosa de Inteligência e Vigilância Global de IoT'
                 ],
                 'excerpt' => [
-                    'en' => 'Explaining the inspiration behind the name and the high-precision surveillance architecture of the Moriarty platform.',
-                    'pt' => 'Explicando a inspiração por trás do nome e a arquitetura de vigilância de alta precisão da plataforma Moriarty.'
+                    'en' => 'An exhaustive technical breakdown of the Moriarty OSINT platform, including its stealth layer, database architecture, and tactical surveillance modules.',
+                    'pt' => 'Uma análise técnica exaustiva da plataforma Moriarty OSINT, incluindo sua camada de ocultação, arquitetura de banco de dados e módulos de vigilância tática.'
                 ],
                 'content' => [
                     'en' => <<<'EOD'
-# Moriarty: Technical Architecture & The "Napoleon of Crime" Inspiration
+# Moriarty: The "Napoleon of Crime" OSINT Engine
 
-Moriarty is a state-of-the-art **Offensive Intelligence** platform. Beyond its technical capabilities, the platform carries a thematic weight inspired by one of literature's greatest strategic minds.
+Moriarty is a state-of-the-art **Offensive Intelligence** and **Attack Surface Investigation** platform. This article provides a full technical dossier on its architecture, data flow, and current state of development.
 
-## 1. The Inspiration: Why "Moriarty"?
-The platform is named after **Professor James Moriarty**, the arch-nemesis of Sherlock Holmes. In Sir Arthur Conan Doyle's stories, Holmes describes Moriarty as the **"Napoleon of Crime"** and a "spider at the center of its web."
+## 1. Tactical Philosophy: The Invisible Web
+Moriarty mirrors the calculations of its literary namesake. It focuses on **Invisible Reconnaissance**, ensuring that the investigator leaves zero digital footprints while mapping complex infrastructures.
 
-- **The Spider Web Logic**: Just as the literary Moriarty sat at the center of a vast criminal network, knowing every thread that moved, the **Moriarty Platform** is designed to be the central hub of intelligence. It reaches out into the vast "web" of the internet to pull threads of data—usernames, emails, and IoT nodes—back to a single command center.
-- **Strategic Superiority**: The goal of the platform is to mirror Moriarty's calculated and invisible influence. It doesn't just "search"; it correlates, analyzes, and unmasks.
+### Key Functionalities:
+- **Stealth Discovery (obfs4)**: Utilizes `obfs4proxy` to bridge into the Tor network, obfuscating traffic from Deep Packet Inspection (DPI).
+- **IoT Tactical Mapping**: Correlates Shodan/Censys data with real-time RTSP-to-MJPEG transcoders.
+- **Identity Synthesis**: Aggregates breach data, social aliases, and phone metadata into a single target profile.
+- **Forensic Reporting**: Automates the generation of "Evidence to Conclusion" Markdown dossiers.
 
-## 2. The Anonymity Layer (Tor & obfs4proxy)
-To maintain the stealth required of a modern "Napoleon of Crime," Moriarty uses a sophisticated egress strategy:
-- **obfs4 (The Scrambler)**: All traffic is encapsulated using the `obfs4` transport, bypassing **Deep Packet Inspection (DPI)** from ISPs.
-- **Rotating Circuits**: Every 10 requests, Moriarty rotates Exit Nodes to avoid IP-based rate limiting.
+## 2. System Architecture & Data Flow
 
-## 3. Advanced Search Methodology
+```mermaid
+graph TD
+    A[Investigator UI] -->|Auth/API| B[Moriarty Core - Go/Laravel]
+    B -->|Proxy: obfs4/Tor| C[Target Recon]
+    C -->|API: Shodan/Censys| D[IoT Surface]
+    C -->|REST: Breach DBs| E[Credential Leaks]
+    D -->|RTSP Stream| F[Transcoder Node]
+    F -->|MJPEG Relay| A
+    B -->|Persist| G[(Malobr-DB)]
+```
 
-### A. Identity Reconnaissance (People & Social)
-- **Username & Alias Mapping**: Checks 2000+ social platforms to map digital footprints.
-- **Email & Breach Intelligence**: Cross-references emails against deep-web leak databases to find plaintext passwords and associated accounts.
-- **Phone Number Recon**: Reverse lookup for WhatsApp/Telegram photos and caller ID name correlation.
+## 3. Database Architecture (Models & Tables)
 
-### B. IoT Surface Reconnaissance
-- **Signature Matching**: Identifies devices by "Flags" (e.g., `Server: DVRDVS-Webs`).
-- **Metadata Extraction**: Scrapes handshakes for manufacturer firmware and serial numbers.
+The system relies on a high-concurrency relational schema designed for rapid ingestion of large intelligence datasets.
 
-### C. Vulnerability Dorking
-- **Sensitive Files**: Systematic discovery of `.env`, `.git`, and private keys (`id_rsa`) accidentally left public.
+### Core Tables & Models:
+| Model | Table | Description |
+| :--- | :--- | :--- |
+| `Target` | `targets` | Primary record for investigative targets (Individuals or IP ranges). |
+| `IntelNode` | `intel_nodes` | Registry of active scanning nodes and proxy circuits. |
+| `EvidenceRecord` | `evidence_records` | Forensic findings mapped to a timeline (files, hashes, screenshots). |
+| `CameraFeed` | `camera_feeds` | Metadata and access credentials for discovered IoT devices. |
+| `SearchLog` | `search_logs` | Audit trail of all reconnaissance activities to prevent duplicate queries. |
+| `DorkPattern` | `dork_patterns` | Library of vulnerability search patterns for specific infrastructures. |
 
-### D. Geolocation Correlation
-- **Exif Harvesting**: Parses EXIF metadata from live device feeds to find GPS markers, placing targets on the **Tactical Command Center (Map)**.
+## 4. Current Progress: Phase 2 (Hardening)
+Moriarty is currently in **Phase 2: Tactical Hardening**. We are focusing on increasing the "Invisibility Score" and stabilizing the 3D Tactical Globe (Marechal) for real-time visualization of global IoT nodes.
 
-## 4. The Camera Interception Layer
-- **RTSP Transcoding**: Real-time Go-based transcoding into **MJPEG streams** for browser viewing.
-- **Credential Testing**: Automated authorization attempts using known default/leaked credential lists.
-
-*Moriarty isn't just a tool; it's the invisible web connecting every fragment of digital evidence.*
+*Moriarty remains the invisible spider at the center of the web.*
 EOD
 ,
                     'pt' => <<<'EOD'
-# Moriarty: Arquitetura Técnica e a Inspiração no "Napoleão do Crime"
+# Moriarty: O Motor de Inteligência "Napoleão do Crime"
 
-O Moriarty é uma plataforma de **Inteligência Ofensiva** de última geração. Além de suas capacidades técnicas, a plataforma carrega um peso temático inspirado em uma das mentes mais estratégicas da literatura.
+O Moriarty é uma plataforma de **Inteligência Ofensiva** e **Investigação de Superfície de Ataque** de ponta. Este artigo fornece um dossiê técnico completo sobre sua arquitetura, fluxo de dados e estado atual de desenvolvimento.
 
-## 1. A Inspiração: Por que "Moriarty"?
-A plataforma foi batizada em homenagem ao **Professor James Moriarty**, o nêmesis de Sherlock Holmes. Nas histórias de Sir Arthur Conan Doyle, Holmes descreve Moriarty como o **"Napoleão do Crime"** e como uma "aranha no centro de sua teia".
+## 1. Filosofia Tática: A Teia Invisível
+O Moriarty espelha os cálculos de seu homônimo literário. Ele foca em **Reconhecimento Invisível**, garantindo que o investigador deixe zero rastros digitais enquanto mapeia infraestruturas complexas.
 
-- **A Lógica da Teia de Aranha**: Assim como o Moriarty literário sentava-se no centro de uma vasta rede, conhecendo cada fio que se movia, a **Plataforma Moriarty** foi projetada para ser o hub central de inteligência. Ela se estende pela vasta "teia" da internet para puxar fios de dados — usuários, e-mails e nós de IoT — de volta para um único centro de comando.
-- **Superioridade Estratégica**: O objetivo da plataforma é espelhar a influência calculada e invisível de Moriarty. Ela não apenas "busca"; ela correlaciona, analisa e desmascara.
+### Principais Funcionalidades:
+- **Descoberta Furtiva (obfs4)**: Utiliza `obfs4proxy` para fazer a ponte com a rede Tor, ofuscando o tráfego contra a Inspeção Profunda de Pacotes (DPI).
+- **Mapeamento Tático IoT**: Correlaciona dados do Shodan/Censys com transcodificadores RTSP-para-MJPEG em tempo real.
+- **Síntese de Identidade**: Agrega dados de vazamento, aliases sociais e metadados de telefone em um único perfil de alvo.
+- **Relatórios Forenses**: Automatiza a geração de dossiês Markdown no formato "Evidência para Conclusão".
 
-## 2. Camada de Anonimato (Tor & obfs4proxy)
-Para manter o sigilo exigido de um "Napoleão do Crime" moderno, o Moriarty utiliza uma estratégia de saída sofisticada:
-- **obfs4 (O Embaralhador)**: Todo o tráfego é encapsulado usando o transporte `obfs4`, ignorando a **Inspeção Profunda de Pacotes (DPI)** dos provedores.
-- **Circuitos Rotativos**: A cada 10 requisições, o Moriarty rotaciona os Exit Nodes para evitar bloqueios de IP.
+## 2. Arquitetura do Sistema e Fluxo de Dados
 
-## 3. Metodologia Avançada de Busca
+```mermaid
+graph TD
+    A[UI do Investigador] -->|Auth/API| B[Moriarty Core - Go/Laravel]
+    B -->|Proxy: obfs4/Tor| C[Reconhecimento de Alvo]
+    C -->|API: Shodan/Censys| D[Superfície IoT]
+    C -->|REST: Breach DBs| E[Vazamentos de Credenciais]
+    D -->|RTSP Stream| F[Nó Transcodificador]
+    F -->|MJPEG Relay| A
+    B -->|Persistência| G[(Malobr-DB)]
+```
 
-### A. Reconhecimento de Identidade (Pessoas e Social)
-- **Mapeamento de Alias**: Verifica mais de 2000 plataformas sociais para mapear pegadas digitais.
-- **Inteligência de E-mail**: Cruza e-mails com bases de vazamentos da deep-web para encontrar senhas e contas associadas.
-- **Busca de Telefone**: Consulta reversa de fotos do WhatsApp/Telegram e correlação de nomes via identificadores de chamadas.
+## 3. Arquitetura do Banco de Dados (Models & Tables)
 
-### B. Reconhecimento de Superfície IoT
-- **Assinatura de Hardware**: Identifica dispositivos por "Flags" técnicas (ex: `Server: DVRDVS-Webs`).
-- **Extração de Metadados**: Vasculha firmware e números de série em handshakes.
+O sistema conta com um schema relacional de alta concorrência projetado para a ingestão rápida de grandes conjuntos de dados de inteligência.
 
-### C. Dorking de Vulnerabilidade
-- **Arquivos Sensíveis**: Descoberta sistemática de arquivos `.env`, `.git` e chaves privadas (`id_rsa`) expostos por erro.
+### Tabelas e Models Principais:
+| Model | Tabela | Descrição |
+| :--- | :--- | :--- |
+| `Target` | `targets` | Registro primário para alvos de investigação (Indivíduos ou faixas de IP). |
+| `IntelNode` | `intel_nodes` | Registro de nós de varredura ativos e circuitos de proxy. |
+| `EvidenceRecord` | `evidence_records` | Descobertas forenses mapeadas em uma linha do tempo (arquivos, hashes, capturas). |
+| `CameraFeed` | `camera_feeds` | Metadados e credenciais de acesso para dispositivos IoT descobertos. |
+| `SearchLog` | `search_logs` | Trilha de auditoria de todas as atividades de reconhecimento para evitar buscas duplicadas. |
+| `DorkPattern` | `dork_patterns` | Biblioteca de padrões de busca de vulnerabilidades para infraestruturas específicas. |
 
-### D. Correlação de Geolocalização
-- **Colheita de Exif**: Analisa metadados EXIF em tempo real dos feeds de imagem para encontrar marcadores GPS, posicionando alvos no **Centro de Comando Tático (Mapa)**.
+## 4. Progresso Atual: Fase 2 (Hardening)
+O Moriarty está atualmente na **Fase 2: Endurecimento Tático**. Estamos focando em aumentar o "Invisibility Score" (Índice de Invisibilidade) e estabilizar o Globo Tático 3D (Marechal) para visualização em tempo real de nós de IoT globais.
 
-## 4. Camada de Interceptação de Câmeras
-- **Transcodificação RTSP**: Transcodificação em tempo real via Go para **streams MJPEG**, permitindo visualização no navegador.
-- **Testes de Credenciais**: Tentativas automatizadas usando listas de credenciais padrão e vazadas.
-
-*Moriarty não é apenas uma ferramenta; é a teia invisível que conecta cada fragmento de evidência digital.*
+*Moriarty permanece a aranha invisível no centro da teia.*
 EOD
                 ],
-                'status' => 'Concluído',
+                'status' => 'Em andamento',
                 'publish_date' => '2024-04-22',
-                'read_time' => '20 min',
-                'tags' => ['OSINT', 'Tor', 'Anonymity', 'Sherlock']
+                'read_time' => '25 min',
+                'tags' => ['OSINT', 'Tor', 'Surveillance', 'Forensics']
             ],
             [
                 'slug' => 'formly-saas-engineering-payments',
                 'title' => [
-                    'en' => 'Formly: Engineering a Scalable SaaS for the Latin American Market',
-                    'pt' => 'Formly: Engenharia de um SaaS Escalável para o Mercado Latino-Americano'
+                    'en' => 'Formly: Architectural Engineering of a Multi-Tenant SaaS',
+                    'pt' => 'Formly: Engenharia Arquitetural de um SaaS Multi-Tenant'
                 ],
                 'excerpt' => [
-                    'en' => 'Solving the complexities of multi-tenant form builders and the AbacatePay integration lifecycle.',
-                    'pt' => 'Resolvendo as complexidades de construtores de formulários multi-tenant e o ciclo de vida de integração do AbacatePay.'
+                    'en' => 'A deep dive into the MVC architecture, payment integration, and front-end engineering behind the Formly SaaS platform.',
+                    'pt' => 'Um mergulho profundo na arquitetura MVC, integração de pagamentos e engenharia front-end por trás da plataforma SaaS Formly.'
                 ],
                 'content' => [
                     'en' => <<<'EOD'
-# Formly: Engineering a Scalable SaaS
+# Formly: Scaling Forms & Contracts with Laravel 12
 
-Building a SaaS platform in the LATAM region presents unique challenges, especially regarding payment localization and contract automation. **Formly** was built to solve these using a modern decoupled architecture.
+Formly is a high-performance SaaS platform designed for the Latin American market. It handles the full lifecycle of form creation, response collection, and contract automation through a robust decoupled architecture.
 
-## The Technical Foundation
-Formly utilizes **Laravel 12 (PHP 8.4)** and **React 19** with Vite, creating a snappy, SPA-like experience for end-users while maintaining a robust backend.
+## 1. Technical Stack & Architecture
+- **Backend**: Laravel 12 (PHP 8.4) with focus on Clean Architecture.
+- **Frontend**: React 19 + TypeScript + Tailwind CSS 4.
+- **Database**: PostgreSQL with multi-tenant data isolation.
+- **Payments**: AbacatePay (v1/v2 Hybrid) & Mercado Pago.
 
-### Form Builder Logic
-Creating a drag-and-drop builder required a complex state management system to handle:
-- **Advanced Control**: Locking form structures after the first response to ensure data integrity.
-- **Smart Timers**: Implementing server-side validated countdowns for high-stakes form completion.
+## 2. MVC Breakdown (The Backbone)
 
-## The Payment Engineering Challenge
-Integrating **AbacatePay** required deep dives into API versioning logic. 
+The system is organized into a modular MVC structure to ensure scalability and ease of maintenance.
 
-### AbacatePay v1 vs v2
-One of the biggest hurdles was managing the transition between API versions:
-- **v1 Mode**: Requires strict validation of the `customer` object, including mandatory `taxId` (CPF/CNPJ). This is ideal for scenarios where the developer wants total control over user data before redirecting.
-- **v2 Mode**: Modernizes the flow by delegating data collection to the AbacatePay-hosted page, significantly reducing the surface area for PCI-compliance issues.
+### Core Models:
+| Model | Description |
+| :--- | :--- |
+| `Form` | Stores form configuration, custom branding, and state (Active/Draft). |
+| `Question` | Schema for individual inputs (Text, Select, File Uploads) with validation rules. |
+| `Response` | JSON-based storage for user-submitted data, indexed per form. |
+| `Subscription` | Manages user plans and feature access (Limit control). |
+| `WebhookEvent` | Audit trail for incoming payment notifications (AbacatePay/MercadoPago). |
 
-### Webhook Reconciliation
-To handle multi-version support, we implemented a robust identification strategy:
-```php
-// Robust detection for v1 and v2 webhooks
-$userId = (int) ($event['data']['externalId'] ?? $event['externalId'] ?? 0);
-$items = $event['data']['items'] ?? $event['items'] ?? $event['data']['products'] ?? $event['products'] ?? [];
+### Specialized Controllers:
+- **`FormBuilderController`**: Handles the recursive saving of form schemas and drag-and-drop state.
+- **`SubmissionController`**: High-throughput controller for handling and validating public responses.
+- **`PaymentWebhookController`**: Reconciles AbacatePay v1/v2 payloads to update subscription states.
+- **`ContractController`**: Manages the server-side generation of PDF contracts using WebAssembly (Wasm).
+
+## 3. Engineering the Lifecycle
+
+```mermaid
+graph LR
+    A[Creator] -->|Drag & Drop| B[Form Builder UI]
+    B -->|Schema Sync| C[Laravel API]
+    C -->|Persist| D[(DB: forms/questions)]
+    E[Respondent] -->|Submit| F[Response Logic]
+    F -->|Validation| C
+    C -->|JSON| G[(DB: responses)]
+    G -->|Trigger| H[Automation / Webhook]
 ```
 
-*Formly highlights how modern fullstack development isn't just about code, but about handling the business nuances of regional dependencies.*
+## 4. Payment Integration: AbacatePay Engineering
+A key feature of Formly is its robust payment reconciliation. We implemented a hybrid strategy to handle different API versions:
+
+- **v1 Lifecycle**: Manual `taxId` (CPF/CNPJ) validation and direct checkout control.
+- **v2 Lifecycle**: Delegated checkout through AbacatePay's hosted pages, reducing PCI compliance burden.
+- **Reconciliation Engine**: A custom middleware that detects `externalId` formats to match webhooks to the correct user subscription regardless of the API version used.
+
+*Formly represents the intersection of technical excellence and regional business needs.*
 EOD
 ,
                     'pt' => <<<'EOD'
-# Formly: Arquitetada como um SaaS Escalável
+# Formly: Engenharia Arquitetural de um SaaS Multi-Tenant
 
-Construir uma plataforma SaaS na região da América Latina apresenta desafios únicos, especialmente em relação à localização de pagamentos e automação de contratos. O **Formly** foi construído para resolver isso usando uma arquitetura moderna e desacoplada.
+O Formly é uma plataforma SaaS de alta performance projetada para o mercado latino-americano. Ele gerencia o ciclo de vida completo de criação de formulários, coleta de respostas e automação de contratos através de uma arquitetura robusta e desacoplada.
 
-## A Base Técnica
-O Formly utiliza **Laravel 12 (PHP 8.4)** e **React 19** com Vite, criando uma experiência rápida, estilo SPA, para os usuários finais, mantendo um backend robusto.
+## 1. Stack Técnica e Arquitetura
+- **Backend**: Laravel 12 (PHP 8.4) com foco em Clean Architecture.
+- **Frontend**: React 19 + TypeScript + Tailwind CSS 4.
+- **Banco de Dados**: PostgreSQL com isolamento de dados multi-tenant.
+- **Pagamentos**: AbacatePay (Híbrido v1/v2) e Mercado Pago.
 
-### Lógica do Construtor de Formulários
-Criar um construtor drag-and-drop exigiu um sistema complexo de gerenciamento de estado para lidar com:
-- **Controle Avançado**: Bloqueio de estruturas de formulário após a primeira resposta para garantir a integridade dos dados.
-- **Timers Inteligentes**: Implementação de contagens regressivas validadas no lado do servidor para preenchimento de formulários de alto risco.
+## 2. Divisão MVC (A Espinha Dorsal)
 
-## O Desafio da Engenharia de Pagamentos
-A integração com o **AbacatePay** exigiu mergulhos profundos na lógica de versionamento da API.
+O sistema é organizado em uma estrutura MVC modular para garantir escalabilidade e facilidade de manutenção.
 
-### AbacatePay v1 vs v2
-Um dos maiores obstáculos foi gerenciar a transição entre as versões da API:
-- **Modo v1**: Exige validação rigorosa do objeto `customer`, incluindo o `taxId` (CPF/CNPJ) obrigatório. Isso é ideal para cenários onde o desenvolvedor deseja controle total sobre os dados do usuário antes do redirecionamento.
-- **Modo v2**: Moderniza o fluxo delegando a coleta de dados para a página hospedada pelo AbacatePay, reduzindo significativamente a área de superfície para questões de conformidade PCI.
+### Models Principais:
+| Model | Descrição |
+| :--- | :--- |
+| `Form` | Armazena configurações do formulário, branding personalizado e estado (Ativo/Rascunho). |
+| `Question` | Schema para inputs individuais (Texto, Select, Upload de Arquivos) com regras de validação. |
+| `Response` | Armazenamento via JSON para dados submetidos por usuários, indexado por formulário. |
+| `Subscription` | Gerencia planos de usuários e acesso a recursos (Controle de limites). |
+| `WebhookEvent` | Trilha de auditoria para notificações de pagamento recebidas (AbacatePay/MercadoPago). |
 
-### Reconciliação de Webhook
-Para lidar com o suporte a múltiplas versões, implementamos uma estratégia de identificação robusta:
-```php
-// Detecção robusta para webhooks v1 e v2
-$userId = (int) ($event['data']['externalId'] ?? $event['externalId'] ?? 0);
-$items = $event['data']['items'] ?? $event['items'] ?? $event['data']['products'] ?? $event['products'] ?? [];
+### Controllers Especializados:
+- **`FormBuilderController`**: Gerencia o salvamento recursivo de schemas de formulários e estados drag-and-drop.
+- **`SubmissionController`**: Controller de alto rendimento para lidar com e validar respostas públicas.
+- **`PaymentWebhookController`**: Reconcilia payloads do AbacatePay v1/v2 para atualizar estados de assinatura.
+- **`ContractController`**: Gerencia a geração de contratos PDF no lado do servidor usando WebAssembly (Wasm).
+
+## 3. Engenharia do Ciclo de Vida
+
+```mermaid
+graph LR
+    A[Criador] -->|Drag & Drop| B[UI do Construtor]
+    B -->|Sincronia de Schema| C[API Laravel]
+    C -->|Persistência| D[(DB: forms/questions)]
+    E[Respondente] -->|Submit| F[Lógica de Resposta]
+    F -->|Validação| C
+    C -->|JSON| G[(DB: responses)]
+    G -->|Gatilho| H[Automação / Webhook]
 ```
 
-*O Formly destaca como o desenvolvimento fullstack moderno não é apenas sobre código, mas sobre lidar com as nuances de negócios de dependências regionais.*
+## 4. Integração de Pagamentos: Engenharia AbacatePay
+Um recurso fundamental do Formly é sua robusta reconciliação de pagamentos. Implementamos uma estratégia híbrida para lidar com diferentes versões da API:
+
+- **Ciclo v1**: Validação manual de `taxId` (CPF/CNPJ) e controle direto de checkout.
+- **Ciclo v2**: Checkout delegado através das páginas hospedadas do AbacatePay, reduzindo a carga de conformidade PCI.
+- **Motor de Reconciliação**: Um middleware customizado que detecta formatos de `externalId` para associar webhooks à assinatura correta do usuário, independentemente da versão da API utilizada.
+
+*O Formly representa a interseção entre excelência técnica e necessidades de negócios regionais.*
 EOD
                 ],
                 'status' => 'Em andamento',
                 'publish_date' => '2024-04-18',
                 'read_time' => '10 min',
                 'tags' => ['SaaS', 'Laravel', 'Fintech', 'React']
+            ],
+            [
+                'slug' => 'malobr-os-terminal-cli-experience',
+                'title' => [
+                    'en' => 'Malobr-OS: Why I Built a Virtual Terminal into My Portfolio',
+                    'pt' => 'Malobr-OS: Por que Construí um Terminal Virtual no meu Portfólio'
+                ],
+                'excerpt' => [
+                    'en' => 'Exploring the technical implementation of a browser-based CLI and how it bridges the gap between UI and pure data.',
+                    'pt' => 'Explorando a implementação técnica de uma CLI no navegador e como ela une a interface visual aos dados puros.'
+                ],
+                'content' => [
+                    'en' => <<<'EOD'
+# Malobr-OS: The Command Line as a Modern User Interface
+
+In a world dominated by sleek graphical interfaces, the **CLI (Command Line Interface)** remains the ultimate tool for efficiency and control. For my portfolio, I didn't want just a "terminal look"; I wanted a functional **Virtual Filesystem** that allows visitors to explore my work like a sysadmin.
+
+## 1. Technical Philosophy: No Placeholders
+Most "portfolio terminals" are just text animations. **Malobr-OS** is different. It's linked directly to the application's backend. When you type `ls /blog`, the system isn't displaying a static list; it's performing a real-time query to the database.
+
+## 2. The Implementation (React + Framer Motion)
+The terminal is built as a singleton modal in React.
+- **State Management**: Using `useState` to track a virtual directory tree (`fs`) and `history` of commands.
+- **Micro-animations**: Powered by `framer-motion` for that snappy, linux-terminal feel during window dragging and command output.
+
+## 3. Key Features & Commands
+
+### A. The Manual System (`man`)
+I implemented a full `man` command. Just like in Linux, typing `man cat` or `man ls` will display a detailed manual page explaining the usage and arguments of each command. It's self-documenting code in its purest form.
+
+### B. High-Fidelity Data Extraction (`cat`)
+Using the `cat` command, you can bypass the standard blog UI.
+```bash
+cat /blog/malobr-os-terminal-cli-experience
+```
+This performs a lookup in the virtual filesystem and outputs the raw Markdown content directly into the terminal window.
+
+### C. System Summary (`neofetch`)
+No terminal is complete without `neofetch`. It displays an ASCII logo of the portfolio alongside technical specs:
+- **OS**: Malobr-OS v1.6.0
+- **Kernel**: React 19 / Laravel 12
+- **Uptime**: Real-time session tracking
+
+## 4. Why This Matters
+As a Fullstack Developer, my work often happens in the "invisible" layers—databases, APIs, and containers. The terminal serves as a bridge, allowing technically-minded visitors to interact with the backbone of the site in their native environment.
+
+*Next time you visit, try typing `help` and explore the system. Just don't try `sudo`... yet.*
+EOD
+,
+                    'pt' => <<<'EOD'
+# Malobr-OS: A Linha de Comando como uma Interface Moderna
+
+Em um mundo dominado por interfaces gráficas polidas, a **CLI (Command Line Interface)** continua sendo a ferramenta definitiva para eficiência e controle. Para o meu portfólio, eu não queria apenas um "visual de terminal"; eu queria um **Filesystem Virtual** funcional que permitisse aos visitantes explorar meu trabalho como um sysadmin.
+
+## 1. Filosofia Técnica: Sem Placeholders
+A maioria dos "terminais de portfólio" são apenas animações de texto. O **Malobr-OS** é diferente. Ele está conectado diretamente ao backend da aplicação. Quando você digita `ls /blog`, o sistema não está exibindo uma lista estática; ele está realizando uma consulta em tempo real ao banco de dados.
+
+## 2. A Implementação (React + Framer Motion)
+O terminal foi construído como um modal singleton em React.
+- **Gerenciamento de Estado**: Usando `useState` para rastrear uma árvore de diretórios virtual (`fs`) e o `history` de comandos.
+- **Micro-animações**: Alimentadas por `framer-motion` para aquela sensação ágil de terminal Linux durante o arraste de janelas e saída de comandos.
+
+## 3. Principais Recursos e Comandos
+
+### A. O Sistema de Manual (`man`)
+Implementei um comando `man` completo. Assim como no Linux, digitar `man cat` ou `man ls` exibirá uma página de manual detalhada explicando o uso e os argumentos de cada comando. É código autodocumentado em sua forma mais pura.
+
+### B. Extração de Dados de Alta Fidelidade (`cat`)
+Usando o comando `cat`, você pode ignorar a interface padrão do blog.
+```bash
+cat /blog/malobr-os-terminal-cli-experience
+```
+Isso realiza uma busca no filesystem virtual e exibe o conteúdo Markdown bruto diretamente na janela do terminal.
+
+### C. Resumo do Sistema (`neofetch`)
+Nenhum terminal está completo sem o `neofetch`. Ele exibe um logo ASCII do portfólio junto com especificações técnicas:
+- **OS**: Malobr-OS v1.6.0
+- **Kernel**: React 19 / Laravel 12
+- **Uptime**: Rastreamento de sessão em tempo real
+
+## 4. Por que isso importa?
+Como Desenvolvedor Fullstack, meu trabalho geralmente acontece nas camadas "invisíveis" — bancos de dados, APIs e containers. O terminal serve como uma ponte, permitindo que visitantes tecnicamente orientados interajam com a espinha dorsal do site em seu ambiente nativo.
+
+*Na próxima vez que visitar, tente digitar `help` e explore o sistema. Só não tente o `sudo`... ainda.*
+EOD
+                ],
+                'status' => 'Concluído',
+                'publish_date' => '2024-04-23',
+                'read_time' => '12 min',
+                'tags' => ['Terminal', 'React', 'DX', 'CLI']
             ]
         ];
 

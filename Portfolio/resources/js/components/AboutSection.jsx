@@ -67,12 +67,17 @@ const AboutSection = ({ lang }) => {
   "location": "Brazil 🇧🇷",
   "stack": [
     "Laravel",
+    "PHP",
     "TypeScript",
     "React",
+    "Blade",
+    "TailwindCSS",
     "Docker",
-    "PostgreSQL"
+    "MySQL",
+    "MongoDB",
+    "Hostinger"
   ],
-  "currently": "shipping code",
+  "currently": "mastering SOLID & Java",
   "open_to_work": true
 }`}
                 </pre>

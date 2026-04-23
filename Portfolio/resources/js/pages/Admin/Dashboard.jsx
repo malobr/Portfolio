@@ -161,15 +161,19 @@ const AdminDashboard = () => {
         <div className="min-h-screen bg-background text-foreground font-sans">
             <header className="bg-charcoal/50 border-b border-white/5 backdrop-blur-xl sticky top-0 z-50">
                 <div className="container-luxury py-6 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
-                            <LayoutDashboard size={20} className="text-primary" />
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
+                                <LayoutDashboard size={24} className="text-primary relative z-10" />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-bold font-mono tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">Console Administrativo</h1>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                    <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">v1.6.0 — Linked to Malobr-OS</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h1 className="text-xl font-bold font-mono tracking-tight">Console Administrativo</h1>
-                            <p className="text-xs text-muted-foreground font-mono">v1.1.0 — Root Access</p>
-                        </div>
-                    </div>
                     <div className="flex items-center gap-6">
                         <Link to="/" className="text-muted-foreground hover:text-white transition-colors flex items-center gap-2 text-sm font-mono group">
                             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -192,24 +196,27 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
-                <div className="flex gap-1 bg-charcoal p-1 rounded-xl w-fit mb-12 border border-white/5">
-                    <button onClick={() => setActiveTab("repos")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all ${activeTab === "repos" ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5"}`}>
-                        <FolderGit2 size={16} /> Repositórios [{repos.length}]
+                <div className="flex gap-1 bg-charcoal/50 p-1.5 rounded-xl w-fit mb-12 border border-white/5 shadow-inner">
+                    <button onClick={() => setActiveTab("repos")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all duration-300 ${activeTab === "repos" ? "bg-primary text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "text-muted-foreground hover:bg-white/5"}`}>
+                        <FolderGit2 size={16} /> Repositórios <span className="opacity-40 text-[10px]">[{repos.length}]</span>
                     </button>
-                    <button onClick={() => setActiveTab("live")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all ${activeTab === "live" ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5"}`}>
-                        <Globe size={16} /> Trabalhos Live [{liveProjects.length}]
+                    <button onClick={() => setActiveTab("live")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all duration-300 ${activeTab === "live" ? "bg-primary text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "text-muted-foreground hover:bg-white/5"}`}>
+                        <Globe size={16} /> Trabalhos Live <span className="opacity-40 text-[10px]">[{liveProjects.length}]</span>
                     </button>
-                    <button onClick={() => setActiveTab("blog")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all ${activeTab === "blog" ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5"}`}>
-                        <PenTool size={16} /> Blog [{posts.length}]
+                    <button onClick={() => setActiveTab("blog")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all duration-300 ${activeTab === "blog" ? "bg-primary text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "text-muted-foreground hover:bg-white/5"}`}>
+                        <PenTool size={16} /> Blog <span className="opacity-40 text-[10px]">[{posts.length}]</span>
                     </button>
                 </div>
 
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold font-mono">
-                        {activeTab === "repos" ? "Projetos de Código" : activeTab === "live" ? "Aplicações em Produção" : "Artigos do Blog"}
-                    </h2>
-                    <button onClick={() => { setEditingItem({}); setIsModalOpen(true); }} className="btn-luxury py-3 px-6 text-xs flex items-center gap-2">
-                        <Plus size={16} /> Novo Registro
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <p className="text-label mb-2 font-mono">// management_panel</p>
+                        <h2 className="text-3xl font-bold font-mono tracking-tighter">
+                            {activeTab === "repos" ? "Projetos de Código" : activeTab === "live" ? "Aplicações em Produção" : "Artigos do Blog"}
+                        </h2>
+                    </div>
+                    <button onClick={() => { setEditingItem({}); setIsModalOpen(true); }} className="btn-luxury py-4 px-8 text-xs flex items-center gap-3 bg-primary/10 border-primary/30 text-primary hover:bg-primary hover:text-white transition-all shadow-lg hover:shadow-primary/20">
+                        <Plus size={18} /> Novo Registro
                     </button>
                 </div>
 
