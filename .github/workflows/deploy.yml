@@ -33,4 +33,4 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./public_html/ # Pasta no seu domínio
+          server-dir: ./public_html/Portfolio # Pasta no seu domínio
