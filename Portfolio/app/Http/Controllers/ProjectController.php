@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ProjectController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return \App\Models\Project::all();
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'slug' => 'required|string|unique:projects',
+            'name' => 'required|string',
+            'year' => 'required|string',
+            'language' => 'required|string',
+            'category' => 'required|string',
+            'tagline' => 'required|string',
+            'description' => 'required|string',
+            'role' => 'required|string',
+            'repo_url' => 'required|url',
+            'technologies' => 'array',
+            'problem' => 'required|string',
+            'solution' => 'required|string',
+            'features' => 'array'
+        ]);
+
+        return \App\Models\Project::create($data);
+    }
+
+    public function show(string $id)
+    {
+        return \App\Models\Project::findOrFail($id);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $project = \App\Models\Project::findOrFail($id);
+        $data = $request->validate([
+            'slug' => 'string|unique:projects,slug,'.$id,
+            'name' => 'string',
+            'year' => 'string',
+            'language' => 'string',
+            'category' => 'string',
+            'tagline' => 'string',
+            'description' => 'string',
+            'role' => 'string',
+            'repo_url' => 'url',
+            'technologies' => 'array',
+            'problem' => 'string',
+            'solution' => 'string',
+            'features' => 'array'
+        ]);
+
+        $project->update($data);
+        return $project;
+    }
+
+    public function destroy(string $id)
+    {
+        $project = \App\Models\Project::findOrFail($id);
+        $project->delete();
+        return response()->json(['message' => 'Excluído com sucesso.']);
+    }
+
+    public function showBySlug(string $slug)
+    {
+        return \App\Models\Project::where('slug', $slug)->firstOrFail();
+    }
+}

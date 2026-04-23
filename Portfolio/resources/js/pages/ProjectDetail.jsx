@@ -4,25 +4,53 @@ import { ArrowLeft, ArrowUpRight, ExternalLink, Github, Calendar, User, Tag, Fil
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
 import { getProjectBySlug, getNextProject } from "@/data/projects";
 
 const ProjectDetail = () => {
   const { slug } = useParams();
-  const project = getProjectBySlug(slug);
+  const [lang, setLang] = useState('pt');
+  const [project, setProject] = useState(null);
+  const [nextProject, setNextProject] = useState(null);
   const [readme, setReadme] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoadingReadme, setIsLoadingReadme] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    fetchReadme();
+    fetchProject();
   }, [slug]);
 
-  const fetchReadme = async () => {
-    if (!project) return;
+  const fetchProject = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/projects/slug/${slug}`);
+      if (res.ok) {
+        const data = await res.json();
+        setProject(data);
+        
+        // Fetch next project for navigation
+        const allRes = await fetch("/api/projects");
+        const all = await allRes.json();
+        const idx = all.findIndex(p => p.slug === slug);
+        setNextProject(all[(idx + 1) % all.length]);
+        
+        fetchReadme(data);
+      } else {
+        setProject(null);
+      }
+    } catch (error) {
+      console.error("Error fetching project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchReadme = async (projectData) => {
+    if (!projectData) return;
     setIsLoadingReadme(true);
-    const repoName = project.name;
+    const repoName = projectData.name;
     try {
       const response = await fetch(`https://raw.githubusercontent.com/malobr/${repoName}/main/README.md`);
       if (response.ok) {
@@ -43,6 +71,15 @@ const ProjectDetail = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
+        <Loader2 className="animate-spin text-primary" size={40} />
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">cat project_data...</p>
+      </div>
+    );
+  }
+
   if (!project) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -58,11 +95,9 @@ const ProjectDetail = () => {
     );
   }
 
-  const nextProject = getNextProject(project.slug);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+      <Navigation lang={lang} setLang={setLang} />
 
       {/* Hero */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
@@ -219,7 +254,7 @@ const ProjectDetail = () => {
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={lang} />
     </div>
   );
 };

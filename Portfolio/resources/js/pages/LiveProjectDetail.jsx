@@ -1,17 +1,52 @@
 import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, ExternalLink, Globe, Calendar, User, Tag, Briefcase } from "lucide-react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { getLiveProjectBySlug, getNextLiveProject } from "@/data/liveProjects";
+import { ArrowLeft, ArrowUpRight, ExternalLink, Globe, Calendar, User, Tag, Briefcase, Loader2 } from "lucide-react";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
 
 const LiveProjectDetail = () => {
   const { slug } = useParams();
-  const project = getLiveProjectBySlug(slug);
+  const [lang, setLang] = React.useState('pt');
+  const [project, setProject] = React.useState(null);
+  const [nextProject, setNextProject] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+    fetchProject();
   }, [slug]);
+
+  const fetchProject = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/live-projects/slug/${slug}`);
+      if (res.ok) {
+        const data = await res.json();
+        setProject(data);
+        
+        // Fetch next project
+        const allRes = await fetch("/api/live-projects");
+        const all = await allRes.json();
+        const idx = all.findIndex(p => p.slug === slug);
+        setNextProject(all[(idx + 1) % all.length]);
+      } else {
+        setProject(null);
+      }
+    } catch (error) {
+      console.error("Error fetching project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
+        <Loader2 className="animate-spin text-primary" size={40} />
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">cat live_project_data...</p>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -28,11 +63,9 @@ const LiveProjectDetail = () => {
     );
   }
 
-  const nextProject = getNextLiveProject(project.slug);
-
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navigation lang={lang} setLang={setLang} />
 
       {/* Hero */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
@@ -57,7 +90,7 @@ const LiveProjectDetail = () => {
 
               <div className="flex flex-wrap gap-4 mt-10">
                 <a
-                  href={project.liveUrl}
+                  href={project.live_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-luxury inline-flex items-center gap-3 bg-primary text-primary-foreground border-primary hover:bg-primary/90"
@@ -113,7 +146,7 @@ const LiveProjectDetail = () => {
                 </div>
               </div>
               <a
-                href={project.liveUrl}
+                href={project.live_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-mono text-muted-foreground hover:text-primary inline-flex items-center gap-1"
@@ -123,7 +156,7 @@ const LiveProjectDetail = () => {
             </div>
             <div className="aspect-[16/10] bg-background">
               <iframe
-                src={project.liveUrl}
+                src={project.live_url}
                 title={`Preview de ${project.name}`}
                 className="w-full h-full border-0"
                 loading="lazy"
@@ -248,7 +281,7 @@ const LiveProjectDetail = () => {
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={lang} />
     </div>
   );
 };

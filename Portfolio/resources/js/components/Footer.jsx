@@ -1,7 +1,10 @@
 import React from "react";
-import { Github, Instagram, Terminal as TerminalIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Github, Instagram, Terminal as TerminalIcon, Settings } from "lucide-react";
+import { translations } from "../constants/translations";
 
-const Footer = () => {
+const Footer = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
   const scrollToSection = (e, href) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -9,6 +12,13 @@ const Footer = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const navLinks = [
+    { name: t.about.toLowerCase(), href: "#about" },
+    { name: t.stack.toLowerCase(), href: "#stack" },
+    { name: t.works.toLowerCase(), href: "#trabalhos" },
+    { name: t.repos.toLowerCase(), href: "#projects" },
+  ];
 
   return (
     <footer className="py-24 bg-[#110e1a] border-t border-white/5">
@@ -24,19 +34,14 @@ const Footer = () => {
               <span className="text-primary">$</span> malobr
             </a>
             <p className="text-body-sm text-muted-foreground font-mono leading-relaxed">
-              Fullstack Developer focado em arquitetura limpa e infraestrutura escalável.
+                {lang === 'en' ? 'Fullstack Developer focused on clean architecture and scalable infrastructure.' : 'Fullstack Developer focado em arquitetura limpa e infraestrutura escalável.'}
             </p>
           </div>
 
           <div>
             <h4 className="text-xs font-mono text-primary uppercase tracking-widest mb-6">// sitemap</h4>
             <ul className="space-y-4 font-mono text-sm">
-              {[
-                { name: "about", href: "#about" },
-                { name: "stack", href: "#stack" },
-                { name: "trabalhos", href: "#trabalhos" },
-                { name: "repositórios", href: "#projects" },
-              ].map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -55,11 +60,10 @@ const Footer = () => {
             <div className="p-4 bg-black/40 border border-white/5 rounded-lg border-l-2 border-l-primary">
               <p className="text-xs font-mono text-muted-foreground mb-3 flex items-center gap-2">
                 <TerminalIcon size={12} className="text-primary" /> 
-                Terminal Navigation
+                {lang === 'en' ? 'Terminal Navigation' : 'Navegação via Terminal'}
               </p>
               <p className="text-xs font-mono text-foreground leading-relaxed">
-                Use <code className="text-primary">cd [seção]</code> para navegar com agilidade. 
-                Abra o console no topo da página.
+                {lang === 'en' ? 'Use cd [section] to navigate quickly. Open the console at the top of the page.' : 'Use cd [seção] para navegar com agilidade. Abra o console no topo da página.'}
               </p>
             </div>
           </div>
@@ -92,8 +96,13 @@ const Footer = () => {
           <p className="text-xs font-mono text-muted-foreground">
             © {new Date().getFullYear()} Marcelo · Built with React 19 + Vite 8
           </p>
-          <div className="flex gap-8 text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-            <span>Brazil 🇧🇷</span>
+          <div className="flex gap-8 text-[10px] font-mono text-muted-foreground uppercase tracking-widest items-center">
+            <Link to="/admin" className="hover:text-primary transition-colors flex items-center gap-2 group">
+              <Settings size={10} className="group-hover:rotate-90 transition-transform duration-500" />
+              cd /admin
+            </Link>
+            <span className="opacity-20">|</span>
+            <span>{lang === 'en' ? 'Brazil' : 'Brasil 🇧🇷'}</span>
             <span>Est. 2020</span>
           </div>
         </div>

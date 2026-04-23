@@ -1,24 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ExternalLink, Globe } from "lucide-react";
-import { liveProjects } from "@/data/liveProjects";
+import { ArrowUpRight, ExternalLink, Globe, Loader2 } from "lucide-react";
+import { translations } from "../constants/translations";
 
-const LiveProjectsSection = () => {
+const LiveProjectsSection = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
+  const [liveProjects, setLiveProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/live-projects")
+      .then(res => res.json())
+      .then(data => {
+        setLiveProjects(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching live projects:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="section-padding flex flex-col items-center justify-center gap-4 bg-background border-y border-white/5">
+        <Loader2 className="animate-spin text-primary" size={40} />
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">cat live_projects.json...</p>
+      </div>
+    );
+  }
+
   return (
     <section id="trabalhos" className="section-padding bg-background">
       <div className="container-luxury">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24">
           <div>
-            <p className="text-label mb-6 font-mono">// trabalhos lançados</p>
+            <p className="text-label mb-6 font-mono">// {t.works.toLowerCase()}</p>
             <h2 className="text-display-lg text-foreground">
-              Sites no
-              <span className="text-primary italic"> ar</span>
+              {t.live_title.split(' ').slice(0, -1).join(' ')}
+              <span className="text-primary italic"> {t.live_title.split(' ').slice(-1)}</span>
             </h2>
           </div>
           <p className="text-body-lg text-muted-foreground max-w-md mt-6 md:mt-0">
-            Projetos reais entregues a clientes — em produção, gerando valor.
-            Clique para conhecer o case ou visitar o site.
+            {t.live_desc}
           </p>
         </div>
 
@@ -37,13 +62,14 @@ const LiveProjectsSection = () => {
                   <div className="w-3 h-3 rounded-full bg-foreground/30" />
                   <div className="ml-3 flex-1 max-w-xs">
                     <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate">
-                      {project.liveUrl.replace(/^https?:\/\//, "")}
+                      {project.live_url.replace(/^https?:\/\//, "")}
                     </div>
                   </div>
                 </div>
-                <Link to={`/trabalhos/${project.slug}`} className="block aspect-video bg-background overflow-hidden">
+                <Link to={`/trabalhos/${project.slug}`} className="block aspect-video bg-background overflow-hidden relative">
+                    <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none" />
                   <iframe
-                    src={project.liveUrl}
+                    src={project.live_url}
                     title={`Preview de ${project.name}`}
                     className="w-full h-full border-0 pointer-events-none scale-[0.6] origin-top-left"
                     style={{ width: "166.67%", height: "166.67%" }}
@@ -91,17 +117,17 @@ const LiveProjectsSection = () => {
                     to={`/trabalhos/${project.slug}`}
                     className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2"
                   >
-                    Ver case
+                    {t.live_view_case}
                   </Link>
                   <a
-                    href={project.liveUrl}
+                    href={project.live_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2 bg-primary text-white border-primary hover:bg-black"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Globe size={14} />
-                    Visitar site
+                    {t.live_visit}
                     <ExternalLink size={12} />
                   </a>
                 </div>

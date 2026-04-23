@@ -1,42 +1,44 @@
 import React from "react";
 import { Code2, Database, Cloud, Boxes, Terminal, GitBranch } from "lucide-react";
+import { translations } from "../constants/translations";
 
-const StackSection = () => {
+const StackSection = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
   const pillars = [
     {
       icon: Code2,
       title: "Frontend",
-      desc: "Interfaces rápidas, acessíveis e responsivas com TypeScript no core.",
+      desc: t.frontend_desc,
       tech: ["React", "TypeScript", "Tailwind", "Vite", "Blade"],
     },
     {
       icon: Terminal,
       title: "Backend",
-      desc: "APIs RESTful, autenticação, permissões e regras de negócio bem testadas.",
+      desc: t.backend_desc,
       tech: ["Laravel", "PHP", "Node.js", "REST", "MVC"],
     },
     {
       icon: Database,
       title: "Database",
-      desc: "Modelagem relacional, migrations versionadas e queries otimizadas.",
+      desc: t.db_desc,
       tech: ["PostgreSQL", "MySQL", "Eloquent", "SQL"],
     },
     {
       icon: Boxes,
       title: "DevOps",
-      desc: "Ambientes reproduzíveis, containers e orquestração para dev e prod.",
+      desc: t.devops_desc,
       tech: ["Docker", "Docker Compose", "Nginx", "Linux"],
     },
     {
       icon: Cloud,
       title: "Deploy & Cloud",
-      desc: "Pipelines de deploy contínuo e hospedagem em plataformas modernas.",
+      desc: t.cloud_desc,
       tech: ["Vercel", "GitHub Actions", "VPS", "CI/CD"],
     },
     {
       icon: GitBranch,
       title: "Workflow",
-      desc: "Git flow, code review e arquitetura limpa em todo commit.",
+      desc: t.workflow_desc,
       tech: ["Git", "GitHub", "Trunk-based", "Clean Code"],
     },
   ];
@@ -47,15 +49,14 @@ const StackSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24">
           <div>
-            <p className="text-label mb-6 font-mono">// stack</p>
+            <p className="text-label mb-6 font-mono">// {t.stack.toLowerCase()}</p>
             <h2 className="text-display-lg text-foreground">
-              Arquitetura
-              <span className="text-primary italic"> end-to-end</span>
+              {t.stack_title.split(' ')[0]}
+              <span className="text-primary italic"> {t.stack_title.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
           <p className="text-body-lg text-muted-foreground max-w-md mt-6 md:mt-0">
-            Do schema do banco ao pipeline de deploy — passando por cada camada
-            que faz uma aplicação rodar bem em produção.
+            {t.stack_desc}
           </p>
         </div>
 

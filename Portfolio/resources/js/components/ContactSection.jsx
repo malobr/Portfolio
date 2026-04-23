@@ -1,7 +1,10 @@
 import React from "react";
 import { ArrowUpRight, Mail, Github, Instagram, MapPin } from "lucide-react";
+import { translations } from "../constants/translations";
 
-const ContactSection = () => {
+const ContactSection = ({ lang }) => {
+  const t = translations[lang] || translations.pt;
+  
   const contactInfo = [
     {
       icon: Mail,
@@ -17,8 +20,8 @@ const ContactSection = () => {
     },
     {
       icon: MapPin,
-      label: "Localização",
-      value: "Brasil 🇧🇷",
+      label: lang === 'en' ? 'Location' : "Localização",
+      value: lang === 'en' ? 'Brazil' : "Brasil 🇧🇷",
       href: "#",
     },
   ];
@@ -34,15 +37,13 @@ const ContactSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left Column */}
           <div>
-            <p className="text-label mb-6 font-mono">// contato</p>
+            <p className="text-label mb-6 font-mono">// {t.contact.toLowerCase()}</p>
             <h2 className="text-display-lg text-foreground mb-8">
-              Bora construir algo
-              <span className="text-primary italic"> juntos</span>?
+              {t.contact_title.split(' ').slice(0, -1).join(' ')}
+              <span className="text-primary italic"> {t.contact_title.split(' ').slice(-1)}</span>
             </h2>
             <p className="text-body-lg text-muted-foreground max-w-lg mb-12">
-              Aberto a colaborações, freelas e oportunidades fullstack.
-              Mande um <span className="font-mono text-foreground">git push</span> pro
-              meu inbox — respondo rápido.
+              {t.contact_desc}
             </p>
 
             {/* Contact Info */}
@@ -78,24 +79,19 @@ const ContactSection = () => {
             >
               <div className="flex items-start justify-between mb-8">
                 <h3 className="text-display-md text-foreground font-mono">
-                  ./novo
-                  <br />
-                  -projeto.sh
+                  {lang === 'en' ? './new-project.sh' : './novo-projeto.sh'}
                 </h3>
                 <div className="w-12 h-12 border border-foreground/30 flex items-center justify-center
                                 transition-all duration-300 group-hover:bg-foreground group-hover:text-background">
                   <ArrowUpRight size={20} />
                 </div>
               </div>
-              <p className="text-body-lg text-muted-foreground">
-                Tem uma ideia, MVP ou sistema pra construir?
-                Vamos arquitetar juntos — do schema ao deploy.
-              </p>
+                {lang === 'en' ? 'Have an idea, MVP or system to build? Let\'s architect together — from schema to deploy.' : 'Tem uma ideia, MVP ou sistema pra construir? Vamos arquitetar juntos — do schema ao deploy.'}
             </a>
 
             {/* Social Links */}
             <div className="mt-12 lg:mt-0">
-              <p className="text-label mb-6 font-mono">// redes</p>
+              <p className="text-label mb-6 font-mono">// {lang === 'en' ? 'Socials' : 'Redes'}</p>
               <div className="flex flex-wrap gap-4">
                 {socialLinks.map((link, index) => (
                   <a
