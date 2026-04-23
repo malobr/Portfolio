@@ -154,6 +154,6 @@ Para planos sem suporte a Docker (Business/Premium):
 
 ## ✒️ Autor
 
-**Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr)
+**Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr) | [Email](mailto:contato@marcelocavalheiro.com)
 
 _"Transformando código complexo em interfaces de luxo."_

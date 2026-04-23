@@ -9,8 +9,8 @@ const ContactSection = ({ lang }) => {
     {
       icon: Mail,
       label: "Email",
-      value: "marcelo@malobr.dev",
-      href: "mailto:marcelo@malobr.dev",
+      value: "contato@marcelocavalheiro.com",
+      href: "mailto:contato@marcelocavalheiro.com",
     },
     {
       icon: Github,
@@ -73,7 +73,7 @@ const ContactSection = ({ lang }) => {
           <div className="flex flex-col justify-between">
             {/* CTA */}
             <a
-              href="mailto:marcelo@malobr.dev"
+              href="mailto:contato@marcelocavalheiro.com"
               className="block bg-secondary p-8 md:p-12 relative group cursor-pointer
                          transition-all duration-500 hover:bg-primary/10 border border-border"
             >
