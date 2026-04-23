@@ -2,7 +2,7 @@ name: Deploy Portfólio
 
 on:
   push:
-    branches: [ main ] # Dispara o deploy sempre que houver push na main
+    branches: [ main ]
 
 jobs:
   laravel-tests:
@@ -13,12 +13,23 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.4' # Atualizado para bater com suas dependências
 
-      - name: Install Dependencies
-        # Aqui dizemos para o GitHub entrar na pasta Portfolio antes de rodar o composer
+      - name: Install PHP Dependencies
         run: composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
         working-directory: ./Portfolio 
+
+      # PASSO NOVO: Setup do Node para o React
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install JS Dependencies & Build
+        run: |
+          npm install
+          npm run build
+        working-directory: ./Portfolio
 
       - name: Directory Permissions
         run: chmod -R 777 Portfolio/storage Portfolio/bootstrap/cache
@@ -35,6 +46,13 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # local-dir indica que queremos enviar o CONTEÚDO da pasta Portfolio
           local-dir: ./Portfolio/ 
           server-dir: ./public_html/
+          # Excluímos o desnecessário para o deploy ser rápido
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+            .env
+            .env.example
