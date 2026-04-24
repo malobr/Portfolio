@@ -13,6 +13,12 @@ class LiveProject extends Model
     ];
 
     protected $casts = [
+        'tagline' => 'array',
+        'description' => 'array',
+        'category' => 'array',
+        'role' => 'array',
+        'problem' => 'array',
+        'solution' => 'array',
         'technologies' => 'array',
         'features' => 'array',
         'results' => 'array'

@@ -11,6 +11,12 @@ const ProjectsSection = ({ lang }) => {
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState("All");
 
+  const getT = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj;
+    return obj[lang] || obj.pt || Object.values(obj)[0] || "";
+  };
+
   const langColor = (lang) => {
     const map = {
       PHP: "bg-[hsl(240_60%_70%)]",
@@ -41,8 +47,7 @@ const ProjectsSection = ({ lang }) => {
             ...local,
             language: github?.language || local.language,
             year: github ? new Date(github.created_at).getFullYear().toString() : local.year,
-            repoUrl: github?.html_url || local.repo_url,
-            description: github?.description || local.description,
+            repo_url: github?.html_url || local.repo_url,
           };
         });
         setRepos(mappedRepos);
@@ -167,10 +172,10 @@ const ProjectsSection = ({ lang }) => {
                       />
                     </div>
                     <h3 className="font-mono text-xl md:text-2xl text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {project.name}
+                      {getT(project.name)}
                     </h3>
                     <p className="text-body text-muted-foreground mb-6 flex-1">
-                      {project.tagline}
+                      {getT(project.tagline)}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {project.technologies.slice(0, 4).map((tag) => (
@@ -189,7 +194,7 @@ const ProjectsSection = ({ lang }) => {
                         <span className="mx-2 opacity-40">·</span>
                         <span>{project.year}</span>
                       </div>
-                      {project.liveUrl && (
+                      {project.live_url && (
                         <span className="flex items-center gap-1 text-primary">
                           <ExternalLink size={12} />
                           live

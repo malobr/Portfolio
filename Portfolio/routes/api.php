@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\LiveProjectController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,7 +28,12 @@ Route::get('/live-projects/slug/{slug}', [LiveProjectController::class, 'showByS
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/slug/{slug}', [PostController::class, 'getBySlug']);
 
+Route::post('/contact/send', [ContactController::class, 'send']);
+
+use App\Http\Controllers\Admin\DashboardController;
+
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     Route::post('/projects', [ProjectController::class, 'store']);
     Route::put('/projects/{project}', [ProjectController::class, 'update']);
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);

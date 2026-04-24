@@ -71,6 +71,12 @@ const ProjectDetail = () => {
     }
   };
 
+  const getT = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj;
+    return obj[lang] || obj.pt || Object.values(obj)[0] || "";
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
@@ -81,11 +87,12 @@ const ProjectDetail = () => {
   }
 
   if (!project) {
+    const tNotFound = lang === 'en' ? 'Project not found' : 'Projeto não encontrado';
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <p className="text-label mb-4 font-mono">// 404</p>
-          <h1 className="text-display-lg text-foreground mb-6">Projeto não encontrado</h1>
+          <h1 className="text-display-lg text-foreground mb-6">{tNotFound}</h1>
           <Link to="/" className="btn-luxury inline-flex items-center gap-2">
             <ArrowLeft size={16} />
             cd ../repos
@@ -112,27 +119,28 @@ const ProjectDetail = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             <div className="lg:col-span-2">
-              <p className="text-label mb-4 font-mono">// {project.category}</p>
+              <p className="text-label mb-4 font-mono">// {getT(project.category)}</p>
               <h1 className="text-display-xl text-foreground mb-6 font-mono tracking-tighter">
-                {project.name}
+                {getT(project.name)}
               </h1>
-              <p className="text-body-lg text-muted-foreground max-w-2xl leading-relaxed">
-                {project.description}
-              </p>
+              <div 
+                className="text-body-lg text-muted-foreground max-w-2xl leading-relaxed prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.description) }}
+              />
 
               <div className="flex flex-wrap gap-4 mt-10">
                 <a
-                  href={project.repoUrl}
+                  href={project.repo_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-luxury inline-flex items-center gap-3"
                 >
                   <Github size={18} />
-                  Ver código
+                  {lang === 'en' ? 'View Code' : 'Ver código'}
                 </a>
-                {project.liveUrl && (
+                {project.live_url && (
                   <a
-                    href={project.liveUrl}
+                    href={project.live_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-luxury inline-flex items-center gap-3 bg-primary text-white border-primary hover:bg-black"
@@ -147,21 +155,21 @@ const ProjectDetail = () => {
             <aside className="space-y-6 border-l border-white/10 pl-8 lg:pl-10 h-fit">
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <Calendar size={12} /> ano
+                  <Calendar size={12} /> {lang === 'en' ? 'year' : 'ano'}
                 </p>
                 <p className="text-body text-foreground font-mono">{project.year}</p>
               </div>
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <User size={12} /> papel
+                  <User size={12} /> {lang === 'en' ? 'role' : 'papel'}
                 </p>
-                <p className="text-body text-foreground font-mono">{project.role}</p>
+                <p className="text-body text-foreground font-mono">{getT(project.role)}</p>
               </div>
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <Tag size={12} /> categoria
+                  <Tag size={12} /> {lang === 'en' ? 'category' : 'categoria'}
                 </p>
-                <p className="text-body text-foreground font-mono">{project.category}</p>
+                <p className="text-body text-foreground font-mono">{getT(project.category)}</p>
               </div>
             </aside>
           </div>
@@ -172,7 +180,7 @@ const ProjectDetail = () => {
       <section className="py-20 bg-[#1c1825]/40">
         <div className="container-luxury">
           <div className="flex items-center gap-4 mb-12 overflow-hidden">
-            <p className="text-label font-mono shrink-0 font-bold">// documentation</p>
+            <p className="text-label font-mono shrink-0 font-bold">// {lang === 'en' ? 'documentation' : 'documentação'}</p>
             <div className="h-px bg-white/5 flex-1" />
           </div>
 
@@ -232,43 +240,72 @@ const ProjectDetail = () => {
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
-              <p className="text-label mb-6 font-mono text-primary">// o desafio</p>
+              <p className="text-label mb-6 font-mono text-primary">// {lang === 'en' ? 'the challenge' : 'o desafio'}</p>
               <h3 className="text-display-md text-foreground mb-8 leading-tight font-mono">
-                Overview & <span className="italic">Contexto</span>
+                Overview & <span className="italic">{lang === 'en' ? 'Context' : 'Contexto'}</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground leading-relaxed italic border-l-2 border-primary pl-6">
-                {project.problem}
-              </p>
+              <div 
+                className="text-body-lg text-muted-foreground leading-relaxed italic border-l-2 border-primary pl-6 prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.problem) }}
+              />
             </div>
             <div>
-              <p className="text-label mb-6 font-mono text-primary">// solução</p>
+              <p className="text-label mb-6 font-mono text-primary">// {lang === 'en' ? 'solution' : 'solução'}</p>
               <h3 className="text-display-md text-foreground mb-8 leading-tight font-mono">
-                Engenharia de <span className="italic">Software</span>
+                {lang === 'en' ? 'Software' : 'Engenharia de'} <span className="italic">{lang === 'en' ? 'Engineering' : 'Software'}</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground leading-relaxed">
-                {project.solution}
-              </p>
+              <div 
+                className="text-body-lg text-muted-foreground leading-relaxed prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.solution) }}
+              />
             </div>
           </div>
         </div>
       </section>
 
+      {/* Features */}
+      {project.features && project.features.length > 0 && (
+        <section className="py-16 md:py-24 bg-[#1c1825]/20">
+          <div className="container-luxury">
+            <p className="text-label mb-6 font-mono font-bold text-primary">// features</p>
+            <h2 className="text-display-md text-foreground mb-12 font-mono">
+              Key <span className="text-primary italic">Deliverables</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+              {project.features.map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#1c1825]/40 p-8 flex items-start gap-4 group hover:bg-black/40 transition-colors"
+                >
+                  <span className="font-mono text-primary text-sm mt-1">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <p className="text-body-lg text-foreground font-mono text-sm md:text-base">{getT(feature)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Footer Nav */}
-      <section className="py-24 bg-[#110e1a]">
-        <div className="container-luxury">
-           <p className="text-label mb-8 font-mono">// next_project</p>
-           <Link to={`/repos/${nextProject.slug}`} className="group inline-block">
-             <div className="flex items-center gap-8">
-               <h2 className="text-display-lg group-hover:text-primary transition-colors font-mono">
-                 {nextProject.name}
-               </h2>
-               <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-primary transition-all">
-                  <ArrowUpRight size={24} className="group-hover:text-white" />
-               </div>
-             </div>
-           </Link>
-        </div>
-      </section>
+      {nextProject && (
+        <section className="py-24 bg-[#110e1a]">
+          <div className="container-luxury">
+            <p className="text-label mb-8 font-mono">// next_project</p>
+            <Link to={`/repos/${nextProject.slug}`} className="group inline-block">
+              <div className="flex items-center gap-8">
+                <h2 className="text-display-lg group-hover:text-primary transition-colors font-mono">
+                  {getT(nextProject.name)}
+                </h2>
+                <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-primary transition-all">
+                    <ArrowUpRight size={24} className="group-hover:text-white" />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
 
       <Footer lang={lang} />
     </div>

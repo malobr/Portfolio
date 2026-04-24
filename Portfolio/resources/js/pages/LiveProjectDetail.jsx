@@ -39,6 +39,12 @@ const LiveProjectDetail = () => {
     }
   };
 
+  const getT = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj;
+    return obj[lang] || obj.pt || Object.values(obj)[0] || "";
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
@@ -80,13 +86,14 @@ const LiveProjectDetail = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             <div className="lg:col-span-2">
-              <p className="text-label mb-4 font-mono">// {project.category}</p>
+              <p className="text-label mb-4 font-mono">// {getT(project.category)}</p>
               <h1 className="text-display-xl text-foreground mb-6">
-                {project.name}
+                {getT(project.name)}
               </h1>
-              <p className="text-body-lg text-muted-foreground max-w-2xl">
-                {project.description}
-              </p>
+              <div 
+                className="text-body-lg text-muted-foreground max-w-2xl prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.description) }}
+              />
 
               <div className="flex flex-wrap gap-4 mt-10">
                 <a
@@ -95,8 +102,8 @@ const LiveProjectDetail = () => {
                   rel="noopener noreferrer"
                   className="btn-luxury inline-flex items-center gap-3 bg-primary text-primary-foreground border-primary hover:bg-primary/90"
                 >
-                  <Globe size={18} />
-                  Visitar site ao vivo
+                  <span className="font-bold text-lg leading-none">{">_"}</span>
+                  {lang === 'en' ? 'Visit live site' : 'Visitar site ao vivo'}
                   <ExternalLink size={14} />
                 </a>
               </div>
@@ -105,27 +112,27 @@ const LiveProjectDetail = () => {
             <aside className="space-y-6 border-l border-border pl-8 lg:pl-10">
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <Briefcase size={12} /> cliente
+                  <Briefcase size={12} /> {lang === 'en' ? 'client' : 'cliente'}
                 </p>
                 <p className="text-body text-foreground font-mono">{project.client}</p>
               </div>
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <Calendar size={12} /> ano
+                  <Calendar size={12} /> {lang === 'en' ? 'year' : 'ano'}
                 </p>
                 <p className="text-body text-foreground font-mono">{project.year}</p>
               </div>
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <User size={12} /> papel
+                  <User size={12} /> {lang === 'en' ? 'role' : 'papel'}
                 </p>
-                <p className="text-body text-foreground font-mono">{project.role}</p>
+                <p className="text-body text-foreground font-mono">{getT(project.role)}</p>
               </div>
               <div>
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
-                  <Tag size={12} /> categoria
+                  <Tag size={12} /> {lang === 'en' ? 'category' : 'categoria'}
                 </p>
-                <p className="text-body text-foreground font-mono">{project.category}</p>
+                <p className="text-body text-foreground font-mono">{getT(project.category)}</p>
               </div>
             </aside>
           </div>
@@ -141,8 +148,9 @@ const LiveProjectDetail = () => {
               <div className="w-3 h-3 rounded-full bg-primary/70" />
               <div className="w-3 h-3 rounded-full bg-foreground/30" />
               <div className="ml-4 flex-1 max-w-md">
-                <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate">
-                  {project.liveUrl}
+                <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate flex items-center gap-2">
+                  <span className="text-primary font-bold">{">_"}</span>
+                  {project.live_url?.replace(/^https?:\/\//, "")}
                 </div>
               </div>
               <a
@@ -166,16 +174,15 @@ const LiveProjectDetail = () => {
           </div>
         </div>
       </section>
-
       {/* Stack */}
       <section className="py-16 md:py-20 bg-charcoal">
         <div className="container-luxury">
           <p className="text-label mb-6 font-mono">// stack</p>
           <h2 className="text-display-md text-foreground mb-10">
-            Tecnologias <span className="text-primary italic">utilizadas</span>
+            {lang === 'en' ? 'Core' : 'Tecnologias'} <span className="text-primary italic">{lang === 'en' ? 'Technologies' : 'utilizadas'}</span>
           </h2>
           <div className="flex flex-wrap gap-3">
-            {project.technologies.map((tech) => (
+            {project.technologies?.map((tech) => (
               <span
                 key={tech}
                 className="px-4 py-2 border border-border text-foreground font-mono text-sm hover:border-primary hover:text-primary transition-colors"
@@ -192,18 +199,24 @@ const LiveProjectDetail = () => {
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
             <div>
-              <p className="text-label mb-4 font-mono text-destructive">// problema</p>
+              <p className="text-label mb-4 font-mono text-destructive">// {lang === 'en' ? 'problem' : 'problema'}</p>
               <h3 className="text-display-md text-foreground mb-6">
-                O <span className="italic">desafio</span>
+                {lang === 'en' ? 'The' : 'O'} <span className="italic">{lang === 'en' ? 'challenge' : 'desafio'}</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground">{project.problem}</p>
+              <div 
+                className="text-body-lg text-muted-foreground prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.problem) }}
+              />
             </div>
             <div>
-              <p className="text-label mb-4 font-mono text-primary">// solução</p>
+              <p className="text-label mb-4 font-mono text-primary">// {lang === 'en' ? 'solution' : 'solução'}</p>
               <h3 className="text-display-md text-foreground mb-6">
-                A <span className="italic text-primary">resolução</span>
+                {lang === 'en' ? 'The' : 'A'} <span className="italic text-primary">{lang === 'en' ? 'resolution' : 'resolução'}</span>
               </h3>
-              <p className="text-body-lg text-muted-foreground">{project.solution}</p>
+              <div 
+                className="text-body-lg text-muted-foreground prose-custom"
+                dangerouslySetInnerHTML={{ __html: getT(project.solution) }}
+              />
             </div>
           </div>
         </div>
@@ -213,15 +226,15 @@ const LiveProjectDetail = () => {
       {project.results && project.results.length > 0 && (
         <section className="py-16 md:py-20 bg-charcoal">
           <div className="container-luxury">
-            <p className="text-label mb-6 font-mono">// resultados</p>
+            <p className="text-label mb-6 font-mono">// {lang === 'en' ? 'results' : 'resultados'}</p>
             <h2 className="text-display-md text-foreground mb-12">
-              Números do <span className="text-primary italic">projeto</span>
+              {lang === 'en' ? 'Project' : 'Números do'} <span className="text-primary italic">{lang === 'en' ? 'metrics' : 'projeto'}</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
-              {project.results.map((r) => (
-                <div key={r.label} className="bg-charcoal p-8 md:p-10">
+              {project.results.map((r, idx) => (
+                <div key={idx} className="bg-charcoal p-8 md:p-10">
                   <p className="font-mono text-display-lg text-primary mb-3">{r.metric}</p>
-                  <p className="text-body text-muted-foreground">{r.label}</p>
+                  <p className="text-body text-muted-foreground">{getT(r.label)}</p>
                 </div>
               ))}
             </div>
@@ -234,10 +247,10 @@ const LiveProjectDetail = () => {
         <div className="container-luxury">
           <p className="text-label mb-6 font-mono">// features</p>
           <h2 className="text-display-md text-foreground mb-12">
-            O que foi <span className="text-primary italic">entregue</span>
+            {lang === 'en' ? 'Key' : 'O que foi'} <span className="text-primary italic">{lang === 'en' ? 'deliverables' : 'entregue'}</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
-            {project.features.map((feature, idx) => (
+            {project.features?.map((feature, idx) => (
               <div
                 key={feature}
                 className="bg-background p-8 flex items-start gap-4 group hover:bg-charcoal transition-colors"
@@ -245,7 +258,7 @@ const LiveProjectDetail = () => {
                 <span className="font-mono text-primary text-sm mt-1">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
-                <p className="text-body-lg text-foreground">{feature}</p>
+                <p className="text-body-lg text-foreground">{getT(feature)}</p>
               </div>
             ))}
           </div>
@@ -253,33 +266,35 @@ const LiveProjectDetail = () => {
       </section>
 
       {/* Next */}
-      <section className="py-16 md:py-24 bg-charcoal">
-        <div className="container-luxury">
-          <p className="text-label mb-8 font-mono">// próximo trabalho</p>
-          <Link
-            to={`/trabalhos/${nextProject.slug}`}
-            className="group block"
-          >
-            <div className="flex items-end justify-between border-b border-border pb-8 transition-colors hover:border-primary">
-              <div>
-                <p className="font-mono text-sm text-muted-foreground mb-2">
-                  {nextProject.category}
-                </p>
-                <h2 className="text-display-lg text-foreground group-hover:text-primary transition-colors">
-                  {nextProject.name}
-                </h2>
-                <p className="text-body text-muted-foreground mt-3">
-                  {nextProject.tagline}
-                </p>
+      {nextProject && (
+        <section className="py-16 md:py-24 bg-charcoal">
+          <div className="container-luxury">
+            <p className="text-label mb-8 font-mono">// {lang === 'en' ? 'next work' : 'próximo trabalho'}</p>
+            <Link
+              to={`/trabalhos/${nextProject.slug}`}
+              className="group block"
+            >
+              <div className="flex items-end justify-between border-b border-border pb-8 transition-colors hover:border-primary">
+                <div>
+                  <p className="font-mono text-sm text-muted-foreground mb-2">
+                    {getT(nextProject.category)}
+                  </p>
+                  <h2 className="text-display-lg text-foreground group-hover:text-primary transition-colors">
+                    {getT(nextProject.name)}
+                  </h2>
+                  <p className="text-body text-muted-foreground mt-3">
+                    {getT(nextProject.tagline)}
+                  </p>
+                </div>
+                <div className="w-14 h-14 border border-foreground/30 flex items-center justify-center
+                                transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary">
+                  <ArrowUpRight size={22} />
+                </div>
               </div>
-              <div className="w-14 h-14 border border-foreground/30 flex items-center justify-center
-                              transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary">
-                <ArrowUpRight size={22} />
-              </div>
-            </div>
-          </Link>
-        </div>
-      </section>
+            </Link>
+          </div>
+        </section>
+      )}
 
       <Footer lang={lang} />
     </div>

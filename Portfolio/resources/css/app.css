@@ -96,3 +96,24 @@
 
 /* Ensure prose doesn't hide scrollbars */
 .prose-custom table { border-bottom: none; }
+/* Quill Dark Theme Overrides */
+.quill-container { border: none !important; }
+.ql-toolbar.ql-snow { border: none !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; background: rgba(0,0,0,0.2); border-radius: 12px 12px 0 0; }
+.ql-container.ql-snow { border: none !important; font-family: var(--font-sans) !important; font-size: 1rem !important; min-height: 200px; color: white !important; }
+.ql-editor { padding: 2rem !important; }
+.ql-editor.ql-blank::before { color: rgba(255,255,255,0.2) !important; font-style: normal !important; }
+
+/* Toolbar Buttons */
+.ql-snow .ql-stroke { stroke: rgba(255,255,255,0.5) !important; }
+.ql-snow .ql-fill { fill: rgba(255,255,255,0.5) !important; }
+.ql-snow .ql-picker { color: rgba(255,255,255,0.5) !important; }
+.ql-snow .ql-picker-options { background-color: #1c1825 !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 8px; }
+.ql-snow.ql-toolbar button:hover .ql-stroke, 
+.ql-snow.ql-toolbar button.ql-active .ql-stroke { stroke: var(--color-primary) !important; }
+.ql-snow.ql-toolbar button:hover .ql-fill, 
+.ql-snow.ql-toolbar button.ql-active .ql-fill { fill: var(--color-primary) !important; }
+
+/* Visual Content in Editor */
+.ql-editor img { border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin: 1rem 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: auto; max-width: 100%; transition: scale 0.3s; }
+.ql-editor img:hover { transform: scale(1.02); }
+.ql-editor .ql-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }

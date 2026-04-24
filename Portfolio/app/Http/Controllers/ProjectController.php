@@ -21,14 +21,14 @@ class ProjectController extends Controller
             'name' => 'required|string',
             'year' => 'required|string',
             'language' => 'required|string',
-            'category' => 'required|string',
-            'tagline' => 'required|string',
-            'description' => 'required|string',
-            'role' => 'required|string',
+            'category' => 'required',
+            'tagline' => 'required',
+            'description' => 'required',
+            'role' => 'required',
             'repo_url' => 'required|url',
             'technologies' => 'array',
-            'problem' => 'required|string',
-            'solution' => 'required|string',
+            'problem' => 'required',
+            'solution' => 'required',
             'features' => 'array'
         ]);
 
@@ -48,14 +48,14 @@ class ProjectController extends Controller
             'name' => 'string',
             'year' => 'string',
             'language' => 'string',
-            'category' => 'string',
-            'tagline' => 'string',
-            'description' => 'string',
-            'role' => 'string',
+            'category' => 'nullable',
+            'tagline' => 'nullable',
+            'description' => 'nullable',
+            'role' => 'nullable',
             'repo_url' => 'url',
             'technologies' => 'array',
-            'problem' => 'string',
-            'solution' => 'string',
+            'problem' => 'nullable',
+            'solution' => 'nullable',
             'features' => 'array'
         ]);
 

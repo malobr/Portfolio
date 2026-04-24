@@ -23,6 +23,7 @@ const Login = () => {
                 const res = await fetch("/api/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify(credentials)
                 });
 
@@ -38,6 +39,7 @@ const Login = () => {
                 const res = await fetch("/api/verify-mfa", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ email: credentials.email, code: mfaCode })
                 });
 

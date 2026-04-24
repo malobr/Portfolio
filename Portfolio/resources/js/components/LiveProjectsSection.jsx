@@ -8,6 +8,12 @@ const LiveProjectsSection = ({ lang }) => {
   const [liveProjects, setLiveProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const getT = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj;
+    return obj[lang] || obj.pt || Object.values(obj)[0] || "";
+  };
+
   useEffect(() => {
     fetch("/api/live-projects")
       .then(res => res.json())
@@ -61,7 +67,8 @@ const LiveProjectsSection = ({ lang }) => {
                   <div className="w-3 h-3 rounded-full bg-primary/70" />
                   <div className="w-3 h-3 rounded-full bg-foreground/30" />
                   <div className="ml-3 flex-1 max-w-xs">
-                    <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate">
+                    <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate flex items-center gap-2">
+                      <span className="text-primary font-bold">{">_"}</span>
                       {project.live_url.replace(/^https?:\/\//, "")}
                     </div>
                   </div>
@@ -70,7 +77,7 @@ const LiveProjectsSection = ({ lang }) => {
                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none" />
                   <iframe
                     src={project.live_url}
-                    title={`Preview de ${project.name}`}
+                    title={`Preview de ${getT(project.name)}`}
                     className="w-[125%] h-[125%] md:w-[166.67%] md:h-[166.67%] border-0 pointer-events-none scale-80 md:scale-[0.6] origin-top-left"
                     loading="lazy"
                     sandbox="allow-scripts allow-same-origin"
@@ -82,7 +89,7 @@ const LiveProjectsSection = ({ lang }) => {
               <div className="p-6 md:p-8 flex flex-col flex-1">
                 <div className="flex items-start justify-between mb-4">
                   <p className="text-label font-mono text-xs">
-                    {project.category} · {project.year}
+                    {getT(project.category)} · {project.year}
                   </p>
                   <ArrowUpRight
                     size={20}
@@ -91,11 +98,11 @@ const LiveProjectsSection = ({ lang }) => {
                 </div>
 
                 <h3 className="text-display-md text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {project.name}
+                  {getT(project.name)}
                 </h3>
 
                 <p className="text-body text-muted-foreground mb-6 flex-1">
-                  {project.tagline}
+                  {getT(project.tagline)}
                 </p>
 
                 {/* Tech stack */}
@@ -125,7 +132,7 @@ const LiveProjectsSection = ({ lang }) => {
                     className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2 bg-primary text-white border-primary hover:bg-black"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <Globe size={14} />
+                    <span className="text-white font-bold opacity-80">{">_"}</span>
                     {t.live_visit}
                     <ExternalLink size={12} />
                   </a>

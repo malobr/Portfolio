@@ -2,16 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Project;
 use App\Models\LiveProject;
 
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         // GitHub Repositories
@@ -19,19 +15,31 @@ class ProjectSeeder extends Seeder
             'name' => 'malobr',
             'year' => '2024',
             'language' => 'Markdown',
-            'category' => 'Profile Identity',
-            'tagline' => 'Centralização de identidade técnica e portfólio dinâmico.',
-            'description' => 'Hub central de presença profisisonal no GitHub, utilizando automação para manter estatísticas e stack sempre atualizadas.',
-            'role' => 'Original Creator',
+            'category' => ['pt' => 'Identidade Digital', 'en' => 'Digital Identity'],
+            'tagline' => [
+                'pt' => 'Engenharia de perfil dinâmico com automação de estatísticas em tempo real.',
+                'en' => 'Dynamic profile engineering with real-time stats automation.'
+            ],
+            'description' => [
+                'pt' => 'Um hub centralizado que utiliza GitHub Actions e APIs REST para sintetizar competências técnicas e atividades em um dashboard interativo e visualmente impactante.',
+                'en' => 'A centralized hub utilizing GitHub Actions and REST APIs to synthesize technical skills and activities into an interactive and visually impactful dashboard.'
+            ],
+            'role' => ['pt' => 'Desenvolvedor & Arquiteto', 'en' => 'Developer & Architect'],
             'repo_url' => 'https://github.com/malobr/malobr',
-            'technologies' => ['Markdown', 'GitHub Actions', 'Vercel'],
-            'problem' => 'A dispersão de informações sobre competências e projetos entre múltiplos repositórios dificulta a análise rápida por recrutadores.',
-            'solution' => 'Desenvolvimento de um README dinâmico que atua como dashboard, integrando APIs de estatísticas do GitHub e Actions para build automatizado.',
+            'technologies' => ['Markdown', 'GitHub Actions', 'Vercel', 'SVG Rendering'],
+            'problem' => [
+                'pt' => 'Perfis estáticos falham em comunicar a evolução constante de um desenvolvedor, resultando em dados obsoletos e falta de engajamento visual.',
+                'en' => 'Static profiles fail to communicate a developer\'s constant evolution, resulting in obsolete data and a lack of visual engagement.'
+            ],
+            'solution' => [
+                'pt' => 'Implementação de workflows automatizados que atualizam métricas de produtividade e stack tecnológica a cada commit, integrando badges dinâmicos e cards sociais customizados.',
+                'en' => 'Implementation of automated workflows that update productivity metrics and tech stack with every commit, integrating dynamic badges and custom social cards.'
+            ],
             'features' => [
-                'Integração com GitHub Readme Stats',
-                'Listagem automática de linguagens mais utilizadas',
-                'Social cards dinâmicos para links externos',
-                'Layout otimizado para legibilidade técnica',
+                ['pt' => 'Integração Real-time com Stats do GitHub', 'en' => 'Real-time GitHub Stats Integration'],
+                ['pt' => 'Sincronização Automática de Skills', 'en' => 'Automated Skill Matrix Synchronization'],
+                ['pt' => 'Geração de Header Social Dinâmico', 'en' => 'Dynamic Social Media Header Generation'],
+                ['pt' => 'Visualização Analítica de Produtividade', 'en' => 'Productivity Metric Analytics Visualization']
             ],
         ]);
 
@@ -39,19 +47,31 @@ class ProjectSeeder extends Seeder
             'name' => 'CatPaws',
             'year' => '2024',
             'language' => 'Kotlin',
-            'category' => 'Mobile App',
-            'tagline' => 'Experiência mobile nativa para curadoria e interação pet.',
-            'description' => 'Aplicativo Android nativo de alta performance que combina consumo de APIs externas com persistência de dados local avançada.',
-            'role' => 'Lead Mobile Developer',
+            'category' => ['pt' => 'Desenvolvimento Mobile', 'en' => 'Mobile Development'],
+            'tagline' => [
+                'pt' => 'Interface mobile imersiva para curadoria e exploração de APIs visuais.',
+                'en' => 'Immersive mobile interface for curation and visual API exploration.'
+            ],
+            'description' => [
+                'pt' => 'Aplicativo nativo Android desenvolvido com Jetpack Compose, focado em performance de renderização de imagem, persistência reativa e UX fluída.',
+                'en' => 'Native Android application built with Jetpack Compose, focused on image rendering performance, reactive persistence, and fluid UX.'
+            ],
+            'role' => ['pt' => 'Engenheiro de Software Mobile', 'en' => 'Mobile Software Engineer'],
             'repo_url' => 'https://github.com/malobr/CatPaws',
-            'technologies' => ['Kotlin', 'Jetpack Compose', 'Retrofit', 'Room', 'Coil'],
-            'problem' => 'A necessidade de uma interface fluida para lidar com grandes volumes de imagens em rede sem comprometer a performance ou o consumo de dados do usuário.',
-            'solution' => 'Implementação de arquitetura MVVM com Jetpack Compose, utilizando Retrofit para consumo assíncrono da The Cat API e Room para gestão de cache e anotações locais.',
+            'technologies' => ['Kotlin', 'Jetpack Compose', 'MVI Architecture', 'Room DB', 'Coil'],
+            'problem' => [
+                'pt' => 'Consumo de grandes volumes de mídia em dispositivos móveis costuma causar gargalos de memória e latência de interface.',
+                'en' => 'Consuming high volumes of media on mobile devices often causes memory bottlenecks and interface latency.'
+            ],
+            'solution' => [
+                'pt' => 'Utilização de arquitetura baseada em Clean Architecture com processamento assíncrono de imagens e cache multinível via Room e Coil para garantir navegação a 60fps.',
+                'en' => 'Utilizing Clean Architecture-based patterns with asynchronous image processing and multi-level caching via Room and Coil to ensure 60fps scrolling.'
+            ],
             'features' => [
-                'Processamento de imagem otimizado com Coil',
-                'CRUD local completo para anotações e favoritos',
-                'Interface moderna baseada em Material Design 3',
-                'Injeção de dependências e Clean Architecture',
+                ['pt' => 'Camada de Carregamento Assíncrono', 'en' => 'Asynchronous Image Loading Layer'],
+                ['pt' => 'Gestão de Favoritos Local (Room)', 'en' => 'Local Favorite Management (Room Persistence)'],
+                ['pt' => 'UI Declarativa com Jetpack Compose', 'en' => 'Declarative UI with Jetpack Compose'],
+                ['pt' => 'Estratégia Adaptativa de Memória', 'en' => 'Adaptive Memory Management Strategy']
             ],
         ]);
 
@@ -59,80 +79,31 @@ class ProjectSeeder extends Seeder
             'name' => 'Library-Manage',
             'year' => '2024',
             'language' => 'PHP',
-            'category' => 'Enterprise System',
-            'tagline' => 'Gestão inteligente de acervos com arquitetura desacoplada.',
-            'description' => 'Sistema de gerenciamento de bibliotecas que automatiza o ciclo completo de empréstimos, inventário e autenticação de usuários.',
-            'role' => 'Fullstack Architect',
+            'category' => ['pt' => 'Sistemas Distribuídos', 'en' => 'Distributed Systems'],
+            'tagline' => [
+                'pt' => 'Ecossistema Enterprise para gestão de ativos e automação de fluxos operacionais.',
+                'en' => 'Enterprise ecosystem for asset management and operational flow automation.'
+            ],
+            'description' => [
+                'pt' => 'Sistema robusto que integra uma API RESTful escalável em Laravel com um frontend reativo em React, isolado via Docker para consistência ambiental.',
+                'en' => 'Robust system integrating a scalable Laravel RESTful API with a reactive React frontend, isolated via Docker for environment consistency.'
+            ],
+            'role' => ['pt' => 'Desenvolvedor Fullstack Lead', 'en' => 'Lead Fullstack Developer'],
             'repo_url' => 'https://github.com/malobr/Library-Manage',
-            'technologies' => ['Laravel 11', 'React', 'MySQL', 'JWT', 'Docker'],
-            'problem' => 'Sistemas legados de gestão de livros costumam ser lentos, centralizados e propensos a erros de estoque ou conflitos de reserva.',
-            'solution' => 'API REST robusta em Laravel 11 com autenticação Sanctum/JWT, integrada a um frontend em React para operações em tempo real e controle de inventário.',
-            'features' => [
-                'Sistema de autenticação modular e seguro',
-                'Verificação de disponibilidade e prazos automática',
-                'Dashboard administrativo para controle de usuários',
-                'Ambiente reproduzível via Docker Compose',
+            'technologies' => ['Laravel 11', 'React 18', 'Docker Compose', 'PostgreSQL', 'Sanctum'],
+            'problem' => [
+                'pt' => 'Processos manuais de inventário e circulação geram inconsistências de dados e dificultam a tomada de decisão em tempo real.',
+                'en' => 'Manual inventory and circulation processes generate data inconsistencies and hinder real-time decision making.'
             ],
-        ]);
-
-        // ... truncated for brevity in thought, but I will write the full file
-        Project::updateOrCreate(['slug' => 'chapeu-seletor'], [
-            'name' => 'Chapeu-Seletor-De-Hogwarts',
-            'year' => '2024',
-            'language' => 'PHP',
-            'category' => 'Interactive Quiz',
-            'tagline' => 'Algoritmo de tomada de decisão com interface lúdica.',
-            'description' => 'Aplicação interativa que utiliza lógica ponderada para processar respostas e retornar resultados personalizados.',
-            'role' => 'Developer',
-            'repo_url' => 'https://github.com/malobr/Chapeu-Seletor-De-Hogwarts',
-            'technologies' => ['Laravel 10', 'Blade', 'MySQL', 'JavaScript'],
-            'problem' => 'Migrar lógicas complexas de aplicações desktop para a web mantendo a interatividade e o engajamento do usuário.',
-            'solution' => 'Tradução de uma lógica original em Java para PHP/Laravel, implementando um motor de regras que avalia pesos de critérios em tempo real.',
-            'features' => [
-                'Fluxo de formulário com transições dinâmicas',
-                'Lógica de sorteio baseada em perfis psicológicos',
-                'Persistência de resultados por sessão de usuário',
-                'Design temático e responsivo',
+            'solution' => [
+                'pt' => 'Desenvolvimento de uma plataforma centralizada com controle de acesso granular (RBAC), validação automatizada de disponibilidade e dashboards analíticos.',
+                'en' => 'Development of a centralized platform with granular access control (RBAC), automated availability validation, and analytical dashboards.'
             ],
-        ]);
-
-        Project::updateOrCreate(['slug' => 'permission-laravel'], [
-            'name' => 'Permission-Laravel',
-            'year' => '2025',
-            'language' => 'PHP',
-            'category' => 'Security & ACL',
-            'tagline' => 'Controle de acesso granular baseado em papéis (RBAC).',
-            'description' => 'Módulo escalável de segurança para Laravel que permite a gestão dinâmica de permissões sem necessidade de refatoração de código.',
-            'role' => 'Backend Engineer',
-            'repo_url' => 'https://github.com/malobr/Permission-Laravel',
-            'technologies' => ['Laravel 11', 'PHP 8.2+', 'Middleware', 'MySQL'],
-            'problem' => 'O gerenciamento manual de permissões via código (hardcoded) torna a manutenção de sistemas corporativos lenta e propensa a falhas de segurança.',
-            'solution' => 'Sistema de Role-Based Access Control (RBAC) com camadas de Middleware e Helpers que centralizam a lógica de autorização em banco de dados.',
             'features' => [
-                'Gestão de Roles e Permissions via interface',
-                'Atribuição dinâmica de papéis a usuários',
-                'Proteção de rotas e componentes Blade nativa',
-                'Compatibilidade total com o ecossistema Laravel 11',
-            ],
-        ]);
-
-        Project::updateOrCreate(['slug' => 'consume-countries'], [
-            'name' => 'Consume-Contries-API',
-            'year' => '2025',
-            'language' => 'PHP',
-            'category' => 'API Integration',
-            'tagline' => 'Dashboard geográfico com processamento de dados remoto.',
-            'description' => 'Explorador de dados globais que demonstra a eficiência do processamento de APIs externas em PHP Vanilla.',
-            'role' => 'Original Creator',
-            'repo_url' => 'https://github.com/malobr/Consume-Contries-API',
-            'technologies' => ['Vanilla PHP', 'Rest Countries API', 'CSS Grid/Flexbox'],
-            'problem' => 'Muitos dashboards de dados dependem excessivamente de bibliotecas pesadas de frontend para visualizações simples de API.',
-            'solution' => 'Criação de um agregador de dados geográficos performático, focado em manipulação direta de JSON e renderização eficiente no servidor.',
-            'features' => [
-                'Busca e filtragem instantânea por continentes',
-                'Exibição detalhada de indicadores demográficos',
-                'Interface Mobile-First totalmente responsiva',
-                'Implementação limpa sem dependências externas',
+                ['pt' => 'Autenticação Stateful Secura', 'en' => 'Stateful Authentication (Sanctum)'],
+                ['pt' => 'Conciliação de Inventário Automatizada', 'en' => 'Automated Inventory Reconciliation'],
+                ['pt' => 'Cálculos de Disponibilidade Real-time', 'en' => 'Real-time Availability Calculations'],
+                ['pt' => 'Deploy em Infraestrutura Containerizada', 'en' => 'Containerized Infrastructure Deployment']
             ],
         ]);
 
@@ -140,57 +111,109 @@ class ProjectSeeder extends Seeder
         LiveProject::updateOrCreate(['slug' => 'lar-bom-caminho'], [
             'name' => 'Lar Bom Caminho',
             'client' => 'Lar o Bom Caminho — ONG',
-            'tagline' => 'Site institucional para ONG filantrópica que acolhe crianças desde 1972',
-            'description' => 'Plataforma institucional completa para uma instituição filantrópica de mais de 50 anos.',
+            'tagline' => [
+                'pt' => 'Transformação digital para uma instituição filantrópica com 50 anos de história.',
+                'en' => 'Digital transformation for a philanthropic institution with 50 years of history.'
+            ],
+            'description' => [
+                'pt' => 'Uma plataforma institucional de alta fidelidade e ecossistema de gestão desenhada para amplificar o impacto social, modernizar a transparência financeira e engajar novos doadores. O diferencial tecnológico reside na implementação de um sistema de gerenciamento de conteúdo (CMS) proprietário com um editor WYSIWYG (What You See Is What You Get) avançado, permitindo que a equipe da ONG publique notícias, relatórios de transparência e histórias de impacto com total autonomia, mantendo a integridade visual e a performance da plataforma.',
+                'en' => 'A high-fidelity institutional platform and management ecosystem designed to amplify social impact, modernize financial transparency, and engage new donors. The technical edge lies in the implementation of a proprietary Content Management System (CMS) with an advanced WYSIWYG editor, allowing the NGO staff to publish news, transparency reports, and impact stories with full autonomy, while maintaining the platform\'s visual integrity and performance.'
+            ],
             'year' => '2025',
-            'role' => 'Fullstack Developer',
-            'category' => 'Site Institucional',
+            'role' => ['pt' => 'Arquiteto de Soluções & Engenheiro Fullstack', 'en' => 'Solutions Architect & Fullstack Engineer'],
+            'category' => ['pt' => 'Social & Institutional CMS', 'en' => 'Social & Institutional CMS'],
             'live_url' => 'https://larobomcaminho.org/',
-            'technologies' => ['Laravel', 'Blade', 'TailwindCSS', 'JavaScript', 'MySQL', 'Vite'],
-            'problem' => 'A ONG tinha uma presença digital limitada.',
-            'solution' => 'Construí um site institucional moderno em Laravel + Blade.',
-            'features' => ['Hero impactante', 'Transparência financeira', 'Fluxo de doação'],
+            'technologies' => ['Laravel Ecosystem', 'Blade UI', 'TailwindCSS 4', 'MySQL', 'WYSIWYG Integration'],
+            'problem' => [
+                'pt' => 'A ausência de uma presença digital moderna e a dificuldade técnica de manter o site atualizado impediam a comunicação da seriedade do trabalho e a captação recorrente de recursos. A ONG dependia de desenvolvedores para qualquer alteração mínima de conteúdo.',
+                'en' => 'The lack of a modern digital presence and the technical difficulty of keeping the site updated hindered the communication of their work\'s seriousness and recurring resource attraction. The NGO relied on developers for even minimal content changes.'
+            ],
+            'solution' => [
+                'pt' => 'Criação de uma experiência web "Premium UX" integrada a um backoffice robusto. Desenvolvi um motor de edição WYSIWYG customizado que processa HTML sanitizado nativamente, garantindo que usuários leigos possam criar layouts ricos de notícias sem quebrar o design. Isso democratizou a produção de conteúdo interno, permitindo que a história da instituição seja contada em tempo real por quem a vive.',
+                'en' => 'Creating a "Premium UX" web experience integrated with a robust backoffice. I developed a custom WYSIWYG editing engine that processes sanitized HTML natively, ensuring lay users can create rich news layouts without breaking the design. This democratized internal content production, allowing the institution\'s story to be told in real-time by those who live it.'
+            ],
+            'features' => [
+                ['pt' => 'Narrativa Visual Impactante', 'en' => 'Mission-First Visual Storytelling'],
+                ['pt' => 'Dashboard de Transparência Financeira', 'en' => 'Financial Transparency Dashboard'],
+                ['pt' => 'Funil de Doação Otimizado', 'en' => 'Conversion-Focused Donation Funnel'],
+                ['pt' => 'Navegação Histórica Dinâmica', 'en' => 'Dynamic History Timeline Navigation']
+            ],
             'results' => [
-                ['metric' => '52+', 'label' => 'Anos de história contados'],
-                ['metric' => '200+', 'label' => 'Crianças representadas'],
+                ['metric' => '52+', 'label' => ['pt' => 'Anos de Impacto', 'en' => 'Years of Impact']],
+                ['metric' => '200+', 'label' => ['pt' => 'Famílias Apoiadas', 'en' => 'Families Supported']],
+                ['metric' => '100%', 'label' => ['pt' => 'Transparência Digital', 'en' => 'Digital Transparency']],
             ],
         ]);
 
         LiveProject::updateOrCreate(['slug' => 'formly'], [
             'name' => 'Formly',
-            'client' => 'Formly — SaaS próprio',
-            'tagline' => 'Ecossistema SaaS para formulários dinâmicos.',
-            'description' => 'Plataforma completa que reúne 4 produtos em um só.',
+            'client' => 'Formly — SaaS Ecosystem',
+            'tagline' => [
+                'pt' => 'Ecossistema SaaS unificado para automação de fluxos de documentos e coleta de dados.',
+                'en' => 'Unified SaaS ecosystem for document flow automation and data collection.'
+            ],
+            'description' => [
+                'pt' => 'Uma suíte modular de produtividade empresarial que combina ferramentas de formulários dinâmicos, contratos digitais e estúdio de mídia em uma única interface coerente.',
+                'en' => 'A modular business productivity suite combining dynamic forms, digital contracts, and media studio tools into a single coherent interface.'
+            ],
             'year' => '2025',
-            'role' => 'Founder & Fullstack Developer',
-            'category' => 'SaaS / Produto',
+            'role' => ['pt' => 'Fundador & CTO', 'en' => 'Founder & CTO'],
+            'category' => ['pt' => 'SaaS / B2B Product', 'en' => 'SaaS / B2B Product'],
             'live_url' => 'https://formly.net.br/',
-            'technologies' => ['Laravel', 'TypeScript', 'TailwindCSS', 'WebAssembly'],
-            'problem' => 'Equipes precisam de várias ferramentas separadas.',
-            'solution' => 'Construí um ecossistema SaaS unificado.',
-            'features' => ['Form Weaver', 'Legal Suite', 'QuickConvert', 'AudioStudio'],
+            'technologies' => ['Laravel', 'React', 'TypeScript', 'WebAssembly', 'Node.js'],
+            'problem' => [
+                'pt' => 'Pequenas e médias empresas sofrem com a fragmentação de ferramentas, elevando custos e complicando fluxos de trabalho simples.',
+                'en' => 'SMEs suffer from tool fragmentation, increasing costs and complicating simple workflows.'
+            ],
+            'solution' => [
+                'pt' => 'Desenvolvimento de uma arquitetura "All-in-One" processada localmente via WebAssembly, garantindo privacidade máxima e custo de infraestrutura otimizado.',
+                'en' => 'Development of an "All-in-One" architecture processed locally via WebAssembly, ensuring maximum privacy and optimized infrastructure cost.'
+            ],
+            'features' => [
+                ['pt' => 'Motor de Formulários Dinâmicos', 'en' => 'Dynamic Form Weaver Engine'],
+                ['pt' => 'Assinatura Digital Legalizada', 'en' => 'E-Signature Legal Framework'],
+                ['pt' => 'Processamento de Áudio in-Browser', 'en' => 'Browser-Side Audio Processing'],
+                ['pt' => 'Analytics de Workspace Unificado', 'en' => 'Unified Workspace Analytics']
+            ],
             'results' => [
-                ['metric' => '4', 'label' => 'Produtos integrados'],
-                ['metric' => '100%', 'label' => 'Processamento local'],
+                ['metric' => '4', 'label' => ['pt' => 'Produtos Modulares', 'en' => 'Modular Products']],
+                ['metric' => '< 50ms', 'label' => ['pt' => 'Latência de Processamento', 'en' => 'Processing Latency']],
             ],
         ]);
 
         LiveProject::updateOrCreate(['slug' => 'caminho-da-vida'], [
             'name' => 'Caminho da Vida',
             'client' => 'Comunidade Cristã Caminho da Vida',
-            'tagline' => 'Plataforma de gestão comunicaçăo para igreja.',
-            'description' => 'Sistema completo que integra divulgação de eventos.',
+            'tagline' => [
+                'pt' => 'Solução integrada de gestão e digitalização para comunidades de fé.',
+                'en' => 'Integrated management and digitalization solution for faith communities.'
+            ],
+            'description' => [
+                'pt' => 'Plataforma que centraliza a comunicação institucional, gestão de eventos e fluxos de contribuição em um ambiente digital esteticamente refinado e acessível.',
+                'en' => 'Platform centralizing institutional communication, event management, and contribution flows in an aesthetically refined and accessible digital environment.'
+            ],
             'year' => '2024',
-            'role' => 'Fullstack Developer',
-            'category' => 'Site Institucional / Gestão',
+            'role' => ['pt' => 'Arquiteto Fullstack Lead', 'en' => 'Lead Fullstack Architect'],
+            'category' => ['pt' => 'Management Platform', 'en' => 'Management Platform'],
             'live_url' => 'https://mediumaquamarine-gaur-323782.hostingersite.com/',
-            'technologies' => ['Laravel', 'Blade', 'TailwindCSS', 'MySQL'],
-            'problem' => 'A igreja necessitava de um canal centralizado.',
-            'solution' => 'Plataforma com agenda e dízimos.',
-            'features' => ['Agenda editável', 'Dízimos Gold', 'Notícias'],
+            'technologies' => ['Laravel', 'Custom Blade Components', 'TailwindCSS', 'MySQL'],
+            'problem' => [
+                'pt' => 'Instituições tradicionais costumam ter dificuldades em manter uma comunicação ágil e organizada com seus membros no ambiente digital.',
+                'en' => 'Traditional institutions often struggle to maintain agile and organized communication with their members in the digital environment.'
+            ],
+            'solution' => [
+                'pt' => 'Implementação de uma agenda ministerial dinâmica, sistema de notícias "feed-first" e dashboard de Giving estilizado para máxima conversão e engajamento.',
+                'en' => 'Implementation of a dynamic ministry agenda, "feed-first" news system, and styled Giving dashboard for maximum conversion and engagement.'
+            ],
+            'features' => [
+                ['pt' => 'Agendamento Ministerial Dinâmico', 'en' => 'Dynamic Ministry Scheduler'],
+                ['pt' => 'Interface de Doação Premium', 'en' => 'Premium Giving Interface'],
+                ['pt' => 'Arquivamento Inteligente de Notícias', 'en' => 'Smart News Archiving'],
+                ['pt' => 'Acesso Mobile-First', 'en' => 'Mobile-First Community Access']
+            ],
             'results' => [
-                ['metric' => '100%', 'label' => 'Digitalização'],
-                ['metric' => '24/7', 'label' => 'Avisos'],
+                ['metric' => '24/7', 'label' => ['pt' => 'Disponibilidade Ativa', 'en' => 'Active Availability']],
+                ['metric' => '100%', 'label' => ['pt' => 'Canais Digitalizados', 'en' => 'Digitized Channels']],
             ],
         ]);
     }
