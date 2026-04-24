@@ -59,6 +59,11 @@ const Navigation = ({
   ];
 
   const scrollToSection = (href) => {
+    if (window.location.pathname !== "/") {
+      window.location.href = "/" + href;
+      return;
+    }
+    
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -96,8 +101,10 @@ const Navigation = ({
                         key={link.name}
                         href={link.href}
                         onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
+                          if (link.href.startsWith("mailto:")) return;
+                          
+                          e.preventDefault();
+                          scrollToSection(link.href);
                         }}
                         className="link-underline font-mono text-sm cursor-pointer text-foreground"
                     >
@@ -181,6 +188,7 @@ const Navigation = ({
               key={link.name}
               href={link.href}
               onClick={(e) => {
+                if (link.href.startsWith("mailto:")) return;
                 e.preventDefault();
                 scrollToSection(link.href);
               }}

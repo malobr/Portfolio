@@ -7,6 +7,11 @@ const Footer = ({ lang }) => {
   const t = translations[lang] || translations.pt;
   const scrollToSection = (e, href) => {
     e.preventDefault();
+    if (window.location.pathname !== "/") {
+      window.location.href = "/" + href;
+      return;
+    }
+
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
