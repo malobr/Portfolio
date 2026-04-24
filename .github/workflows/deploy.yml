@@ -38,7 +38,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./Portfolio/ 
-          server-dir: ./public_html/
           # CRÍTICO: Não exclua a pasta public/build aqui!
           exclude: |
             **/vendor/**
