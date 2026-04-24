@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Project;
+use App\Models\LiveProject;
 
 class ProjectSeeder extends Seeder
 {
@@ -12,8 +14,8 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Project::create([
-            'slug' => 'malobr-profile',
+        // GitHub Repositories
+        Project::updateOrCreate(['slug' => 'malobr-profile'], [
             'name' => 'malobr',
             'year' => '2024',
             'language' => 'Markdown',
@@ -33,8 +35,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\Project::create([
-            'slug' => 'catpaws',
+        Project::updateOrCreate(['slug' => 'catpaws'], [
             'name' => 'CatPaws',
             'year' => '2024',
             'language' => 'Kotlin',
@@ -54,8 +55,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\Project::create([
-            'slug' => 'library-manage',
+        Project::updateOrCreate(['slug' => 'library-manage'], [
             'name' => 'Library-Manage',
             'year' => '2024',
             'language' => 'PHP',
@@ -75,8 +75,8 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\Project::create([
-            'slug' => 'chapeu-seletor',
+        // ... truncated for brevity in thought, but I will write the full file
+        Project::updateOrCreate(['slug' => 'chapeu-seletor'], [
             'name' => 'Chapeu-Seletor-De-Hogwarts',
             'year' => '2024',
             'language' => 'PHP',
@@ -96,8 +96,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\Project::create([
-            'slug' => 'permission-laravel',
+        Project::updateOrCreate(['slug' => 'permission-laravel'], [
             'name' => 'Permission-Laravel',
             'year' => '2025',
             'language' => 'PHP',
@@ -117,8 +116,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\Project::create([
-            'slug' => 'consume-countries',
+        Project::updateOrCreate(['slug' => 'consume-countries'], [
             'name' => 'Consume-Contries-API',
             'year' => '2025',
             'language' => 'PHP',
@@ -139,8 +137,7 @@ class ProjectSeeder extends Seeder
         ]);
 
         // Live Projects
-        \App\Models\LiveProject::create([
-            'slug' => 'lar-bom-caminho',
+        LiveProject::updateOrCreate(['slug' => 'lar-bom-caminho'], [
             'name' => 'Lar Bom Caminho',
             'client' => 'Lar o Bom Caminho — ONG',
             'tagline' => 'Site institucional para ONG filantrópica que acolhe crianças desde 1972',
@@ -159,8 +156,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\LiveProject::create([
-            'slug' => 'formly',
+        LiveProject::updateOrCreate(['slug' => 'formly'], [
             'name' => 'Formly',
             'client' => 'Formly — SaaS próprio',
             'tagline' => 'Ecossistema SaaS para formulários dinâmicos.',
@@ -179,8 +175,7 @@ class ProjectSeeder extends Seeder
             ],
         ]);
 
-        \App\Models\LiveProject::create([
-            'slug' => 'caminho-da-vida',
+        LiveProject::updateOrCreate(['slug' => 'caminho-da-vida'], [
             'name' => 'Caminho da Vida',
             'client' => 'Comunidade Cristã Caminho da Vida',
             'tagline' => 'Plataforma de gestão comunicaçăo para igreja.',
