@@ -41,6 +41,7 @@ jobs:
           server-dir: ./public_html/
           # CRÍTICO: Não exclua a pasta public/build aqui!
           exclude: |
+            **/vendor/**
             **/.git*
             **/.git*/**
             **/node_modules/**
