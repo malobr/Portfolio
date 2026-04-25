@@ -29,7 +29,7 @@ const BlogSection = ({ lang }) => {
   }
 
   return (
-    <section id="blog" className="section-padding bg-background border-t border-white/5">
+    <section id="blog" className="section-padding bg-background border-t border-border/50">
       <div className="container-luxury">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -60,8 +60,8 @@ const BlogSection = ({ lang }) => {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Link to={`/blog/${post.slug}`} className="group block h-full">
-                <div className="mb-6 overflow-hidden bg-charcoal aspect-video border border-white/5 flex items-center justify-center relative">
+              <Link to={`/blog/${post.slug}`} className="group block h-full p-6 border border-transparent hover:border-primary/20 hover:bg-foreground/[0.02] rounded-2xl transition-all duration-500">
+                <div className="mb-6 overflow-hidden bg-charcoal aspect-video border border-border/50 flex items-center justify-center relative">
                   <BookOpen size={40} className="text-primary/20 group-hover:scale-110 group-hover:text-primary transition-all duration-500" />
                   <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                   
@@ -70,7 +70,7 @@ const BlogSection = ({ lang }) => {
                     post.status === 'Concluído' ? 'bg-green-500/10 border-green-500/20 text-green-400' :
                     post.status === 'Em andamento' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500' :
                     post.status === 'Iniciado' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                    'bg-white/5 border-white/10 text-muted-foreground'
+                    'bg-white/5 border-border text-muted-foreground'
                   }`}>
                     {post.status}
                   </div>
@@ -91,7 +91,7 @@ const BlogSection = ({ lang }) => {
                 
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map(tag => (
-                    <span key={tag} className="text-[10px] font-mono px-2 py-1 bg-white/5 text-muted-foreground border border-white/10">
+                    <span key={tag} className="text-[10px] font-mono px-2 py-1 bg-white/5 text-muted-foreground border border-border">
                       {tag}
                     </span>
                   ))}

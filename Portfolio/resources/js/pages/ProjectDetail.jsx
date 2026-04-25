@@ -183,13 +183,13 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            <aside className={`space-y-6 border-l pl-8 lg:pl-10 h-fit transition-colors ${isForensic ? 'border-amber-500/20' : 'border-white/10'}`}>
+            <aside className={`space-y-6 border-l pl-8 lg:pl-10 h-fit transition-colors ${isForensic ? 'border-amber-500/20' : 'border-border/50'}`}>
               {[
                 { icon: <Calendar size={12} />, label: lang === 'en' ? 'YEAR' : 'ANO', val: project.year },
                 { icon: <User size={12} />, label: lang === 'en' ? 'PRINCIPAL' : 'RESPONSÁVEL', val: getT(project.role) },
                 { icon: <Tag size={12} />, label: 'DOMAIN', val: getT(project.category) }
-              ].map((item, i) => (
-                <div key={i}>
+              ].map((item, i, arr) => (
+                <div key={i} className={`pb-6 ${i !== arr.length - 1 ? 'border-b border-border/30' : ''}`}>
                     <p className={`text-label text-[10px] font-mono mb-1 flex items-center gap-2 ${isForensic ? 'text-amber-500/50' : 'text-muted-foreground'}`}>
                         {item.icon} {item.label}
                     </p>
@@ -248,7 +248,7 @@ const ProjectDetail = () => {
             <div className={`h-px flex-1 ${isForensic ? 'bg-amber-500/20' : 'bg-white/5'}`} />
           </div>
 
-          <div className={`border rounded-xl overflow-hidden shadow-2xl transition-colors ${isForensic ? 'bg-black border-amber-500/30' : 'bg-charcoal border-border'}`}>
+          <div className={`border rounded-xl shadow-2xl transition-colors ${isForensic ? 'bg-black border-amber-500/30' : 'bg-charcoal border-border'}`}>
             <div className={`px-6 py-4 border-b flex items-center justify-between ${isForensic ? 'bg-amber-500/10 border-amber-500/20' : 'bg-secondary/80 border-border'}`}>
               <div className="flex items-center gap-3">
                 <FileText size={16} className={isForensic ? 'text-amber-500' : 'text-primary'} />
@@ -256,7 +256,7 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            <div className={`p-8 md:p-12 ${isForensic ? 'prose-forensic' : 'prose-custom'}`}>
+            <div className={`p-8 md:p-12 bg-grid-lines ${isForensic ? 'prose-forensic' : 'prose-custom'}`}>
               {isLoadingReadme ? (
                 <div className="py-20 flex flex-col items-center justify-center gap-4 text-muted-foreground">
                   <Loader2 className="animate-spin text-primary" size={32} />
