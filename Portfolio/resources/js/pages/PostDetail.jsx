@@ -113,14 +113,14 @@ const PostDetail = () => {
               </p>
             </div>
 
-            <aside className="space-y-6 border-l border-white/10 pl-8 lg:pl-10 h-fit">
-              <div>
+            <aside className="space-y-6 border-l border-border/50 pl-8 lg:pl-10 h-fit">
+              <div className="pb-6 border-b border-border/30">
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <Calendar size={12} /> publicada em
                 </p>
                 <p className="text-body text-foreground font-mono">{post.publish_date}</p>
               </div>
-              <div>
+              <div className="pb-6 border-b border-border/30">
                 <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <Clock size={12} /> tempo de leitura
                 </p>
@@ -132,7 +132,7 @@ const PostDetail = () => {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {post.tags?.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 bg-white/5 border border-white/10 text-[10px] font-mono">{tag}</span>
+                    <span key={tag} className="px-2 py-0.5 bg-white/5 border border-border text-[10px] font-mono">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -144,20 +144,20 @@ const PostDetail = () => {
       {/* Content in Terminal Style */}
       <section className="pb-24">
         <div className="container-luxury">
-          <div className="bg-[#1c1825] border border-white/5 rounded-xl overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 bg-black/40 border-b border-white/5 flex items-center justify-between">
+          <div className="bg-charcoal border border-border rounded-xl overflow-hidden shadow-2xl transition-colors duration-500">
+            <div className="px-6 py-4 bg-black/5 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <BookOpen size={16} className="text-primary" />
-                <span className="text-xs font-mono text-muted-foreground">content.md</span>
+                <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">content.md</span>
               </div>
               <div className="flex gap-2">
-                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                 <div className="w-2.5 h-2.5 rounded-full bg-primary/20" />
+                 <div className="w-2.5 h-2.5 rounded-full bg-primary/20" />
+                 <div className="w-2.5 h-2.5 rounded-full bg-primary/20" />
               </div>
             </div>
 
-            <div className="p-8 md:p-16">
+            <div className="p-8 md:p-16 bg-grid-lines">
               <div className="prose-custom max-w-none overflow-x-auto">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
@@ -230,7 +230,7 @@ const PostDetail = () => {
 
       {/* Next Article Navigation */}
       {nextPost && nextPost.slug !== post.slug && (
-        <section className="py-24 bg-[#110e1a]">
+        <section className="py-24 bg-background border-t border-border/50">
           <div className="container-luxury">
             <p className="text-label mb-8 font-mono">// ler_a_seguir</p>
             <Link to={`/blog/${nextPost.slug}`} className="group inline-block w-full">

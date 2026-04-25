@@ -109,27 +109,27 @@ const LiveProjectDetail = () => {
               </div>
             </div>
 
-            <aside className="space-y-6 border-l border-border pl-8 lg:pl-10">
-              <div>
-                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
+            <aside className="space-y-6 border-l border-border/50 pl-8 lg:pl-10 h-fit">
+              <div className="pb-6 border-b border-border/30">
+                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <Briefcase size={12} /> {lang === 'en' ? 'client' : 'cliente'}
                 </p>
                 <p className="text-body text-foreground font-mono">{project.client}</p>
               </div>
-              <div>
-                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
+              <div className="pb-6 border-b border-border/30">
+                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <Calendar size={12} /> {lang === 'en' ? 'year' : 'ano'}
                 </p>
                 <p className="text-body text-foreground font-mono">{project.year}</p>
               </div>
-              <div>
-                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
+              <div className="pb-6 border-b border-border/30">
+                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <User size={12} /> {lang === 'en' ? 'role' : 'papel'}
                 </p>
                 <p className="text-body text-foreground font-mono">{getT(project.role)}</p>
               </div>
               <div>
-                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2">
+                <p className="text-label text-xs font-mono mb-2 flex items-center gap-2 text-muted-foreground">
                   <Tag size={12} /> {lang === 'en' ? 'category' : 'categoria'}
                 </p>
                 <p className="text-body text-foreground font-mono">{getT(project.category)}</p>
@@ -162,7 +162,7 @@ const LiveProjectDetail = () => {
                 abrir <ExternalLink size={12} />
               </a>
             </div>
-            <div className="aspect-[16/10] bg-background">
+            <div className="aspect-[16/10] bg-background bg-grid-lines">
               <iframe
                 src={project.live_url}
                 title={`Preview de ${project.name}`}

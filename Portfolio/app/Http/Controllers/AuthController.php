@@ -39,7 +39,6 @@ class AuthController extends Controller
 
         return response()->json([
             'mfa_required' => true,
-            'demo_code' => $code, // REMOVE THIS IN PRODUCTION
             'message' => "Código de segurança enviado via SMS para $maskedPhone."
         ]);
     }

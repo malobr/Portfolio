@@ -51,7 +51,7 @@ const Footer = ({ lang }) => {
                   <a
                     href={link.href}
                     onClick={(e) => scrollToSection(e, link.href)}
-                    className="text-muted-foreground hover:text-white transition-colors"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     ~/ {link.name}
                   </a>
@@ -80,7 +80,7 @@ const Footer = ({ lang }) => {
                 href="https://github.com/malobr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-muted-foreground hover:text-primary transition-all"
+                className="p-3 bg-foreground/5 hover:bg-foreground/10 rounded-full text-muted-foreground hover:text-primary transition-all border border-border/10"
               >
                 <Github size={20} />
               </a>
@@ -88,7 +88,7 @@ const Footer = ({ lang }) => {
                 href="https://www.instagram.com/malo_t_c/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-muted-foreground hover:text-primary transition-all"
+                className="p-3 bg-foreground/5 hover:bg-foreground/10 rounded-full text-muted-foreground hover:text-primary transition-all border border-border/10"
               >
                 <Instagram size={20} />
               </a>
@@ -96,7 +96,7 @@ const Footer = ({ lang }) => {
                 href="https://www.linkedin.com/in/marcelo-tomás-a92b16231"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-muted-foreground hover:text-primary transition-all"
+                className="p-3 bg-foreground/5 hover:bg-foreground/10 rounded-full text-muted-foreground hover:text-primary transition-all border border-border/10"
               >
                 <Linkedin size={20} />
               </a>
