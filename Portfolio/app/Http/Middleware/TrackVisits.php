@@ -19,11 +19,13 @@ class TrackVisits
         
         // Don't track admin or api requests
         if (!str_starts_with($path, 'admin') && !str_starts_with($path, 'api') && !str_starts_with($path, 'login')) {
+            /*
             \App\Models\Visit::create([
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'page_url' => $request->fullUrl(),
             ]);
+            */
         }
 
         return $next($request);
