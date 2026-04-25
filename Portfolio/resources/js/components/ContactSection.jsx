@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowUpRight, Mail, Github, Instagram, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, Github, Instagram, MapPin, Linkedin } from "lucide-react";
 import { translations } from "../constants/translations";
 import ContactModal from "./ContactModal";
 
@@ -21,6 +21,12 @@ const ContactSection = ({ lang }) => {
       href: "https://github.com/malobr",
     },
     {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "marcelo-tomás-a92b16231",
+      href: "https://www.linkedin.com/in/marcelo-tomás-a92b16231",
+    },
+    {
       icon: MapPin,
       label: lang === 'en' ? 'Location' : "Localização",
       value: lang === 'en' ? 'Brazil' : "Brasil 🇧🇷",
@@ -31,6 +37,7 @@ const ContactSection = ({ lang }) => {
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/malobr", icon: Github },
     { name: "Instagram", href: "https://www.instagram.com/malo_t_c/", icon: Instagram },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/marcelo-tomás-a92b16231", icon: Linkedin },
   ];
 
   return (

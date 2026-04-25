@@ -11,6 +11,11 @@ class LiveProjectController extends Controller
      */
     public function index()
     {
+        return \App\Models\LiveProject::where('is_visible', true)->get();
+    }
+
+    public function adminIndex()
+    {
         return \App\Models\LiveProject::all();
     }
 
@@ -31,7 +36,8 @@ class LiveProjectController extends Controller
             'problem' => 'required',
             'solution' => 'required',
             'features' => 'array',
-            'results' => 'array'
+            'results' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         return \App\Models\LiveProject::create($data);
@@ -60,7 +66,8 @@ class LiveProjectController extends Controller
             'problem' => 'nullable',
             'solution' => 'nullable',
             'features' => 'array',
-            'results' => 'array'
+            'results' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         $project->update($data);

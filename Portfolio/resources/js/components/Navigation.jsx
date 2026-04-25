@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Terminal as TerminalIcon } from "lucide-react";
+import { Menu, X, Terminal as TerminalIcon, Eye, Zap } from "lucide-react";
 import TerminalModal from "./TerminalModal";
 import { translations } from "../constants/translations";
+import { useTheme } from "../context/ThemeContext";
 
 const Navigation = ({ 
     forceTerminalOpen, 
@@ -12,6 +13,7 @@ const Navigation = ({
     lang,
     setLang
 }) => {
+  const { theme, toggleTheme } = useTheme();
   const t = translations[lang] || translations.pt;
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -130,12 +132,24 @@ const Navigation = ({
                             <button
                                 key={l}
                                 onClick={() => setLang(l)}
-                                className={`px-2 py-1 text-[10px] font-bold uppercase transition-all ${lang === l ? 'bg-primary text-white' : 'text-muted-foreground hover:text-white hover:bg-white/5'}`}
+                                className={`px-2 py-1 text-[10px] font-bold uppercase transition-all ${
+                                  lang === l 
+                                    ? 'bg-primary text-white' 
+                                    : 'text-muted-foreground hover:text-foreground hover:bg-foreground/10'
+                                }`}
                             >
                                 {l}
                             </button>
                         ))}
                     </div>
+
+                    <button 
+                        onClick={toggleTheme}
+                        className="p-2 text-foreground/60 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
+                        title={theme === 'stealth' ? "Modo Flash" : "Modo Stealth"}
+                    >
+                        {theme === 'stealth' ? <Zap size={18} /> : <Eye size={18} />}
+                    </button>
 
                     <button 
                         onClick={() => setIsTerminalOpen(true)}

@@ -11,6 +11,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        return \App\Models\Project::where('is_visible', true)->get();
+    }
+
+    public function adminIndex()
+    {
         return \App\Models\Project::all();
     }
 
@@ -29,7 +34,8 @@ class ProjectController extends Controller
             'technologies' => 'array',
             'problem' => 'required',
             'solution' => 'required',
-            'features' => 'array'
+            'features' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         return \App\Models\Project::create($data);
@@ -56,7 +62,8 @@ class ProjectController extends Controller
             'technologies' => 'array',
             'problem' => 'nullable',
             'solution' => 'nullable',
-            'features' => 'array'
+            'features' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         $project->update($data);

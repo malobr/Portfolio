@@ -29,7 +29,9 @@ import {
     Users,
     TrendingUp,
     Calendar,
-    Activity
+    Activity,
+    Eye,
+    EyeOff
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -116,8 +118,8 @@ const AdminDashboard = () => {
     const fetchData = async () => {
         try {
             const [reposRes, liveRes, postsRes] = await Promise.all([
-                apiFetch("/api/projects"),
-                apiFetch("/api/live-projects"),
+                apiFetch("/api/projects/admin"),
+                apiFetch("/api/live-projects/admin"),
                 apiFetch("/api/posts")
             ]);
             setRepos(await reposRes.json());
@@ -149,6 +151,25 @@ const AdminDashboard = () => {
             setTimeout(() => setMessage(null), 3000);
         } catch (error) {
             setMessage({ type: "error", text: "Erro ao excluir." });
+        }
+    };
+
+    const handleToggleVisibility = async (type, item) => {
+        const typeMap = { repos: "projects", live: "live-projects" };
+        const endpoint = `/api/${typeMap[type]}/${item.id}`;
+        
+        try {
+            const res = await apiFetch(endpoint, {
+                method: "PUT",
+                body: JSON.stringify({ ...item, is_visible: !item.is_visible })
+            });
+            if (res.ok) {
+                fetchData();
+                setMessage({ type: "success", text: "Visibilidade atualizada!" });
+                setTimeout(() => setMessage(null), 2000);
+            }
+        } catch (error) {
+            console.error("Error toggling visibility:", error);
         }
     };
 
@@ -344,51 +365,116 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Visual Analytics Section */}
-                <div className="bg-charcoal/30 border border-white/5 p-8 rounded-2xl backdrop-blur-md shadow-2xl mb-12 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                         <Activity size={120} className="text-primary" />
-                    </div>
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30">
-                            <TrendingUp size={16} className="text-primary" />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    {/* Traffic Flow Chart */}
+                    <div className="lg:col-span-2 bg-charcoal/30 border border-white/5 p-8 rounded-2xl backdrop-blur-md shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <Activity size={120} className="text-primary" />
                         </div>
-                        <h3 className="text-lg font-bold font-mono tracking-tight uppercase">Fluxo de Tráfego <span className="text-[10px] text-muted-foreground ml-2 opacity-50">last_7_days_analysis</span></h3>
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30">
+                                    <TrendingUp size={16} className="text-primary" />
+                                </div>
+                                <h3 className="text-lg font-bold font-mono tracking-tight uppercase">Fluxo de Tráfego</h3>
+                            </div>
+                            <span className="text-[10px] text-muted-foreground font-mono opacity-50 uppercase tracking-widest">7_day_sync</span>
+                        </div>
+                        <div className="h-[250px] w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart data={stats?.chart_data || []}>
+                                    <defs>
+                                        <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
+                                            <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                    <XAxis 
+                                        dataKey="date" 
+                                        stroke="rgba(255,255,255,0.3)" 
+                                        fontSize={10} 
+                                        tickLine={false} 
+                                        axisLine={false}
+                                        tickFormatter={(str) => {
+                                            try {
+                                                return new Date(str).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+                                            } catch(e) { return str; }
+                                        }}
+                                    />
+                                    <YAxis 
+                                        stroke="rgba(255,255,255,0.3)" 
+                                        fontSize={10} 
+                                        tickLine={false} 
+                                        axisLine={false}
+                                    />
+                                    <Tooltip 
+                                        contentStyle={{ backgroundColor: '#1c1825', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontSize: '12px', fontFamily: 'JetBrains Mono' }}
+                                        itemStyle={{ color: '#a855f7' }}
+                                    />
+                                    <Area type="monotone" dataKey="count" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorVisits)" />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
-                    <div className="h-[250px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={stats?.chart_data || []}>
-                                <defs>
-                                    <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
-                                        <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                                <XAxis 
-                                    dataKey="date" 
-                                    stroke="rgba(255,255,255,0.3)" 
-                                    fontSize={10} 
-                                    tickLine={false} 
-                                    axisLine={false}
-                                    tickFormatter={(str) => {
-                                        try {
-                                            return new Date(str).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-                                        } catch(e) { return str; }
-                                    }}
-                                />
-                                <YAxis 
-                                    stroke="rgba(255,255,255,0.3)" 
-                                    fontSize={10} 
-                                    tickLine={false} 
-                                    axisLine={false}
-                                />
-                                <Tooltip 
-                                    contentStyle={{ backgroundColor: '#1c1825', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontSize: '12px', fontFamily: 'JetBrains Mono' }}
-                                    itemStyle={{ color: '#a855f7' }}
-                                />
-                                <Area type="monotone" dataKey="count" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorVisits)" />
-                            </AreaChart>
-                        </ResponsiveContainer>
+
+                    {/* Top Pages */}
+                    <div className="bg-charcoal/30 border border-white/5 p-8 rounded-2xl backdrop-blur-md shadow-2xl">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center border border-blue-500/30">
+                                <Globe size={16} className="text-blue-400" />
+                            </div>
+                            <h3 className="text-sm font-bold font-mono tracking-tight uppercase">Top Nodes</h3>
+                        </div>
+                        <div className="space-y-4">
+                            {stats?.top_pages?.map((page, i) => (
+                                <div key={i} className="flex flex-col gap-1">
+                                    <div className="flex justify-between text-[10px] font-mono mb-1">
+                                        <span className="text-muted-foreground truncate max-w-[150px]">{page.page_url.replace(window.location.origin, '') || '/home'}</span>
+                                        <span className="text-blue-400">{page.count} hits</span>
+                                    </div>
+                                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                                        <motion.div 
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${(page.count / stats.total_visits) * 100}%` }}
+                                            className="h-full bg-blue-500/40"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Recent Activity Live Feed */}
+                <div className="bg-charcoal/30 border border-white/5 p-8 rounded-2xl backdrop-blur-md shadow-2xl mb-12">
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center border border-green-500/30">
+                                <Activity size={16} className="text-green-400" />
+                            </div>
+                            <h3 className="text-lg font-bold font-mono tracking-tight uppercase">Live Activity Intelligence</h3>
+                        </div>
+                        <div className="flex items-center gap-2">
+                             <div className="w-2 h-2 rounded-full bg-green-500 animate-ping" />
+                             <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">listening_to_incoming_data...</span>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {stats?.recent_visits?.map((visit, i) => (
+                            <div key={i} className="flex items-center gap-4 p-4 bg-black/20 border border-white/5 rounded-xl hover:border-primary/30 transition-all group">
+                                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground font-mono text-[10px] group-hover:border-primary/20 transition-colors">
+                                    {visit.ip_address.substring(0, 4)}...
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs font-mono text-foreground truncate">{visit.page_url.split('/').pop() || 'HOME'}</p>
+                                    <p className="text-[9px] font-mono text-muted-foreground uppercase">{visit.ip_address} — {new Date(visit.created_at).toLocaleTimeString()}</p>
+                                </div>
+                                <div className="text-primary/40 group-hover:text-primary transition-colors">
+                                    <ArrowUpRight size={14} />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -423,6 +509,7 @@ const AdminDashboard = () => {
                                 <th className="px-6 py-5">id / slug</th>
                                 <th className="px-6 py-5">{activeTab === "blog" ? "título (PT)" : "nome"}</th>
                                 <th className="px-6 py-5">{activeTab === "blog" ? "status / data" : "techs"}</th>
+                                <th className="px-6 py-5">visibilidade</th>
                                 <th className="px-6 py-5 text-right">ações</th>
                             </tr>
                         </thead>
@@ -445,6 +532,21 @@ const AdminDashboard = () => {
                                         ) : item.technologies?.slice(0, 2).join(", ")}
                                         <br/>
                                         <span className="opacity-50">{activeTab === "blog" ? item.publish_date : ""}</span>
+                                    </td>
+                                    <td className="px-6 py-5">
+                                        {activeTab !== "blog" && (
+                                            <button 
+                                                onClick={() => handleToggleVisibility(activeTab, item)}
+                                                className={`flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-mono border transition-all ${
+                                                    item.is_visible 
+                                                        ? "border-green-500/20 text-green-400 bg-green-500/5 hover:bg-green-500/10" 
+                                                        : "border-red-500/20 text-red-400 bg-red-500/5 hover:bg-red-500/10"
+                                                }`}
+                                            >
+                                                {item.is_visible ? <Eye size={10} /> : <EyeOff size={10} />}
+                                                {item.is_visible ? "VISÍVEL" : "OCULTO"}
+                                            </button>
+                                        )}
                                     </td>
                                     <td className="px-6 py-5 text-right">
                                         <div className="flex items-center justify-end gap-2">
@@ -489,6 +591,21 @@ const AdminDashboard = () => {
                                         <option value="Em andamento">Em andamento</option>
                                         <option value="Concluído">Concluído</option>
                                     </select>
+                                )}
+
+                                {activeTab !== "blog" && (
+                                    <div className="flex items-center gap-4 bg-black/20 border border-white/5 p-3 rounded w-full h-fit">
+                                        <span className="text-xs text-muted-foreground uppercase tracking-widest">Visibilidade no Site</span>
+                                        <button 
+                                            type="button"
+                                            onClick={() => setEditingItem(prev => ({...prev, is_visible: !prev.is_visible}))}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded transition-all ${editingItem?.is_visible !== false ? "bg-green-500/20 text-green-400 border border-green-500/30" : "bg-red-500/20 text-red-100 border border-red-500/30"}`}
+                                        >
+                                            {editingItem?.is_visible !== false ? <Eye size={14}/> : <EyeOff size={14}/>}
+                                            {editingItem?.is_visible !== false ? "Visível" : "Oculto"}
+                                        </button>
+                                        <input type="hidden" name="is_visible" value={editingItem?.is_visible !== false ? "1" : "0"} />
+                                    </div>
                                 )}
                             </div>
 

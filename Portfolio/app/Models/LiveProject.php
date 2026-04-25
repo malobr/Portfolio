@@ -9,7 +9,7 @@ class LiveProject extends Model
     protected $fillable = [
         'slug', 'name', 'client', 'tagline', 'description', 'year',
         'role', 'category', 'live_url', 'repo_url', 'technologies',
-        'problem', 'solution', 'features', 'results'
+        'problem', 'solution', 'features', 'results', 'is_visible'
     ];
 
     protected $casts = [

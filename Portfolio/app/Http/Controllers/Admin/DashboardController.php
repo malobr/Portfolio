@@ -25,11 +25,26 @@ class DashboardController extends Controller
             ->orderBy('date')
             ->get();
 
+        // Top visited pages
+        $topPages = Visit::select('page_url')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('page_url')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
+
+        // Recent activity feed
+        $recentVisits = Visit::orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+
         return response()->json([
             'total_visits' => $totalVisits,
             'unique_visitors' => $uniqueVisitors,
             'visits_today' => $visitsToday,
             'chart_data' => $chartData,
+            'top_pages' => $topPages,
+            'recent_visits' => $recentVisits,
             'counts' => [
                 'projects' => Project::count(),
                 'live_projects' => LiveProject::count(),

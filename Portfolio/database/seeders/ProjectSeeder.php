@@ -10,8 +10,15 @@ class ProjectSeeder extends Seeder
 {
     public function run(): void
     {
-        // GitHub Repositories
-        Project::updateOrCreate(['slug' => 'malobr-profile'], [
+        // Limpar dados para garantir a ordem e visibilidade exclusivas conforme solicitado
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Project::truncate();
+        LiveProject::truncate();
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // 1. malobr
+        Project::create([
+            'slug' => 'malobr',
             'name' => 'malobr',
             'year' => '2024',
             'language' => 'Markdown',
@@ -41,9 +48,12 @@ class ProjectSeeder extends Seeder
                 ['pt' => 'Geração de Header Social Dinâmico', 'en' => 'Dynamic Social Media Header Generation'],
                 ['pt' => 'Visualização Analítica de Produtividade', 'en' => 'Productivity Metric Analytics Visualization']
             ],
+            'is_visible' => true,
         ]);
 
-        Project::updateOrCreate(['slug' => 'catpaws'], [
+        // 2. CatPaws
+        Project::create([
+            'slug' => 'catpaws',
             'name' => 'CatPaws',
             'year' => '2024',
             'language' => 'Kotlin',
@@ -73,9 +83,12 @@ class ProjectSeeder extends Seeder
                 ['pt' => 'UI Declarativa com Jetpack Compose', 'en' => 'Declarative UI with Jetpack Compose'],
                 ['pt' => 'Estratégia Adaptativa de Memória', 'en' => 'Adaptive Memory Management Strategy']
             ],
+            'is_visible' => true,
         ]);
 
-        Project::updateOrCreate(['slug' => 'library-manage'], [
+        // 3. Library-Manage
+        Project::create([
+            'slug' => 'library-manage',
             'name' => 'Library-Manage',
             'year' => '2024',
             'language' => 'PHP',
@@ -105,10 +118,117 @@ class ProjectSeeder extends Seeder
                 ['pt' => 'Cálculos de Disponibilidade Real-time', 'en' => 'Real-time Availability Calculations'],
                 ['pt' => 'Deploy em Infraestrutura Containerizada', 'en' => 'Containerized Infrastructure Deployment']
             ],
+            'is_visible' => true,
+        ]);
+
+        // 4. Chapeu-Seletor-De-Hogwarts
+        Project::create([
+            'slug' => 'chapeu-seletor',
+            'name' => 'Chapeu-Seletor-De-Hogwarts',
+            'year' => '2024',
+            'language' => 'PHP',
+            'category' => ['pt' => 'Algoritmos & Gamificação', 'en' => 'Algorithms & Gamification'],
+            'tagline' => [
+                'pt' => 'Experiência interativa de classificação inspirada no universo Harry Potter.',
+                'en' => 'Interactive sorting experience inspired by the Harry Potter universe.'
+            ],
+            'description' => [
+                'pt' => 'Aplicação PHP pura que utiliza lógica de pontuação ponderada para classificar usuários em uma das quatro casas de Hogwarts baseado em algoritmos de decisão comportamental.',
+                'en' => 'Pure PHP application utilizing weighted scoring logic to classify users into one of the four Hogwarts houses based on behavioral decision algorithms.'
+            ],
+            'role' => ['pt' => 'Desenvolvedor Backend', 'en' => 'Backend Developer'],
+            'repo_url' => 'https://github.com/malobr/Chapeu-Seletor-De-Hogwarts',
+            'technologies' => ['PHP', 'HTML5', 'CSS3', 'Logic Algorithms'],
+            'problem' => [
+                'pt' => 'Classificar perfis de forma binária falha em capturar a complexidade de traços de personality em sistemas de quiz.',
+                'en' => 'Binary classification of profiles fails to capture the complexity of personality traits in quiz systems.'
+            ],
+            'solution' => [
+                'pt' => 'Desenvolvimento de uma matriz de pesos onde cada resposta influencia dinamicamente o score de múltiplas categorias, resultando em uma classificação precisa e divertida.',
+                'en' => 'Development of a weight matrix where every answer dynamically influences the score of multiple categories, resulting in an accurate and fun classification.'
+            ],
+            'features' => [
+                ['pt' => 'Lógica de Pontuação Ponderada', 'en' => 'Weighted Scoring Logic'],
+                ['pt' => 'Interface Temática Imersiva', 'en' => 'Immersive Themed Interface'],
+                ['pt' => 'Processamento de Dados Server-side', 'en' => 'Server-side Data Processing'],
+                ['pt' => 'Resultados Dinâmicos por Perfil', 'en' => 'Dynamic Results per Profile']
+            ],
+            'is_visible' => true,
+        ]);
+
+        // 5. Permission-Laravel
+        Project::create([
+            'slug' => 'permission-laravel',
+            'name' => 'Permission-Laravel',
+            'year' => '2024',
+            'language' => 'Blade',
+            'category' => ['pt' => 'Arquitetura de Segurança', 'en' => 'Security Architecture'],
+            'tagline' => [
+                'pt' => 'Sistema FullStack de gestão de permissões e controle de acesso robusto.',
+                'en' => 'FullStack permission management and robust access control system.'
+            ],
+            'description' => [
+                'pt' => 'Desenvolvido com Laravel 11 e Dockerizado, este projeto foca na implementação de RBAC (Role-Based Access Control) complexo, garantindo que cada endpoint e componente de UI respeite as políticas de autorização do sistema.',
+                'en' => 'Built with Laravel 11 and Dockerized, this project focuses on complex RBAC (Role-Based Access Control) implementation, ensuring every endpoint and UI component respects system authorization policies.'
+            ],
+            'role' => ['pt' => 'Desenvolvedor Backend Lead', 'en' => 'Lead Backend Developer'],
+            'repo_url' => 'https://github.com/malobr/Permission-Laravel',
+            'technologies' => ['Laravel 11', 'Blade', 'Docker', 'MySQL', 'RBAC'],
+            'problem' => [
+                'pt' => 'Gestão de acessos em aplicações enterprise costuma ser negligenciada, gerando falhas de segurança e exposição de dados sensíveis.',
+                'en' => 'Access management in enterprise applications is often neglected, leading to security flaws and sensitive data exposure.'
+            ],
+            'solution' => [
+                'pt' => 'Implementação de uma camada de autenticação stateful com middlewares de autorização customizados e uma interface administrativa para gestão dinâmica de papéis.',
+                'en' => 'Implementation of a stateful authentication layer with custom authorization middlewares and an administrative interface for dynamic role management.'
+            ],
+            'features' => [
+                ['pt' => 'Gestão de Papéis e Permissões (Dynamic)', 'en' => 'Dynamic Role & Permission Management'],
+                ['pt' => 'Ambiente 100% Dockerizado', 'en' => '100% Dockerized Environment'],
+                ['pt' => 'Interface Reativa com Blade/Livewire', 'en' => 'Reactive Interface with Blade/Livewire'],
+                ['pt' => 'Logs de Auditoria de Acesso', 'en' => 'Access Audit Logging']
+            ],
+            'is_visible' => true,
+        ]);
+
+        // 6. Consume-Contries-API
+        Project::create([
+            'slug' => 'consume-countries',
+            'name' => 'Consume-Contries-API',
+            'year' => '2024',
+            'language' => 'PHP',
+            'category' => ['pt' => 'Integração de APIs', 'en' => 'API Integration'],
+            'tagline' => [
+                'pt' => 'Explorador de dados globais consumindo a REST Countries API.',
+                'en' => 'Global data explorer consuming the REST Countries API.'
+            ],
+            'description' => [
+                'pt' => 'Sistema desenvolvido em PHP puro para consumo eficiente e exibição de dados geopolíticos, focado em tratamento de JSON e renderização dinâmica sem frameworks.',
+                'en' => 'System developed in pure PHP for efficient geopolitical data consumption and display, focused on JSON handling and dynamic rendering without frameworks.'
+            ],
+            'role' => ['pt' => 'Desenvolvedor Backend', 'en' => 'Backend Developer'],
+            'repo_url' => 'https://github.com/malobr/Consume-Contries-API',
+            'technologies' => ['PHP', 'cURL', 'REST APIs', 'JSON Processing'],
+            'problem' => [
+                'pt' => 'Consumir APIs externas de forma eficiente exige uma gestão correta de requisições HTTP e tratamento de exceções em tempo real.',
+                'en' => 'Consuming external APIs efficiently requires correct HTTP request management and real-time exception handling.'
+            ],
+            'solution' => [
+                'pt' => 'Implementação de um motor cURL robusto que processa dados de centenas de países, filtrando informações essenciais e entregando-as em uma interface limpa.',
+                'en' => 'Implementation of a robust cURL engine that processes data from hundreds of countries, filtering essential information and delivering it in a clean interface.'
+            ],
+            'features' => [
+                ['pt' => 'Consumo via cURL Nativo', 'en' => 'Native cURL Consumption'],
+                ['pt' => 'Motor de Busca Geopolítico', 'en' => 'Geopolitical Search Engine'],
+                ['pt' => 'Tratamento de Dados JSON Complexos', 'en' => 'Complex JSON Data Handling'],
+                ['pt' => 'Zero-Framework Architecture', 'en' => 'Zero-Framework Architecture']
+            ],
+            'is_visible' => true,
         ]);
 
         // Live Projects
-        LiveProject::updateOrCreate(['slug' => 'lar-bom-caminho'], [
+        LiveProject::create([
+            'slug' => 'lar-bom-caminho',
             'name' => 'Lar Bom Caminho',
             'client' => 'Lar o Bom Caminho — ONG',
             'tagline' => [
@@ -116,8 +236,8 @@ class ProjectSeeder extends Seeder
                 'en' => 'Digital transformation for a philanthropic institution with 50 years of history.'
             ],
             'description' => [
-                'pt' => 'Uma plataforma institucional de alta fidelidade e ecossistema de gestão desenhada para amplificar o impacto social, modernizar a transparência financeira e engajar novos doadores. O diferencial tecnológico reside na implementação de um sistema de gerenciamento de conteúdo (CMS) proprietário com um editor WYSIWYG (What You See Is What You Get) avançado, permitindo que a equipe da ONG publique notícias, relatórios de transparência e histórias de impacto com total autonomia, mantendo a integridade visual e a performance da plataforma.',
-                'en' => 'A high-fidelity institutional platform and management ecosystem designed to amplify social impact, modernize financial transparency, and engage new donors. The technical edge lies in the implementation of a proprietary Content Management System (CMS) with an advanced WYSIWYG editor, allowing the NGO staff to publish news, transparency reports, and impact stories with full autonomy, while maintaining the platform\'s visual integrity and performance.'
+                'pt' => 'Uma plataforma institucional de alta fidelidade e ecossistema de gestão desenhada para amplificar o impacto social, modernizar a transparência financeira e engajar novos doadores.',
+                'en' => 'A high-fidelity institutional platform and management ecosystem designed to amplify social impact, modernize financial transparency, and engage new donors.'
             ],
             'year' => '2025',
             'role' => ['pt' => 'Arquiteto de Soluções & Engenheiro Fullstack', 'en' => 'Solutions Architect & Fullstack Engineer'],
@@ -125,63 +245,62 @@ class ProjectSeeder extends Seeder
             'live_url' => 'https://larobomcaminho.org/',
             'technologies' => ['Laravel Ecosystem', 'Blade UI', 'TailwindCSS 4', 'MySQL', 'WYSIWYG Integration'],
             'problem' => [
-                'pt' => 'A ausência de uma presença digital moderna e a dificuldade técnica de manter o site atualizado impediam a comunicação da seriedade do trabalho e a captação recorrente de recursos. A ONG dependia de desenvolvedores para qualquer alteração mínima de conteúdo.',
-                'en' => 'The lack of a modern digital presence and the technical difficulty of keeping the site updated hindered the communication of their work\'s seriousness and recurring resource attraction. The NGO relied on developers for even minimal content changes.'
+                'pt' => 'A ausência de uma presença digital moderna e a dificuldade técnica de manter o site atualizado impediam a comunicação da seriedade do trabalho.',
+                'en' => 'The lack of a modern digital presence and technical difficulty keeping the site updated hindered communication.'
             ],
             'solution' => [
-                'pt' => 'Criação de uma experiência web "Premium UX" integrada a um backoffice robusto. Desenvolvi um motor de edição WYSIWYG customizado que processa HTML sanitizado nativamente, garantindo que usuários leigos possam criar layouts ricos de notícias sem quebrar o design. Isso democratizou a produção de conteúdo interno, permitindo que a história da instituição seja contada em tempo real por quem a vive.',
-                'en' => 'Creating a "Premium UX" web experience integrated with a robust backoffice. I developed a custom WYSIWYG editing engine that processes sanitized HTML natively, ensuring lay users can create rich news layouts without breaking the design. This democratized internal content production, allowing the institution\'s story to be told in real-time by those who live it.'
+                'pt' => 'Criação de uma experiência web "Premium UX" integrada a um backoffice robusto.',
+                'en' => 'Creating a "Premium UX" web experience integrated with a robust backoffice.'
             ],
             'features' => [
                 ['pt' => 'Narrativa Visual Impactante', 'en' => 'Mission-First Visual Storytelling'],
-                ['pt' => 'Dashboard de Transparência Financeira', 'en' => 'Financial Transparency Dashboard'],
-                ['pt' => 'Funil de Doação Otimizado', 'en' => 'Conversion-Focused Donation Funnel'],
-                ['pt' => 'Navegação Histórica Dinâmica', 'en' => 'Dynamic History Timeline Navigation']
+                ['pt' => 'Dashboard de Transparência Financeira', 'en' => 'Financial Transparency Dashboard']
             ],
             'results' => [
                 ['metric' => '52+', 'label' => ['pt' => 'Anos de Impacto', 'en' => 'Years of Impact']],
-                ['metric' => '200+', 'label' => ['pt' => 'Famílias Apoiadas', 'en' => 'Families Supported']],
                 ['metric' => '100%', 'label' => ['pt' => 'Transparência Digital', 'en' => 'Digital Transparency']],
             ],
+            'is_visible' => true,
         ]);
 
-        LiveProject::updateOrCreate(['slug' => 'formly'], [
+        LiveProject::create([
+            'slug' => 'formly',
             'name' => 'Formly',
             'client' => 'Formly — SaaS Ecosystem',
             'tagline' => [
-                'pt' => 'Ecossistema SaaS unificado para automação de fluxos de documentos e coleta de dados.',
-                'en' => 'Unified SaaS ecosystem for document flow automation and data collection.'
+                'pt' => 'SaaS unificado para automação de contratos legais, formulários e gestão de fotos.',
+                'en' => 'Unified SaaS for legal contracts, forms automation, and photo management.'
             ],
             'description' => [
-                'pt' => 'Uma suíte modular de produtividade empresarial que combina ferramentas de formulários dinâmicos, contratos digitais e estúdio de mídia em uma única interface coerente.',
-                'en' => 'A modular business productivity suite combining dynamic forms, digital contracts, and media studio tools into a single coherent interface.'
+                'pt' => 'O Formly é uma plataforma B2B robusta construída com Laravel 12, React 19 e Tailwind CSS 4.',
+                'en' => 'Formly is a robust B2B platform built with Laravel 12, React 19, and Tailwind CSS 4.'
             ],
             'year' => '2025',
-            'role' => ['pt' => 'Fundador & CTO', 'en' => 'Founder & CTO'],
-            'category' => ['pt' => 'SaaS / B2B Product', 'en' => 'SaaS / B2B Product'],
+            'role' => ['pt' => 'Arquiteto de Software & CTO', 'en' => 'Software Architect & CTO'],
+            'category' => ['pt' => 'Enterprise SaaS / Fintech', 'en' => 'Enterprise SaaS / Fintech'],
             'live_url' => 'https://formly.net.br/',
-            'technologies' => ['Laravel', 'React', 'TypeScript', 'WebAssembly', 'Node.js'],
+            'technologies' => ['Laravel 12', 'React 19', 'Tailwind CSS 4', 'Mercado Pago API'],
             'problem' => [
-                'pt' => 'Pequenas e médias empresas sofrem com a fragmentação de ferramentas, elevando custos e complicando fluxos de trabalho simples.',
-                'en' => 'SMEs suffer from tool fragmentation, increasing costs and complicating simple workflows.'
+                'pt' => 'Empresas perdem produtividade fragmentando processos.',
+                'en' => 'Companies lose productivity by fragmenting processes.'
             ],
             'solution' => [
-                'pt' => 'Desenvolvimento de uma arquitetura "All-in-One" processada localmente via WebAssembly, garantindo privacidade máxima e custo de infraestrutura otimizado.',
-                'en' => 'Development of an "All-in-One" architecture processed locally via WebAssembly, ensuring maximum privacy and optimized infrastructure cost.'
+                'pt' => 'Uma solução "Single-Point" integrada.',
+                'en' => 'An integrated "Single-Point" solution.'
             ],
             'features' => [
-                ['pt' => 'Motor de Formulários Dinâmicos', 'en' => 'Dynamic Form Weaver Engine'],
-                ['pt' => 'Assinatura Digital Legalizada', 'en' => 'E-Signature Legal Framework'],
-                ['pt' => 'Processamento de Áudio in-Browser', 'en' => 'Browser-Side Audio Processing'],
-                ['pt' => 'Analytics de Workspace Unificado', 'en' => 'Unified Workspace Analytics']
+                ['pt' => 'Gerador de Assinaturas com Validade Jurídica', 'en' => 'Legally Binding Signature Generator'],
+                ['pt' => 'Builder de Formulários Drag-and-Drop', 'en' => 'Drag-and-Drop Form Builder']
             ],
             'results' => [
-                ['metric' => '4', 'label' => ['pt' => 'Produtos Modulares', 'en' => 'Modular Products']],
-                ['metric' => '< 50ms', 'label' => ['pt' => 'Latência de Processamento', 'en' => 'Processing Latency']],
+                ['metric' => 'v2.0', 'label' => ['pt' => 'Core Engine Tech', 'en' => 'Core Engine Tech']],
+                ['metric' => '100%', 'label' => ['pt' => 'Legal Compliance', 'en' => 'Legal Compliance']],
             ],
+            'is_visible' => true,
         ]);
 
-        LiveProject::updateOrCreate(['slug' => 'caminho-da-vida'], [
+        LiveProject::create([
+            'slug' => 'caminho-da-vida',
             'name' => 'Caminho da Vida',
             'client' => 'Comunidade Cristã Caminho da Vida',
             'tagline' => [
@@ -189,32 +308,31 @@ class ProjectSeeder extends Seeder
                 'en' => 'Integrated management and digitalization solution for faith communities.'
             ],
             'description' => [
-                'pt' => 'Plataforma que centraliza a comunicação institucional, gestão de eventos e fluxos de contribuição em um ambiente digital esteticamente refinado e acessível.',
-                'en' => 'Platform centralizing institutional communication, event management, and contribution flows in an aesthetically refined and accessible digital environment.'
+                'pt' => 'Plataforma que centraliza a comunicação institucional e fluxos de contribuição.',
+                'en' => 'Platform centralizing institutional communication and contribution flows.'
             ],
             'year' => '2024',
             'role' => ['pt' => 'Arquiteto Fullstack Lead', 'en' => 'Lead Fullstack Architect'],
             'category' => ['pt' => 'Management Platform', 'en' => 'Management Platform'],
             'live_url' => 'https://mediumaquamarine-gaur-323782.hostingersite.com/',
-            'technologies' => ['Laravel', 'Custom Blade Components', 'TailwindCSS', 'MySQL'],
+            'technologies' => ['Laravel', 'Custom Blade Components', 'TailwindCSS'],
             'problem' => [
-                'pt' => 'Instituições tradicionais costumam ter dificuldades em manter uma comunicação ágil e organizada com seus membros no ambiente digital.',
-                'en' => 'Traditional institutions often struggle to maintain agile and organized communication with their members in the digital environment.'
+                'pt' => 'Instituições tradicionais costumam ter dificuldades em manter uma comunicação ágil.',
+                'en' => 'Traditional institutions often struggle to maintain agile communication.'
             ],
             'solution' => [
-                'pt' => 'Implementação de uma agenda ministerial dinâmica, sistema de notícias "feed-first" e dashboard de Giving estilizado para máxima conversão e engajamento.',
-                'en' => 'Implementation of a dynamic ministry agenda, "feed-first" news system, and styled Giving dashboard for maximum conversion and engagement.'
+                'pt' => 'Implementação de uma agenda ministerial dinâmica e dashboard de Giving estilizado.',
+                'en' => 'Implementation of a dynamic ministry agenda and styled Giving dashboard.'
             ],
             'features' => [
                 ['pt' => 'Agendamento Ministerial Dinâmico', 'en' => 'Dynamic Ministry Scheduler'],
-                ['pt' => 'Interface de Doação Premium', 'en' => 'Premium Giving Interface'],
-                ['pt' => 'Arquivamento Inteligente de Notícias', 'en' => 'Smart News Archiving'],
-                ['pt' => 'Acesso Mobile-First', 'en' => 'Mobile-First Community Access']
+                ['pt' => 'Interface de Doação Premium', 'en' => 'Premium Giving Interface']
             ],
             'results' => [
                 ['metric' => '24/7', 'label' => ['pt' => 'Disponibilidade Ativa', 'en' => 'Active Availability']],
                 ['metric' => '100%', 'label' => ['pt' => 'Canais Digitalizados', 'en' => 'Digitized Channels']],
             ],
+            'is_visible' => true,
         ]);
     }
 }
