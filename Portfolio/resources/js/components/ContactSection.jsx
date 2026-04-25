@@ -1,22 +1,30 @@
-import React from "react";
-import { ArrowUpRight, Mail, Github, Instagram, MapPin } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowUpRight, Mail, Github, Instagram, MapPin, Linkedin } from "lucide-react";
 import { translations } from "../constants/translations";
+import ContactModal from "./ContactModal";
 
 const ContactSection = ({ lang }) => {
   const t = translations[lang] || translations.pt;
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
       value: "contato@marcelocavalheiro.com",
-      href: "mailto:contato@marcelocavalheiro.com",
+      action: () => setIsModalOpen(true),
     },
     {
       icon: Github,
       label: "GitHub",
       value: "github.com/malobr",
       href: "https://github.com/malobr",
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "marcelo-tomás-a92b16231",
+      href: "https://www.linkedin.com/in/marcelo-tomás-a92b16231",
     },
     {
       icon: MapPin,
@@ -29,6 +37,7 @@ const ContactSection = ({ lang }) => {
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/malobr", icon: Github },
     { name: "Instagram", href: "https://www.instagram.com/malo_t_c/", icon: Instagram },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/marcelo-tomás-a92b16231", icon: Linkedin },
   ];
 
   return (
@@ -49,12 +58,10 @@ const ContactSection = ({ lang }) => {
             {/* Contact Info */}
             <div className="space-y-6">
               {contactInfo.map((item, index) => (
-                <a
+                <div
                   key={index}
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 group"
+                  onClick={item.action || (() => window.open(item.href, '_blank'))}
+                  className="flex items-center gap-4 group cursor-pointer"
                 >
                   <div className="w-12 h-12 border border-border flex items-center justify-center
                                   transition-all duration-300 group-hover:border-primary group-hover:bg-primary/5">
@@ -64,7 +71,7 @@ const ContactSection = ({ lang }) => {
                     <p className="text-label text-xs font-mono">{item.label}</p>
                     <p className="text-body-lg text-foreground font-mono">{item.value}</p>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>
@@ -72,8 +79,8 @@ const ContactSection = ({ lang }) => {
           {/* Right Column */}
           <div className="flex flex-col justify-between">
             {/* CTA */}
-            <a
-              href="mailto:contato@marcelocavalheiro.com"
+            <div
+              onClick={() => setIsModalOpen(true)}
               className="block bg-secondary p-8 md:p-12 relative group cursor-pointer
                          transition-all duration-500 hover:bg-primary/10 border border-border"
             >
@@ -86,8 +93,10 @@ const ContactSection = ({ lang }) => {
                   <ArrowUpRight size={20} />
                 </div>
               </div>
-                {lang === 'en' ? 'Have an idea, MVP or system to build? Let\'s architect together — from schema to deploy.' : 'Tem uma ideia, MVP ou sistema pra construir? Vamos arquitetar juntos — do schema ao deploy.'}
-            </a>
+                <p className="text-muted-foreground group-hover:text-foreground transition-colors">
+                    {lang === 'en' ? 'Have an idea, MVP or system to build? Let\'s architect together — from schema to deploy.' : 'Tem uma ideia, MVP ou sistema pra construir? Vamos arquitetar juntos — do schema ao deploy.'}
+                </p>
+            </div>
 
             {/* Social Links */}
             <div className="mt-12 lg:mt-0">
@@ -110,6 +119,12 @@ const ContactSection = ({ lang }) => {
           </div>
         </div>
       </div>
+
+      <ContactModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        lang={lang} 
+      />
     </section>
   );
 };

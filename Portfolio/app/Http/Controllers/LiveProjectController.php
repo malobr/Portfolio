@@ -11,6 +11,11 @@ class LiveProjectController extends Controller
      */
     public function index()
     {
+        return \App\Models\LiveProject::where('is_visible', true)->get();
+    }
+
+    public function adminIndex()
+    {
         return \App\Models\LiveProject::all();
     }
 
@@ -20,18 +25,19 @@ class LiveProjectController extends Controller
             'slug' => 'required|string|unique:live_projects',
             'name' => 'required|string',
             'client' => 'required|string',
-            'tagline' => 'required|string',
-            'description' => 'required|string',
+            'tagline' => 'required',
+            'description' => 'required',
             'year' => 'required|string',
-            'role' => 'required|string',
-            'category' => 'required|string',
+            'role' => 'required',
+            'category' => 'required',
             'live_url' => 'required|url',
             'repo_url' => 'nullable|url',
             'technologies' => 'array',
-            'problem' => 'required|string',
-            'solution' => 'required|string',
+            'problem' => 'required',
+            'solution' => 'required',
             'features' => 'array',
-            'results' => 'array'
+            'results' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         return \App\Models\LiveProject::create($data);
@@ -49,18 +55,19 @@ class LiveProjectController extends Controller
             'slug' => 'string|unique:live_projects,slug,'.$id,
             'name' => 'string',
             'client' => 'string',
-            'tagline' => 'string',
-            'description' => 'string',
+            'tagline' => 'nullable',
+            'description' => 'nullable',
             'year' => 'string',
-            'role' => 'string',
-            'category' => 'string',
+            'role' => 'nullable',
+            'category' => 'nullable',
             'live_url' => 'url',
             'repo_url' => 'nullable|url',
             'technologies' => 'array',
-            'problem' => 'string',
-            'solution' => 'string',
+            'problem' => 'nullable',
+            'solution' => 'nullable',
             'features' => 'array',
-            'results' => 'array'
+            'results' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         $project->update($data);

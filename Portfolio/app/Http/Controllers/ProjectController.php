@@ -11,6 +11,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        return \App\Models\Project::where('is_visible', true)->get();
+    }
+
+    public function adminIndex()
+    {
         return \App\Models\Project::all();
     }
 
@@ -21,15 +26,16 @@ class ProjectController extends Controller
             'name' => 'required|string',
             'year' => 'required|string',
             'language' => 'required|string',
-            'category' => 'required|string',
-            'tagline' => 'required|string',
-            'description' => 'required|string',
-            'role' => 'required|string',
+            'category' => 'required',
+            'tagline' => 'required',
+            'description' => 'required',
+            'role' => 'required',
             'repo_url' => 'required|url',
             'technologies' => 'array',
-            'problem' => 'required|string',
-            'solution' => 'required|string',
-            'features' => 'array'
+            'problem' => 'required',
+            'solution' => 'required',
+            'features' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         return \App\Models\Project::create($data);
@@ -48,15 +54,16 @@ class ProjectController extends Controller
             'name' => 'string',
             'year' => 'string',
             'language' => 'string',
-            'category' => 'string',
-            'tagline' => 'string',
-            'description' => 'string',
-            'role' => 'string',
+            'category' => 'nullable',
+            'tagline' => 'nullable',
+            'description' => 'nullable',
+            'role' => 'nullable',
             'repo_url' => 'url',
             'technologies' => 'array',
-            'problem' => 'string',
-            'solution' => 'string',
-            'features' => 'array'
+            'problem' => 'nullable',
+            'solution' => 'nullable',
+            'features' => 'array',
+            'is_visible' => 'nullable|boolean'
         ]);
 
         $project->update($data);

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\LiveProjectController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -26,12 +27,21 @@ Route::get('/live-projects/slug/{slug}', [LiveProjectController::class, 'showByS
 
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/slug/{slug}', [PostController::class, 'getBySlug']);
+Route::get('/system/stats', [DashboardController::class, 'stats']);
+
+Route::post('/contact/send', [ContactController::class, 'send']);
+
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+    
+    Route::get('/projects/admin', [ProjectController::class, 'adminIndex']);
     Route::post('/projects', [ProjectController::class, 'store']);
     Route::put('/projects/{project}', [ProjectController::class, 'update']);
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
 
+    Route::get('/live-projects/admin', [LiveProjectController::class, 'adminIndex']);
     Route::post('/live-projects', [LiveProjectController::class, 'store']);
     Route::put('/live-projects/{live_project}', [LiveProjectController::class, 'update']);
     Route::delete('/live-projects/{live_project}', [LiveProjectController::class, 'destroy']);

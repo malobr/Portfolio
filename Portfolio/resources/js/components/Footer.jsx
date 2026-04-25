@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Instagram, Terminal as TerminalIcon, Settings } from "lucide-react";
+import { Github, Instagram, Linkedin, Terminal as TerminalIcon, Settings } from "lucide-react";
 import { translations } from "../constants/translations";
 
 const Footer = ({ lang }) => {
@@ -26,7 +26,7 @@ const Footer = ({ lang }) => {
   ];
 
   return (
-    <footer className="py-24 bg-[#110e1a] border-t border-white/5">
+    <footer className="py-24 bg-background border-t border-border mt-20">
       <div className="container-luxury">
         {/* Sitemap / Index */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
@@ -62,7 +62,7 @@ const Footer = ({ lang }) => {
 
           <div>
             <h4 className="text-xs font-mono text-primary uppercase tracking-widest mb-6">// terminal</h4>
-            <div className="p-4 bg-black/40 border border-white/5 rounded-lg border-l-2 border-l-primary">
+            <div className="p-4 bg-charcoal/40 border border-border rounded-lg border-l-2 border-l-primary">
               <p className="text-xs font-mono text-muted-foreground mb-3 flex items-center gap-2">
                 <TerminalIcon size={12} className="text-primary" /> 
                 {lang === 'en' ? 'Terminal Navigation' : 'Navegação via Terminal'}
@@ -92,12 +92,20 @@ const Footer = ({ lang }) => {
               >
                 <Instagram size={20} />
               </a>
+              <a
+                href="https://www.linkedin.com/in/marcelo-tomás-a92b16231"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-muted-foreground hover:text-primary transition-all"
+              >
+                <Linkedin size={20} />
+              </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs font-mono text-muted-foreground">
             © {new Date().getFullYear()} Marcelo · Built with React 19 + Vite 8
           </p>
