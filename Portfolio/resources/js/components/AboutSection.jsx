@@ -43,7 +43,7 @@ const AboutSection = ({ lang }) => {
 
           {/* Right Column - Terminal Card */}
           <div className="relative">
-            <div className="aspect-[4/5] bg-secondary relative overflow-hidden border border-border">
+            <div className="h-auto bg-secondary relative border border-border lg:aspect-[4/5]">
               {/* Terminal header */}
               <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-background/40">
                 <div className="w-3 h-3 rounded-full bg-destructive/70" />

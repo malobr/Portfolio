@@ -60,7 +60,8 @@ const BlogSection = ({ lang }) => {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Link to={`/blog/${post.slug}`} className="group block h-full p-6 border border-transparent hover:border-primary/20 hover:bg-foreground/[0.02] rounded-2xl transition-all duration-500">
+              <Link to={`/blog/${post.slug}`} className="group block h-full p-6 border border-transparent hover:border-primary/20 hover:bg-foreground/[0.02] rounded-2xl transition-all duration-500 relative overflow-hidden">
+                <div className="absolute inset-0 bg-horizontal-lines opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 <div className="mb-6 overflow-hidden bg-charcoal aspect-video border border-border/50 flex items-center justify-center relative">
                   <BookOpen size={40} className="text-primary/20 group-hover:scale-110 group-hover:text-primary transition-all duration-500" />
                   <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
