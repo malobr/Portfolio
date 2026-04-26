@@ -213,8 +213,9 @@ const ProjectsSection = ({ lang }) => {
                   <TiltCard className="h-full">
                     <Link
                       to={`/repos/${project.slug}`}
-                      className="group flex flex-col h-full border border-border bg-background/40 p-6 md:p-8 transition-all duration-300 hover:border-primary/50 hover:bg-background/60 shadow-xl overflow-hidden relative"
+                      className="group flex flex-col h-full border border-border bg-background transition-all duration-300 hover:border-primary/50 shadow-xl overflow-hidden relative p-6 md:p-8"
                     >
+                      <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none" />
                       {/* Interactive Glimmer */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                       
@@ -234,7 +235,7 @@ const ProjectsSection = ({ lang }) => {
                       <p className="text-body text-muted-foreground mb-6 flex-1 relative z-10">
                         {getT(project.tagline)}
                       </p>
-                      <div className="flex flex-wrap gap-2 mb-6 relative z-10">
+                      <div className="flex flex-wrap gap-2 relative z-10">
                         {project.technologies.slice(0, 4).map((tag) => (
                           <span
                             key={tag}

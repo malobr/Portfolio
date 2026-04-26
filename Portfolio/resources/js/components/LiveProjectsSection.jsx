@@ -56,10 +56,11 @@ const LiveProjectsSection = ({ lang }) => {
         {/* Live Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {liveProjects.map((project) => (
-            <article
-              key={project.slug}
-              className="group border border-border bg-charcoal overflow-hidden flex flex-col transition-all duration-500 hover:border-primary"
-            >
+              <article
+                key={project.slug}
+                className="group border border-border bg-charcoal overflow-hidden flex flex-col transition-all duration-500 hover:border-primary relative"
+              >
+                <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none" />
               {/* Browser preview */}
               <div className="border-b border-border">
                 <div className="flex items-center gap-2 px-4 py-3 bg-background/40 border-b border-border">

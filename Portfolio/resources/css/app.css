@@ -95,8 +95,20 @@
   .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
   .animate-scale-in { animation: scaleIn 1.5s ease-out forwards; }
 
-  .bg-grid-lines {
-    background-image: linear-gradient(color-mix(in srgb, var(--color-border), transparent 70%) 1px, transparent 1px);
+  .bg-grid-premium {
+    background-image: 
+      linear-gradient(to right, color-mix(in srgb, var(--color-primary), transparent 85%) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-primary), transparent 85%) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(color-mix(in srgb, var(--color-primary), transparent 80%) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-horizontal-lines {
+    background-image: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary), transparent 85%) 1px, transparent 1px);
     background-size: 100% 12px;
   }
 }
