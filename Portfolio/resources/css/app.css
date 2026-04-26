@@ -107,6 +107,11 @@
     background-size: 20px 20px;
   }
 
+  .bg-grid-lines {
+    background-image: linear-gradient(color-mix(in srgb, var(--color-border), transparent 70%) 1px, transparent 1px);
+    background-size: 100% 12px;
+  }
+
   .bg-horizontal-lines {
     background-image: linear-gradient(to bottom, color-mix(in srgb, var(--color-primary), transparent 85%) 1px, transparent 1px);
     background-size: 100% 12px;

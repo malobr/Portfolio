@@ -60,10 +60,9 @@ const LiveProjectsSection = ({ lang }) => {
                 key={project.slug}
                 className="group border border-border bg-charcoal overflow-hidden flex flex-col transition-all duration-500 hover:border-primary relative"
               >
-                <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none" />
               {/* Browser preview */}
-              <div className="border-b border-border">
-                <div className="flex items-center gap-2 px-4 py-3 bg-background/40 border-b border-border">
+              <div className="border-b border-border bg-background">
+                <div className="flex items-center gap-2 px-4 py-3 bg-secondary/20 border-b border-border">
                   <div className="w-3 h-3 rounded-full bg-destructive/70" />
                   <div className="w-3 h-3 rounded-full bg-primary/70" />
                   <div className="w-3 h-3 rounded-full bg-foreground/30" />
@@ -87,39 +86,45 @@ const LiveProjectsSection = ({ lang }) => {
               </div>
 
               {/* Content */}
-              <div className="p-6 md:p-8 flex flex-col flex-1">
-                <div className="flex items-start justify-between mb-4">
-                  <p className="text-label font-mono text-xs">
-                    {getT(project.category)} · {project.year}
-                  </p>
-                  <ArrowUpRight
-                    size={20}
-                    className="text-muted-foreground group-hover:text-primary group-hover:-translate-y-1 group-hover:translate-x-1 transition-all"
-                  />
+              <div className="flex flex-col flex-1">
+                {/* Text section with pattern */}
+                <div className="p-6 md:p-8 pb-0 relative overflow-hidden flex-1">
+                  <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <p className="text-label font-mono text-xs">
+                        {getT(project.category)} · {project.year}
+                      </p>
+                      <ArrowUpRight
+                        size={20}
+                        className="text-muted-foreground group-hover:text-primary group-hover:-translate-y-1 group-hover:translate-x-1 transition-all"
+                      />
+                    </div>
+
+                    <h3 className="text-display-md text-foreground mb-3 group-hover:text-primary transition-colors">
+                      {getT(project.name)}
+                    </h3>
+
+                    <p className="text-body text-muted-foreground mb-6">
+                      {getT(project.tagline)}
+                    </p>
+
+                    {/* Tech stack */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.technologies.slice(0, 5).map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 text-xs font-mono border border-border text-muted-foreground bg-background/50 backdrop-blur-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <h3 className="text-display-md text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {getT(project.name)}
-                </h3>
-
-                <p className="text-body text-muted-foreground mb-6 flex-1">
-                  {getT(project.tagline)}
-                </p>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.slice(0, 5).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 text-xs font-mono border border-border text-muted-foreground"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-wrap gap-3 pt-6 border-t border-border">
+                {/* Actions Footer - No pattern */}
+                <div className="p-6 md:px-8 md:pb-8 flex flex-wrap gap-3 pt-6 border-t border-border bg-charcoal relative z-10">
                   <Link
                     to={`/trabalhos/${project.slug}`}
                     className="btn-luxury text-xs px-5 py-3 inline-flex items-center gap-2"
