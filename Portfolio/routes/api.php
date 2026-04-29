@@ -15,7 +15,7 @@ Route::get('/user', function (Request $request) {
 use App\Http\Controllers\AuthController;
 
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
-Route::post('/verify-mfa', [AuthController::class, 'verifyMfa'])->middleware('throttle:10,1');
+
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/check-auth', [AuthController::class, 'check']);
 
@@ -27,7 +27,7 @@ Route::get('/live-projects/slug/{slug}', [LiveProjectController::class, 'showByS
 
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/slug/{slug}', [PostController::class, 'getBySlug']);
-Route::get('/system/stats', [DashboardController::class, 'stats']);
+Route::get('/system/stats', [\App\Http\Controllers\Admin\DashboardController::class, 'stats']);
 
 Route::post('/contact/send', [ContactController::class, 'send']);
 
@@ -49,4 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts', [PostController::class, 'store']);
     Route::put('/posts/{post}', [PostController::class, 'update']);
     Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+
+    Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index']);
+    Route::post('/users', [\App\Http\Controllers\Admin\UserController::class, 'store']);
+    Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy']);
 });

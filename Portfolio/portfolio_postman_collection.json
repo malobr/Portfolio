@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "Portfolio API",
+    "description": "API endpoints for the Portfolio project (Laravel 13 + React)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get CSRF Cookie",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/sanctum/csrf-cookie"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": "{{base_url}}/api/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Check Auth",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/check-auth"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public API",
+      "item": [
+        {
+          "name": "Get Projects",
+          "request": { "method": "GET", "url": "{{base_url}}/api/projects" }
+        },
+        {
+          "name": "Get Project by Slug",
+          "request": { "method": "GET", "url": "{{base_url}}/api/projects/slug/example-slug" }
+        },
+        {
+          "name": "Get Live Projects",
+          "request": { "method": "GET", "url": "{{base_url}}/api/live-projects" }
+        },
+        {
+          "name": "Get Live Project by Slug",
+          "request": { "method": "GET", "url": "{{base_url}}/api/live-projects/slug/example-slug" }
+        },
+        {
+          "name": "Get Posts",
+          "request": { "method": "GET", "url": "{{base_url}}/api/posts" }
+        },
+        {
+          "name": "Get Post by Slug",
+          "request": { "method": "GET", "url": "{{base_url}}/api/posts/slug/example-slug" }
+        },
+        {
+          "name": "Send Contact Message",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": "{{base_url}}/api/contact/send",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"message\": \"Hello!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard (Protected)",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": { "method": "GET", "url": "{{base_url}}/api/dashboard/stats" }
+        },
+        {
+          "name": "Get Admin Projects",
+          "request": { "method": "GET", "url": "{{base_url}}/api/projects/admin" }
+        },
+        {
+          "name": "Get Admin Live Projects",
+          "request": { "method": "GET", "url": "{{base_url}}/api/live-projects/admin" }
+        },
+        {
+          "name": "Get Users",
+          "request": { "method": "GET", "url": "{{base_url}}/api/users" }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": "{{base_url}}/api/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Admin\",\n  \"email\": \"new@example.com\",\n  \"password\": \"securepassword\",\n  \"phone\": \"123456789\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": { "method": "DELETE", "url": "{{base_url}}/api/users/1" }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8009",
+      "type": "string"
+    }
+  ]
+}

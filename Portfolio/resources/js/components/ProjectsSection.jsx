@@ -177,7 +177,7 @@ const ProjectsSection = ({ lang }) => {
                 className={`px-4 py-2 font-mono text-xs transition-all ${
                   activeFilter === filter 
                     ? "bg-primary text-white" 
-                    : "bg-background/40 text-muted-foreground hover:text-white hover:bg-background/80"
+                    : "bg-background/20 text-muted-foreground hover:text-white hover:bg-primary"
                 }`}
               >
                 {filter}
@@ -213,51 +213,54 @@ const ProjectsSection = ({ lang }) => {
                   <TiltCard className="h-full">
                     <Link
                       to={`/repos/${project.slug}`}
-                      className="group flex flex-col h-full border border-border bg-background transition-all duration-300 hover:border-primary/50 shadow-xl overflow-hidden relative p-6 md:p-8"
+                      className="group flex flex-col h-full border border-border bg-background transition-all duration-300 hover:border-primary/50 shadow-xl overflow-hidden relative"
                     >
-                      <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none" />
                       {/* Interactive Glimmer */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                       
-                      <div className="flex items-start justify-between mb-4 relative z-10">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <Github size={18} />
-                          <span className="font-mono text-sm">malobr/</span>
+                      <div className="p-6 md:p-8 flex flex-col h-full">
+                        <div className="absolute inset-0 bg-horizontal-lines opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none h-[calc(100%-60px)]" />
+                        
+                        <div className="flex items-start justify-between mb-4 relative z-10">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Github size={18} />
+                            <span className="font-mono text-sm">malobr/</span>
+                          </div>
+                          <ArrowUpRight
+                            size={20}
+                            className="text-muted-foreground group-hover:text-primary group-hover:-translate-y-1 group-hover:translate-x-1 transition-all"
+                          />
                         </div>
-                        <ArrowUpRight
-                          size={20}
-                          className="text-muted-foreground group-hover:text-primary group-hover:-translate-y-1 group-hover:translate-x-1 transition-all"
-                        />
-                      </div>
-                      <h3 className="font-mono text-xl md:text-2xl text-foreground mb-3 group-hover:text-primary transition-colors relative z-10">
-                        {getT(project.name)}
-                      </h3>
-                      <p className="text-body text-muted-foreground mb-6 flex-1 relative z-10">
-                        {getT(project.tagline)}
-                      </p>
-                      <div className="flex flex-wrap gap-2 relative z-10">
-                        {project.technologies.slice(0, 4).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-1 text-xs font-mono border border-border text-muted-foreground bg-charcoal/20"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between text-xs font-mono text-muted-foreground pt-4 border-t border-border relative z-10 mt-auto">
-                        <div className="flex items-center gap-2">
-                          <span className={`w-3 h-3 rounded-full ${langColor(project.language)} shadow-[0_0_8px_currentColor]`} />
-                          <span>{project.language}</span>
-                          <span className="mx-2 opacity-40">·</span>
-                          <span>{project.year}</span>
+                        <h3 className="font-mono text-xl md:text-2xl text-foreground mb-3 group-hover:text-primary transition-colors relative z-10">
+                          {getT(project.name)}
+                        </h3>
+                        <p className="text-body text-muted-foreground mb-6 flex-1 relative z-10">
+                          {getT(project.tagline)}
+                        </p>
+                        <div className="flex flex-wrap gap-2 relative z-10 mb-6">
+                          {project.technologies.slice(0, 4).map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2 py-1 text-xs font-mono border border-border text-muted-foreground bg-charcoal/20"
+                            >
+                              {tag}
+                            </span>
+                          ))}
                         </div>
+                        <div className="flex items-center justify-between text-xs font-mono text-muted-foreground pt-4 border-t border-border relative z-10 mt-auto bg-background">
+                          <div className="flex items-center gap-2">
+                            <span className={`w-3 h-3 rounded-full ${langColor(project.language)} shadow-[0_0_8px_currentColor]`} />
+                            <span>{project.language}</span>
+                            <span className="mx-2 opacity-40">·</span>
+                            <span>{project.year}</span>
+                          </div>
                         {project.live_url && (
                           <span className="flex items-center gap-1 text-primary animate-pulse">
                             <ExternalLink size={12} />
                             live
                           </span>
                         )}
+                        </div>
                       </div>
                     </Link>
                   </TiltCard>

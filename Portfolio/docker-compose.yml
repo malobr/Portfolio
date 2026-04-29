@@ -16,7 +16,7 @@ services:
         image: nginx:alpine
         container_name: Portfolio-nginx
         ports:
-            - "8001:80"
+            - "8009:80"
         volumes:
             - .:/var/www
             - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf

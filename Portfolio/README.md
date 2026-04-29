@@ -87,6 +87,30 @@ O projeto utiliza o conceito **Deep Purple Terminal**:
 
 ---
 
+## 🏗️ Arquitetura do Sistema
+
+O fluxo do sistema utiliza o modelo SPA (Single Page Application) turbinado pelo Laravel atuando como backend robusto e provedor de API:
+
+```mermaid
+graph TD
+    Client([👤 Usuário / Browser]) -->|Acessa| Nginx[🌐 Nginx Web Server]
+    
+    subclassDef core fill:#18141f,stroke:#a855f7,stroke-width:2px,color:#fff;
+    subclassDef ext fill:#111,stroke:#666,stroke-width:1px,color:#aaa;
+    
+    Nginx -->|Entrega SPA| React[⚛️ React 19 Frontend Vite]
+    Nginx -->|Proxy API| Laravel[🐘 Laravel 12 API Backend]
+    
+    React -->|Autenticação & Fetch| Laravel
+    Laravel -->|Consultas Eloquent| MySQL[(🐬 MySQL Database)]
+    Laravel -->|Fetch Estatísticas| GitHub([🐙 GitHub API])
+    
+    class React,Laravel,Nginx core;
+    class MySQL,GitHub ext;
+```
+
+---
+
 ## 📂 Estrutura
 
 ```bash

@@ -82,8 +82,9 @@ const ContactSection = ({ lang }) => {
             <div
               onClick={() => setIsModalOpen(true)}
               className="block bg-secondary p-8 md:p-12 relative group cursor-pointer
-                         transition-all duration-500 hover:bg-primary/10 border border-border"
+                         transition-all duration-500 hover:bg-primary/10 border border-border overflow-hidden"
             >
+              <div className="absolute inset-0 bg-horizontal-lines opacity-0 group-hover:opacity-40 transition-opacity pointer-events-none" />
               <div className="flex items-start justify-between mb-8">
                 <h3 className="text-display-md text-foreground font-mono">
                   {lang === 'en' ? './new-project.sh' : './novo-projeto.sh'}
