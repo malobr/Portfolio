@@ -1,5 +1,4 @@
-
-#  malobr — Premium React Portfolio & Terminal OS
+# malobr — Premium React Portfolio & Terminal OS
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Online-success?style=for-the-badge" alt="Status">
@@ -10,7 +9,7 @@
 
 
 
-##  Sumário
+## Sumário
 
 - [ Sobre o Projeto](#-sobre-o-projeto)
 - [ Funcionalidades](#-funcionalidades)
@@ -18,7 +17,7 @@
 - [ Tecnologias](#-tecnologias)
 - [ Estética de Design](#-estética-de-design)
 - [ Estrutura](#-estrutura)
-- [ Instalação](#️-instalacao)
+- [ Instalação](#-instalacao)
 - [ Deployment (Hostinger)](#-deployment-hostinger)
 - [ Autor](#-autor)
 
@@ -43,7 +42,7 @@ O objetivo principal é centralizar lançamentos (sites no ar) e ferramentas de 
 
 
 
-## <a name="-terminal"></a> Terminal Funcional (`zsh-sim`)
+## <a name="-terminal-funcional"></a> Terminal Funcional (`zsh-sim`)
 
 A peça central é um console **arrastável e móvel** que permite uma navegação técnica imersiva:
 
@@ -149,4 +148,3 @@ Este projeto está otimizado para ambientes **Hostinger**, suportando tanto VPS 
 
 **Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr) | [Email](mailto:contato@marcelocavalheiro.com)
 
-_"Transformando código complexo em interfaces de luxo."_
