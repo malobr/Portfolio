@@ -62,17 +62,19 @@ const LiveProjectsSection = ({ lang }) => {
               >
               {/* Browser preview */}
               <div className="border-b border-border bg-background">
-                <div className="flex items-center gap-2 px-4 py-3 bg-secondary/20 border-b border-border">
-                  <div className="w-3 h-3 rounded-full bg-destructive/70" />
-                  <div className="w-3 h-3 rounded-full bg-primary/70" />
-                  <div className="w-3 h-3 rounded-full bg-foreground/30" />
-                  <div className="ml-3 flex-1 max-w-xs">
-                    <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate flex items-center gap-2">
-                      <span className="text-primary font-bold">{">_"}</span>
-                      {project.live_url.replace(/^https?:\/\//, "")}
+                {project.slug !== "caminho-da-vida" && (
+                  <div className="flex items-center gap-2 px-4 py-3 bg-secondary/20 border-b border-border">
+                    <div className="w-3 h-3 rounded-full bg-destructive/70" />
+                    <div className="w-3 h-3 rounded-full bg-primary/70" />
+                    <div className="w-3 h-3 rounded-full bg-foreground/30" />
+                    <div className="ml-3 flex-1 max-w-xs">
+                      <div className="px-3 py-1 bg-background/60 rounded text-xs font-mono text-muted-foreground truncate flex items-center gap-2">
+                        <span className="text-primary font-bold">{">_"}</span>
+                        {project.live_url.replace(/^https?:\/\//, "")}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <Link to={`/trabalhos/${project.slug}`} className="block aspect-[3/4] md:aspect-video bg-background overflow-hidden relative">
                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none" />
                   <iframe

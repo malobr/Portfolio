@@ -177,7 +177,7 @@ const ProjectsSection = ({ lang }) => {
                 className={`px-4 py-2 font-mono text-xs transition-all ${
                   activeFilter === filter 
                     ? "bg-primary text-white" 
-                    : "bg-background/40 text-muted-foreground hover:text-white hover:bg-background/80"
+                    : "bg-background/20 text-muted-foreground hover:text-white hover:bg-primary"
                 }`}
               >
                 {filter}

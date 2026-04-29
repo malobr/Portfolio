@@ -40,6 +40,7 @@ const AdminDashboard = () => {
     const [repos, setRepos] = useState([]);
     const [liveProjects, setLiveProjects] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [users, setUsers] = useState([]);
     const [stats, setStats] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -117,14 +118,16 @@ const AdminDashboard = () => {
 
     const fetchData = async () => {
         try {
-            const [reposRes, liveRes, postsRes] = await Promise.all([
+            const [reposRes, liveRes, postsRes, usersRes] = await Promise.all([
                 apiFetch("/api/projects/admin"),
                 apiFetch("/api/live-projects/admin"),
-                apiFetch("/api/posts")
+                apiFetch("/api/posts"),
+                apiFetch("/api/users")
             ]);
             setRepos(await reposRes.json());
             setLiveProjects(await liveRes.json());
             setPosts(await postsRes.json());
+            setUsers(await usersRes.json());
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
@@ -230,7 +233,7 @@ const AdminDashboard = () => {
             delete data.category_en; delete data.category_pt;
         }
 
-        const typeMap = { repos: "projects", live: "live-projects", blog: "posts" };
+        const typeMap = { repos: "projects", live: "live-projects", blog: "posts", users: "users" };
         const endpoint = editingItem?.id 
             ? `/api/${typeMap[activeTab]}/${editingItem.id}`
             : `/api/${typeMap[activeTab]}`;
@@ -260,6 +263,7 @@ const AdminDashboard = () => {
     const getItems = () => {
         if (activeTab === "repos") return repos;
         if (activeTab === "live") return liveProjects;
+        if (activeTab === "users") return users;
         return posts;
     };
 
@@ -488,13 +492,16 @@ const AdminDashboard = () => {
                     <button onClick={() => setActiveTab("blog")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all duration-300 ${activeTab === "blog" ? "bg-primary text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "text-muted-foreground hover:bg-white/5"}`}>
                         <PenTool size={16} /> Blog <span className="opacity-40 text-[10px]">[{posts.length}]</span>
                     </button>
+                    <button onClick={() => setActiveTab("users")} className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-mono transition-all duration-300 ${activeTab === "users" ? "bg-primary text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "text-muted-foreground hover:bg-white/5"}`}>
+                        <Users size={16} /> Usuários <span className="opacity-40 text-[10px]">[{users.length}]</span>
+                    </button>
                 </div>
 
                 <div className="flex justify-between items-center mb-8">
                     <div>
                         <p className="text-label mb-2 font-mono">// management_panel</p>
                         <h2 className="text-3xl font-bold font-mono tracking-tighter">
-                            {activeTab === "repos" ? "Projetos de Código" : activeTab === "live" ? "Aplicações em Produção" : "Artigos do Blog"}
+                            {activeTab === "repos" ? "Projetos de Código" : activeTab === "live" ? "Aplicações em Produção" : activeTab === "users" ? "Usuários" : "Artigos do Blog"}
                         </h2>
                     </div>
                     <button onClick={() => { setEditingItem({}); setIsModalOpen(true); }} className="btn-luxury py-4 px-8 text-xs flex items-center gap-3 bg-primary/10 border-primary/30 text-primary hover:bg-primary hover:text-white transition-all shadow-lg hover:shadow-primary/20">
@@ -507,8 +514,8 @@ const AdminDashboard = () => {
                         <thead>
                             <tr className="bg-white/5 text-[10px] uppercase tracking-widest text-muted-foreground">
                                 <th className="px-6 py-5">id / slug</th>
-                                <th className="px-6 py-5">{activeTab === "blog" ? "título (PT)" : "nome"}</th>
-                                <th className="px-6 py-5">{activeTab === "blog" ? "status / data" : "techs"}</th>
+                                <th className="px-6 py-5">{activeTab === "users" ? "nome / email" : activeTab === "blog" ? "título (PT)" : "nome"}</th>
+                                <th className="px-6 py-5">{activeTab === "users" ? "telefone" : activeTab === "blog" ? "status / data" : "techs"}</th>
                                 <th className="px-6 py-5">visibilidade</th>
                                 <th className="px-6 py-5 text-right">ações</th>
                             </tr>
@@ -516,12 +523,12 @@ const AdminDashboard = () => {
                         <tbody className="divide-y divide-white/5 text-sm">
                             {getItems().map((item) => (
                                 <tr key={item.id} className="group hover:bg-primary/[0.02] transition-colors">
-                                    <td className="px-6 py-5 text-xs text-muted-foreground">#{item.id} <br/> /{item.slug}</td>
+                                    <td className="px-6 py-5 text-xs text-muted-foreground">#{item.id} <br/> {activeTab === "users" ? "" : "/" + item.slug}</td>
                                     <td className="px-6 py-5 font-bold">
-                                        {activeTab === "blog" ? (item.title?.pt || item.title?.en) : item.name}
+                                        {activeTab === "users" ? item.name + " (" + item.email + ")" : activeTab === "blog" ? (item.title?.pt || item.title?.en) : item.name}
                                     </td>
                                     <td className="px-6 py-5 text-[10px]">
-                                        {activeTab === "blog" ? (
+                                        {activeTab === "users" ? item.phone : activeTab === "blog" ? (
                                             <span className={`px-2 py-0.5 rounded border ${
                                                 item.status === 'Concluído' ? 'border-green-500/20 text-green-400' :
                                                 item.status === 'Em andamento' ? 'border-yellow-500/20 text-yellow-500' :
@@ -534,7 +541,7 @@ const AdminDashboard = () => {
                                         <span className="opacity-50">{activeTab === "blog" ? item.publish_date : ""}</span>
                                     </td>
                                     <td className="px-6 py-5">
-                                        {activeTab !== "blog" && (
+                                        {activeTab !== "blog" && activeTab !== "users" && (
                                             <button 
                                                 onClick={() => handleToggleVisibility(activeTab, item)}
                                                 className={`flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-mono border transition-all ${
@@ -550,8 +557,8 @@ const AdminDashboard = () => {
                                     </td>
                                     <td className="px-6 py-5 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button onClick={() => { setEditingItem(item); setIsModalOpen(true); }} className="p-2 text-primary"><Pencil size={16}/></button>
-                                            <button onClick={() => handleDelete(activeTab === "repos" ? "projects" : activeTab === "live" ? "live-projects" : "posts", item.id)} className="p-2 text-red-500"><Trash2 size={16}/></button>
+                                            {activeTab !== "users" && <button onClick={() => { setEditingItem(item); setIsModalOpen(true); }} className="p-2 text-primary"><Pencil size={16}/></button>}
+                                            <button onClick={() => handleDelete(activeTab === "repos" ? "projects" : activeTab === "live" ? "live-projects" : activeTab === "users" ? "users" : "posts", item.id)} className="p-2 text-red-500"><Trash2 size={16}/></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -569,45 +576,54 @@ const AdminDashboard = () => {
                             <button onClick={() => setIsModalOpen(false)}><X size={20}/></button>
                         </div>
                         <form onSubmit={handleSave} className="space-y-6 font-mono text-sm">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <input name="slug" defaultValue={editingItem?.slug} placeholder="slug" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                <input name={activeTab === "blog" ? "publish_date" : "year"} defaultValue={editingItem?.publish_date || editingItem?.year} placeholder="date/year" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                
-                                {activeTab === "blog" ? (
-                                    <input name="read_time" defaultValue={editingItem?.read_time} placeholder="read time" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                ) : (
-                                    <>
-                                        <input name="category_pt" defaultValue={editingItem?.category?.pt} placeholder="Categoria (PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                        <input name="category_en" defaultValue={editingItem?.category?.en} placeholder="Category (EN)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                        <input name="role_pt" defaultValue={editingItem?.role?.pt} placeholder="Papel / Role (PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                        <input name="role_en" defaultValue={editingItem?.role?.en} placeholder="Role (EN)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
-                                    </>
-                                )}
+                            {activeTab === "users" ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <input name="name" placeholder="Nome do usuário" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    <input name="email" type="email" placeholder="E-mail de acesso" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    <input name="password" type="password" placeholder="Nova Senha" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    <input name="phone" placeholder="Telefone" className="bg-black/20 border border-white/5 p-3 rounded w-full" />
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <input name="slug" defaultValue={editingItem?.slug} placeholder="slug" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    <input name={activeTab === "blog" ? "publish_date" : "year"} defaultValue={editingItem?.publish_date || editingItem?.year} placeholder="date/year" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    
+                                    {activeTab === "blog" ? (
+                                        <input name="read_time" defaultValue={editingItem?.read_time} placeholder="read time" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                    ) : (
+                                        <>
+                                            <input name="category_pt" defaultValue={editingItem?.category?.pt} placeholder="Categoria (PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                            <input name="category_en" defaultValue={editingItem?.category?.en} placeholder="Category (EN)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                            <input name="role_pt" defaultValue={editingItem?.role?.pt} placeholder="Papel / Role (PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                            <input name="role_en" defaultValue={editingItem?.role?.en} placeholder="Role (EN)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
+                                        </>
+                                    )}
 
-                                {activeTab === "blog" && (
-                                    <select name="status" defaultValue={editingItem?.status || "Ideia"} className="bg-black/20 border border-white/5 p-3 rounded w-full text-muted-foreground outline-none">
-                                        <option value="Ideia">Ideia</option>
-                                        <option value="Iniciado">Iniciado</option>
-                                        <option value="Em andamento">Em andamento</option>
-                                        <option value="Concluído">Concluído</option>
-                                    </select>
-                                )}
+                                    {activeTab === "blog" && (
+                                        <select name="status" defaultValue={editingItem?.status || "Ideia"} className="bg-black/20 border border-white/5 p-3 rounded w-full text-muted-foreground outline-none">
+                                            <option value="Ideia">Ideia</option>
+                                            <option value="Iniciado">Iniciado</option>
+                                            <option value="Em andamento">Em andamento</option>
+                                            <option value="Concluído">Concluído</option>
+                                        </select>
+                                    )}
 
-                                {activeTab !== "blog" && (
-                                    <div className="flex items-center gap-4 bg-black/20 border border-white/5 p-3 rounded w-full h-fit">
-                                        <span className="text-xs text-muted-foreground uppercase tracking-widest">Visibilidade no Site</span>
-                                        <button 
-                                            type="button"
-                                            onClick={() => setEditingItem(prev => ({...prev, is_visible: !prev.is_visible}))}
-                                            className={`flex items-center gap-2 px-4 py-2 rounded transition-all ${editingItem?.is_visible !== false ? "bg-green-500/20 text-green-400 border border-green-500/30" : "bg-red-500/20 text-red-100 border border-red-500/30"}`}
-                                        >
-                                            {editingItem?.is_visible !== false ? <Eye size={14}/> : <EyeOff size={14}/>}
-                                            {editingItem?.is_visible !== false ? "Visível" : "Oculto"}
-                                        </button>
-                                        <input type="hidden" name="is_visible" value={editingItem?.is_visible !== false ? "1" : "0"} />
-                                    </div>
-                                )}
-                            </div>
+                                    {activeTab !== "blog" && activeTab !== "users" && (
+                                        <div className="flex items-center gap-4 bg-black/20 border border-white/5 p-3 rounded w-full h-fit">
+                                            <span className="text-xs text-muted-foreground uppercase tracking-widest">Visibilidade no Site</span>
+                                            <button 
+                                                type="button"
+                                                onClick={() => setEditingItem(prev => ({...prev, is_visible: !prev.is_visible}))}
+                                                className={`flex items-center gap-2 px-4 py-2 rounded transition-all ${editingItem?.is_visible !== false ? "bg-green-500/20 text-green-400 border border-green-500/30" : "bg-red-500/20 text-red-100 border border-red-500/30"}`}
+                                            >
+                                                {editingItem?.is_visible !== false ? <Eye size={14}/> : <EyeOff size={14}/>}
+                                                {editingItem?.is_visible !== false ? "Visível" : "Oculto"}
+                                            </button>
+                                            <input type="hidden" name="is_visible" value={editingItem?.is_visible !== false ? "1" : "0"} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             {activeTab === "blog" ? (
                                 <div className="space-y-6">
@@ -745,8 +761,8 @@ const AdminDashboard = () => {
                                 </div>
                             )}
                             
-                            <input name={activeTab === "blog" ? "tags" : "technologies"} defaultValue={(activeTab === "blog" ? editingItem?.tags : editingItem?.technologies)?.map(t => typeof t === 'object' ? JSON.stringify(t) : t).join(", ")} placeholder="tags/techs (comma separated)" className="bg-black/20 border border-white/5 p-3 rounded w-full" />
-                            {activeTab !== "blog" && <input name="features" defaultValue={editingItem?.features?.map(f => typeof f === 'object' ? f.pt : f).join(", ")} placeholder="Features (comma separated, will be saved as PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" />}
+                            {activeTab !== "users" && <input name={activeTab === "blog" ? "tags" : "technologies"} defaultValue={(activeTab === "blog" ? editingItem?.tags : editingItem?.technologies)?.map(t => typeof t === 'object' ? JSON.stringify(t) : t).join(", ")} placeholder="tags/techs (comma separated)" className="bg-black/20 border border-white/5 p-3 rounded w-full" />}
+                            {activeTab !== "blog" && activeTab !== "users" && <input name="features" defaultValue={editingItem?.features?.map(f => typeof f === 'object' ? f.pt : f).join(", ")} placeholder="Features (comma separated, will be saved as PT)" className="bg-black/20 border border-white/5 p-3 rounded w-full" />}
                             
                             <div className="flex justify-end gap-4 mt-8">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-2">Cancelar</button>
