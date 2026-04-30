@@ -146,5 +146,6 @@ Este projeto está otimizado para ambientes **Hostinger**, suportando tanto VPS 
 
 ## <a name="-autor"></a> Autor
 
-**Marcelo (malobr)** — [LinkedIn](https://linkedin.com/in/malobr) | [GitHub](https://github.com/malobr) | [Email](mailto:contato@marcelocavalheiro.com)
+**Marcelo (malobr)** — [LinkedIn](www.linkedin.com/in/marcelo-tomás-a92b16231
+) | [GitHub](https://github.com/malobr) | [Email](mailto:contato@marcelocavalheiro.com)
 
