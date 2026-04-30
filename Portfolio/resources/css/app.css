@@ -180,3 +180,21 @@
 .ql-editor img { border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin: 1rem 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: auto; max-width: 100%; transition: scale 0.3s; }
 .ql-editor img:hover { transform: scale(1.02); }
 .ql-editor .ql-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+
+/* Print Styles for PDF Export */
+@media print {
+  @page {
+    margin: 0; /* Removes default browser headers/footers (date, title, url, page numbers) */
+  }
+  html {
+    font-size: 12px !important; /* Decreases overall text size */
+  }
+  body {
+    padding: 15mm; /* Adds padding to compensate for zero page margin */
+  }
+  /* Ensure backgrounds and colors are printed */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

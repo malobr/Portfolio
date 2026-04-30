@@ -87,19 +87,21 @@ const CV = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <Navigation lang={lang} setLang={setLang} />
+      <div className="print:hidden">
+        <Navigation lang={lang} setLang={setLang} />
+      </div>
 
-      <main className="pt-32 pb-20 md:pt-40">
+      <main className="pt-32 pb-20 md:pt-40 print:pt-10 print:pb-0">
         <div className="container-luxury group">
           {/* Header */}
-          <div className="mb-16 md:mb-24">
+          <div className="mb-16 md:mb-24 print:mb-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col md:flex-row md:items-end justify-between gap-8"
             >
               <div className="max-w-4xl">
-                <span className="font-mono text-primary text-xs uppercase tracking-[0.3em] mb-4 block animate-pulse">
+                <span className="font-mono text-primary text-xs uppercase tracking-[0.3em] mb-4 block animate-pulse print:animate-none">
                   // dossier:marcelo_tomas_cavalheiro
                 </span>
                 <h1 className="text-display-xl tracking-tighter mb-6 leading-none">
@@ -110,20 +112,19 @@ const CV = () => {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4 h-fit">
-                <a 
-                  href="/cv.pdf" 
-                  download 
-                  className="btn-luxury inline-flex items-center gap-2 bg-primary text-white border-primary hover:bg-black transition-all"
+              <div className="flex flex-wrap gap-4 h-fit print:hidden">
+                <button 
+                  onClick={() => window.print()} 
+                  className="btn-luxury inline-flex items-center gap-2 bg-primary text-white border-primary hover:bg-black transition-all cursor-pointer"
                 >
                   <Download size={16} />
                   Export PDF
-                </a>
+                </button>
               </div>
             </motion.div>
 
             {/* Quick Contact Bar */}
-            <div className="flex flex-wrap gap-x-12 gap-y-6 mt-12 py-8 border-y border-border">
+            <div className="flex flex-wrap gap-x-12 gap-y-6 mt-12 py-8 border-y border-border print:py-4 print:mt-6">
                <div className="flex items-center gap-3 text-sm font-mono text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                   <Mail size={14} className="text-primary" />
                   marcelotc1202@gmail.com
@@ -156,23 +157,23 @@ const CV = () => {
           </div>
 
           {/* Dossiê Container */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 print:gap-8">
             
             {/* Main Content */}
-            <div className="lg:col-span-8 space-y-20">
+            <div className="lg:col-span-8 space-y-20 print:space-y-10">
               
               {/* Summary */}
               <section>
-                <div className="flex items-center gap-4 mb-10">
+                <div className="flex items-center gap-4 mb-10 print:mb-6">
                    <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-primary shrink-0">
                       // {lang === 'pt' ? 'resumo' : 'summary'}
                    </h2>
                    <div className="h-px bg-border flex-1" />
                 </div>
-                <div className="bg-charcoal/30 border border-border p-8 md:p-12 rounded-xl border-l-4 border-l-primary shadow-2xl relative overflow-hidden group">
+                <div className="bg-charcoal/30 border border-border p-8 md:p-12 rounded-xl border-l-4 border-l-primary shadow-2xl relative overflow-hidden group print:shadow-none print:p-6 print:bg-transparent">
                    {/* Scanline pattern */}
-                   <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%)] z-10 bg-[length:100%_4px]" />
-                   <p className="text-lg md:text-xl font-light leading-relaxed text-foreground/90 relative z-20">
+                   <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%)] z-10 bg-[length:100%_4px] print:hidden" />
+                   <p className="text-lg md:text-xl font-light leading-relaxed text-foreground/90 relative z-20 print:text-black">
                       {d.summary}
                    </p>
                 </div>
@@ -180,24 +181,24 @@ const CV = () => {
 
               {/* Experience */}
               <section>
-                 <div className="flex items-center gap-4 mb-12">
+                 <div className="flex items-center gap-4 mb-12 print:mb-6">
                     <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-primary shrink-0">
                        // {lang === 'pt' ? 'experiência' : 'experience'}
                     </h2>
                     <div className="h-px bg-border flex-1" />
                  </div>
                  
-                 <div className="space-y-12">
+                 <div className="space-y-12 print:space-y-8">
                     {d.experience.map((exp, i) => (
-                      <div key={i} className="group relative pl-8 border-l border-border transition-all hover:border-primary">
-                        <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-border group-hover:bg-primary transition-colors" />
+                      <div key={i} className="group relative pl-8 border-l border-border transition-all hover:border-primary print:border-black/20">
+                        <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-border group-hover:bg-primary transition-colors print:bg-black/40" />
                         <span className="text-[10px] font-mono text-primary mb-2 block uppercase tracking-widest">{exp.period}</span>
-                        <h3 className="text-2xl font-mono mb-2 text-foreground group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-3">
+                        <h3 className="text-2xl font-mono mb-2 text-foreground group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-3 print:text-black">
                            {exp.company}
-                           <ArrowLeft size={16} className="text-primary rotate-180 opacity-0 group-hover:opacity-100 transition-all" />
+                           <ArrowLeft size={16} className="text-primary rotate-180 opacity-0 group-hover:opacity-100 transition-all print:hidden" />
                         </h3>
-                        <p className="text-sm font-bold text-muted-foreground mb-6 uppercase tracking-wider">{exp.role}</p>
-                        <p className="text-muted-foreground leading-relaxed max-w-2xl bg-secondary/50 p-6 border border-border rounded-lg">
+                        <p className="text-sm font-bold text-muted-foreground mb-6 uppercase tracking-wider print:text-black/70">{exp.role}</p>
+                        <p className="text-muted-foreground leading-relaxed max-w-2xl bg-secondary/50 p-6 border border-border rounded-lg print:bg-transparent print:border-none print:p-0 print:text-black">
                            {exp.desc}
                         </p>
                       </div>
@@ -207,48 +208,48 @@ const CV = () => {
             </div>
 
             {/* Sidebar Skills & Education */}
-            <aside className="lg:col-span-4 space-y-12">
+            <aside className="lg:col-span-4 space-y-12 print:space-y-8">
                
                {/* Skills */}
-               <div className="bg-charcoal p-8 md:p-10 border border-border rounded-xl shadow-xl">
-                  <div className="flex items-center gap-3 mb-10">
+               <div className="bg-charcoal p-8 md:p-10 border border-border rounded-xl shadow-xl print:shadow-none print:bg-transparent print:p-0 print:border-none">
+                  <div className="flex items-center gap-3 mb-10 print:mb-6">
                      <Code2 size={18} className="text-primary" />
-                     <h3 className="font-mono text-xs uppercase tracking-[0.2em]">{lang === 'en' ? 'Core Stack' : 'Habilidades'}</h3>
+                     <h3 className="font-mono text-xs uppercase tracking-[0.2em] print:text-black">{lang === 'en' ? 'Core Stack' : 'Habilidades'}</h3>
                   </div>
 
-                  <div className="space-y-10">
+                  <div className="space-y-10 print:space-y-6">
                     <div>
-                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest">Back-end</p>
+                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest print:text-black/70">Back-end</p>
                         <div className="flex flex-wrap gap-2">
-                           {d.skills.backend.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors">{s}</span>)}
+                           {d.skills.backend.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors print:bg-transparent print:border-black/20 print:text-black">{s}</span>)}
                         </div>
                     </div>
                     <div>
-                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest">Front-end</p>
+                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest print:text-black/70">Front-end</p>
                         <div className="flex flex-wrap gap-2">
-                           {d.skills.frontend.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors">{s}</span>)}
+                           {d.skills.frontend.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors print:bg-transparent print:border-black/20 print:text-black">{s}</span>)}
                         </div>
                     </div>
                     <div>
-                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest">Architectural Concepts</p>
+                        <p className="text-[10px] font-mono text-muted-foreground mb-4 uppercase tracking-widest print:text-black/70">Architectural Concepts</p>
                         <div className="flex flex-wrap gap-2">
-                           {d.skills.concepts.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors">{s}</span>)}
+                           {d.skills.concepts.map(s => <span key={s} className="px-3 py-1 bg-secondary border border-border text-[11px] font-mono text-foreground hover:border-primary transition-colors print:bg-transparent print:border-black/20 print:text-black">{s}</span>)}
                         </div>
                     </div>
                   </div>
                </div>
 
                {/* Education */}
-               <div className="bg-secondary p-8 border border-border rounded-xl">
-                  <div className="flex items-center gap-3 mb-8">
+               <div className="bg-secondary p-8 border border-border rounded-xl print:bg-transparent print:p-0 print:border-none">
+                  <div className="flex items-center gap-3 mb-8 print:mb-4">
                      <GraduationCap size={18} className="text-primary" />
-                     <h3 className="font-mono text-xs uppercase tracking-[0.2em]">{lang === 'en' ? 'Education' : 'Formação'}</h3>
+                     <h3 className="font-mono text-xs uppercase tracking-[0.2em] print:text-black">{lang === 'en' ? 'Education' : 'Formação'}</h3>
                   </div>
-                  <div className="space-y-8">
+                  <div className="space-y-8 print:space-y-4">
                     {d.education.map((edu, i) => (
                       <div key={i}>
-                        <h4 className="text-sm font-bold text-foreground mb-1">{edu.school}</h4>
-                        <p className="text-[13px] text-muted-foreground leading-snug mb-2">{edu.course}</p>
+                        <h4 className="text-sm font-bold text-foreground mb-1 print:text-black">{edu.school}</h4>
+                        <p className="text-[13px] text-muted-foreground leading-snug mb-2 print:text-black/80">{edu.course}</p>
                         <span className="text-[10px] font-mono text-primary/60">{edu.year}</span>
                       </div>
                     ))}
@@ -256,7 +257,7 @@ const CV = () => {
                </div>
 
                {/* Awards/Special */}
-               <div className="bg-black text-white p-8 rounded-xl border border-white/10 relative overflow-hidden group">
+               <div className="bg-black text-white p-8 rounded-xl border border-white/10 relative overflow-hidden group print:hidden">
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-150 transition-transform duration-500">
                      <Award size={60} />
                   </div>
@@ -272,7 +273,9 @@ const CV = () => {
         </div>
       </main>
 
-      <Footer lang={lang} />
+      <div className="print:hidden">
+        <Footer lang={lang} />
+      </div>
     </div>
   );
 };

@@ -625,7 +625,7 @@ const AdminDashboard = () => {
                                 </div>
                             )}
 
-                            {activeTab === "blog" ? (
+                            {activeTab === "users" ? null : activeTab === "blog" ? (
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <input name="title_pt" defaultValue={editingItem?.title?.pt} placeholder="Título (Português)" className="bg-black/20 border border-white/5 p-3 rounded w-full" required />
